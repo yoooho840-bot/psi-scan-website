@@ -9,16 +9,31 @@ const AccurateAnalysisScreen: React.FC = () => {
     const [filteredData, setFilteredData] = useState<number>(0);
     const [logs, setLogs] = useState<string[]>([]);
 
+    // Dynamic result selection
+    const [scanResult, setScanResult] = useState({ title: "", desc: "" });
+
     useAutoFullscreen();
 
     useEffect(() => {
+        const potentialResults = [
+            { title: "제 2차크라 파동 붕괴", desc: '"과거의 억압된 상처가 하복부 에너지를 정체시켜, 상위 뇌신경으로 가는 기(Prana)의 흐름을 막고 있습니다."' },
+            { title: "전두엽 하이퍼-베타파", desc: '"만성적인 교감신경 항진으로 인해 뇌파가 과부하 상태이며, 심층 수면 회복이 차단되어 있습니다."' },
+            { title: "미주신경 톤 저하", desc: '"스트레스와 방어 기제가 지속되어 부교감 신경의 브레이크 능력이 상실, 에너지 누수가 큽니다."' },
+            { title: "심장-뇌 공명성 불일치", desc: '"감정 뉴런과 뇌파의 박동 리듬이 어긋나, 신체가 무의식적 불안 상태를 유지하고 있습니다."' },
+            { title: "송과체 생체리듬 왜곡", desc: '"불규칙한 파동 흡수로 인해 멜라토닌 분비 축이 무너져 만성적 탈진 파장이 관측됩니다."' }
+        ];
+
+        // Pick a pseudo-random result based on current time to make each scan feel unique
+        const selected = potentialResults[Date.now() % potentialResults.length];
+        setScanResult(selected);
+
         // Phase 0: Triage & Noise Filtering (Cross Validation)
         const logSequence = [
             "12,042 Raw Frequencies Extracted...",
             "Cross-Checking with HeartMath Normative DB...",
-            "Physical Stress Noise Detected (8,102 Hz bands)",
+            `Physical Stress Noise Detected (${Math.floor(Math.random() * 4000 + 4000)} Hz bands)`,
             "Applying Triage Filter: Discarding Fatigue Data...",
-            "FACS Neutral Baseline Deviation Found: 0.12ms Micro-tremor",
+            `FACS Neutral Baseline Deviation Found: ${(Math.random() * 0.3).toFixed(2)}ms Micro-tremor`,
             "Targeting Subconscious Emotional Blocks...",
             "Validating Autonomic Nervous System Imbalance...",
             "ROOT CAUSE ISOLATED."
@@ -57,7 +72,7 @@ const AccurateAnalysisScreen: React.FC = () => {
                 <div style={{ width: '60px' }}></div> {/* Spacer for centering */}
             </div>
 
-            <div style={{ width: '90%', maxWidth: '400px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <div style={{ width: '100%', maxWidth: '400px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
 
                 {/* Visual Logic Core */}
                 <div style={{
@@ -94,9 +109,9 @@ const AccurateAnalysisScreen: React.FC = () => {
                         <div style={{ textAlign: 'center', padding: '0 20px', zIndex: 2, animation: 'fadeIn 1s ease-out' }}>
                             <Hexagon size={40} color="var(--color-gold-main)" style={{ margin: '0 auto 15px auto', filter: 'drop-shadow(0 0 10px rgba(184, 139, 74, 0.4))' }} />
                             <p style={{ color: 'var(--color-gold-dark)', fontSize: '0.75rem', letterSpacing: '2px', marginBottom: '5px' }}>ROOT CAUSE IDENTIFIED</p>
-                            <h2 style={{ color: 'var(--color-text-primary)', fontSize: '1.5rem', fontWeight: 600, lineHeight: 1.3, marginBottom: '10px' }}>제 2차크라 파동 붕괴</h2>
+                            <h2 style={{ color: 'var(--color-text-primary)', fontSize: '1.5rem', fontWeight: 600, lineHeight: 1.3, marginBottom: '10px' }}>{scanResult.title}</h2>
                             <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.9rem', lineHeight: 1.5, background: 'var(--color-bg-surface)', padding: '10px', borderRadius: '8px', border: '1px solid var(--color-border-gold)' }}>
-                                "과거의 억압된 상처가 하복부 에너지를 정체시켜, 상위 뇌신경으로 가는 기(Prana)의 흐름을 막고 있습니다."
+                                {scanResult.desc}
                             </p>
                         </div>
                     )}

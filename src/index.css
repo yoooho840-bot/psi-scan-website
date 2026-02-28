@@ -534,6 +534,12 @@ p {
   width: 100%;
 }
 
+@media (max-width: 768px) {
+  .screen {
+    padding: 20px 20px;
+  }
+}
+
 /* Hide scrollbar for sleekness */
 ::-webkit-scrollbar {
   width: 6px;
