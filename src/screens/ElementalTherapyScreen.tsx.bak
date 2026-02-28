@@ -1,0 +1,403 @@
+import React, { useEffect, useRef, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Flame, Waves, Volume2, VolumeX, Info, Activity } from 'lucide-react';
+
+interface ScanData {
+    stressLevel: number;
+    voiceFreq: number;
+}
+
+interface Particle {
+    x: number;
+    y: number;
+    size: number;
+    vx: number;
+    vy: number;
+    alpha: number;
+}
+
+const createParticle = (canvasWidth: number, canvasHeight: number, mode: 'fire' | 'water'): Particle => {
+    return {
+        x: Math.random() * canvasWidth,
+        y: mode === 'fire' ? canvasHeight + 50 : -50,
+        size: Math.random() * 3 + 1,
+        vx: (Math.random() - 0.5) * 1.5,
+        vy: mode === 'fire' ? -(Math.random() * 2 + 0.5) : (Math.random() * 2 + 0.5),
+        alpha: Math.random() * 0.6 + 0.2
+    };
+};
+
+const updateParticle = (p: Particle, canvasWidth: number, canvasHeight: number, mode: 'fire' | 'water'): Particle => {
+    p.x += p.vx;
+    p.y += p.vy;
+    p.alpha -= 0.002;
+    if (p.alpha <= 0 || p.y < -50 || p.y > canvasHeight + 50) {
+        return createParticle(canvasWidth, canvasHeight, mode);
+    }
+    return p;
+};
+
+const drawParticle = (p: Particle, ctx: CanvasRenderingContext2D, mode: 'fire' | 'water') => {
+    ctx.fillStyle = mode === 'fire'
+        ? `rgba(255, ${Math.random() * 100 + 50}, 0, ${p.alpha})`
+        : `rgba(0, 150, 255, ${p.alpha * 0.5})`;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+    ctx.fill();
+};
+
+const ElementalTherapyScreen: React.FC = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    // Modes: 'fire' (Hearth) | 'water' (Blue Mind)
+    const [mode, setMode] = useState<'fire' | 'water'>('fire');
+    const [isMuted, setIsMuted] = useState(false);
+    const [showInfo, setShowInfo] = useState(false);
+    const [showExitModal, setShowExitModal] = useState(false);
+    const [opacity, setOpacity] = useState(0);
+    const [duration, setDuration] = useState(0); // Dwell time in seconds
+
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const audioCtxRef = useRef<AudioContext | null>(null);
+    const noiseGainRef = useRef<GainNode | null>(null);
+    const oscillatorRef = useRef<OscillatorNode | null>(null);
+    const masterGainRef = useRef<GainNode | null>(null);
+
+    // Initial Baseline from previous scan or default
+    const [baseline] = useState<ScanData>(location.state?.baseline || { stressLevel: 65, voiceFreq: 185 });
+
+    // 1. Audio Engine (Digital Sadhguru Synthesis)
+    const initAudio = () => {
+        if (audioCtxRef.current) return;
+        audioCtxRef.current = new (window.AudioContext || (window as { webkitAudioContext?: typeof window.AudioContext }).webkitAudioContext)();
+        const ctx = audioCtxRef.current;
+
+        const masterGain = ctx.createGain();
+        masterGain.gain.setValueAtTime(0, ctx.currentTime);
+        masterGain.connect(ctx.destination);
+        masterGainRef.current = masterGain;
+
+        // Base 432Hz Resonance (Vagus Nerve)
+        const osc = ctx.createOscillator();
+        osc.frequency.setValueAtTime(432, ctx.currentTime);
+        const oscGain = ctx.createGain();
+        oscGain.gain.setValueAtTime(0.05, ctx.currentTime);
+        osc.connect(oscGain);
+        oscGain.connect(masterGain);
+        osc.start();
+        oscillatorRef.current = osc;
+
+        // Noise Generator (Pink Noise for Organic feel)
+        const bufferSize = 2 * ctx.sampleRate;
+        const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const output = noiseBuffer.getChannelData(0);
+        let b0, b1, b2, b3, b4, b5, b6;
+        b0 = b1 = b2 = b3 = b4 = b5 = b6 = 0.0;
+        for (let i = 0; i < bufferSize; i++) {
+            const white = Math.random() * 2 - 1;
+            b0 = 0.99886 * b0 + white * 0.0555179;
+            b1 = 0.99332 * b1 + white * 0.0750759;
+            b2 = 0.96900 * b2 + white * 0.1538520;
+            b3 = 0.86650 * b3 + white * 0.3104856;
+            b4 = 0.55000 * b4 + white * 0.5329522;
+            b5 = -0.7616 * b5 - white * 0.0168980;
+            output[i] = b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362;
+            output[i] *= 0.11; // compensation
+            b6 = white * 0.115926;
+        }
+
+        const noiseSrc = ctx.createBufferSource();
+        noiseSrc.buffer = noiseBuffer;
+        noiseSrc.loop = true;
+
+        const noiseFilter = ctx.createBiquadFilter();
+        noiseFilter.type = 'lowpass';
+        noiseFilter.frequency.setValueAtTime(mode === 'fire' ? 400 : 800, ctx.currentTime);
+
+        const noiseGainNode = ctx.createGain();
+        noiseGainNode.gain.setValueAtTime(0, ctx.currentTime);
+
+        noiseSrc.connect(noiseFilter);
+        noiseFilter.connect(noiseGainNode);
+        noiseGainNode.connect(masterGain);
+        noiseSrc.start();
+        noiseGainRef.current = noiseGainNode;
+    };
+
+    useEffect(() => {
+        if (!audioCtxRef.current) return;
+        const ctx = audioCtxRef.current;
+        const masterGain = masterGainRef.current;
+        const noiseGain = noiseGainRef.current;
+
+        const targetGain = isMuted ? 0 : 0.4;
+        const noiseTarget = mode === 'fire' ? 0.15 : 0.25;
+
+        masterGain?.gain.setTargetAtTime(targetGain, ctx.currentTime, 1.5);
+        noiseGain?.gain.setTargetAtTime(noiseTarget, ctx.currentTime, 2.0);
+    }, [isMuted, mode]);
+
+    // 2. Visual Engine (Procedural Elemental)
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+
+        let animationFrameId: number;
+        let particles: Particle[] = [];
+
+        const resize = () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            particles = Array.from({ length: 60 }, () => createParticle(canvas.width, canvas.height, mode));
+        };
+
+        const animate = () => {
+            // Use clearRect instead of a dark fill so the background image remains fully visible
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // Re-draw all particles
+            particles = particles.map(p => {
+                const updated = updateParticle(p, canvas.width, canvas.height, mode);
+                drawParticle(updated, ctx, mode);
+                return updated;
+            });
+            animationFrameId = requestAnimationFrame(animate);
+        };
+
+        window.addEventListener('resize', resize);
+        resize(); animate();
+        return () => { window.removeEventListener('resize', resize); cancelAnimationFrame(animationFrameId); };
+    }, [mode]);
+
+    // 3. Logic: Dwell Time and Session Control
+    useEffect(() => {
+        const timer = setInterval(() => setDuration(prev => prev + 1), 1000);
+        setTimeout(() => setOpacity(1), 300);
+        return () => clearInterval(timer);
+    }, []);
+
+    const handleExit = (withScan: boolean) => {
+        if (!withScan) {
+            navigate('/dashboard');
+            return;
+        }
+
+        // Trigger Exit Scan & Navigate to Comparison
+        setOpacity(0);
+        setTimeout(() => {
+            navigate('/comparative-result', {
+                state: {
+                    baseline,
+                    duration,
+                    mode
+                }
+            });
+        }, 2000);
+    };
+
+    return (
+        <div style={{
+            position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+            backgroundColor: '#0A0A0C', color: '#FFF', zIndex: 99999, // Super high z-index
+            opacity: 1, // Hardcode opacity to 1 to prevent getting stuck at 0
+            overflow: 'hidden',
+            display: 'flex', flexDirection: 'column'
+        }}>
+            {/* Background Atmosphere - Unsplash Fullscreen Images, opacity set to 1 for full immersion */}
+            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, width: '100vw', height: '100vh', zIndex: 0, backgroundColor: '#0A0A0C' }}>
+                <img
+                    src={mode === 'fire'
+                        ? 'https://images.unsplash.com/photo-1542614949-b003c004dc9d?q=80&w=2560&auto=format&fit=crop'
+                        : 'https://images.unsplash.com/photo-1542263496-e24dc1c7b80a?q=80&w=2560&auto=format&fit=crop'}
+                    alt="Sanctuary Element"
+                    style={{
+                        position: 'absolute', top: 0, left: 0, width: '100vw', height: '100vh', objectFit: 'cover',
+                        filter: mode === 'fire' ? 'brightness(0.9) contrast(1.15)' : 'brightness(0.8) contrast(1.15)',
+                        opacity: 1, transition: 'opacity 2s ease-in-out'
+                    }}
+                />
+
+                {/* Subtle vignette instead of heavy dark overlay */}
+                <div style={{
+                    position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+                    background: 'radial-gradient(circle at center, rgba(0,0,0,0) 20%, rgba(0,0,0,0.8) 100%)',
+                    zIndex: 1, pointerEvents: 'none'
+                }} />
+            </div>
+
+            {/* Particle Canvas OVER the background, UNDER the text */}
+            <canvas ref={canvasRef} style={{ position: 'absolute', top: 0, left: 0, zIndex: 2, pointerEvents: 'none' }} />
+
+            {/* Header */}
+            <div style={{ position: 'relative', zIndex: 10, padding: '40px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                <div>
+                    <h1 style={{ fontFamily: 'var(--font-brand)', fontSize: '1.5rem', letterSpacing: '8px', margin: 0, color: mode === 'fire' ? '#FF8C00' : '#4A90E2' }}>
+                        PSI ELEMENTAL
+                    </h1>
+                    <p style={{ fontSize: '0.7rem', letterSpacing: '4px', opacity: 0.5, marginTop: '8px' }}>
+                        DIGITAL SADHGURU EXPERIENCE
+                    </p>
+                </div>
+                <div style={{ textAlign: 'right', fontFamily: 'monospace', fontSize: '0.7rem', opacity: 0.6 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '5px' }}>
+                        <span style={{
+                            width: '6px', height: '6px', borderRadius: '50%',
+                            background: duration < 180 ? '#666' : duration < 600 ? '#4A90E2' : '#DAA520',
+                            boxShadow: duration >= 180 ? '0 0 10px rgba(218,165,32,0.5)' : 'none',
+                            transition: 'all 1s'
+                        }} />
+                        TIME ELAPSED: {Math.floor(duration / 60)}:{(duration % 60).toString().padStart(2, '0')}
+                    </div>
+                    <div>MODE: {mode.toUpperCase()} SANCTUARY</div>
+                </div>
+            </div>
+
+            {/* Main Interaction Area - Emptied for maximum background visibility */}
+            <div style={{ flex: 1, position: 'relative', zIndex: 10 }} />
+
+            {/* Bottom Controls (All clustered to the bottom-right) */}
+            <div style={{ position: 'relative', zIndex: 10, padding: '40px', display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '15px' }}>
+                    <div style={{ display: 'flex', gap: '10px' }}>
+                        <button onClick={() => setIsMuted(!isMuted)} style={{ background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.1)', color: '#FFF', padding: '10px', borderRadius: '50%', cursor: 'pointer', backdropFilter: 'blur(5px)' }}>
+                            {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
+                        </button>
+                        <button onClick={() => setShowInfo(!showInfo)} style={{ background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.1)', color: '#FFF', padding: '10px', borderRadius: '50%', cursor: 'pointer', backdropFilter: 'blur(5px)' }}>
+                            <Info size={18} />
+                        </button>
+                    </div>
+
+                    <div style={{ display: 'flex', gap: '10px' }}>
+                        <button
+                            onClick={() => { initAudio(); setMode('fire'); }}
+                            style={{
+                                background: mode === 'fire' ? 'rgba(255,140,0,0.6)' : 'rgba(0,0,0,0.4)',
+                                border: `1px solid ${mode === 'fire' ? '#FF8C00' : 'rgba(255,255,255,0.2)'}`,
+                                color: '#FFF', padding: '10px 20px', borderRadius: '30px', cursor: 'pointer',
+                                fontSize: '0.85rem', transition: 'all 0.3s', display: 'flex', alignItems: 'center', gap: '6px', backdropFilter: 'blur(5px)'
+                            }}
+                        >
+                            <Flame size={18} color={mode === 'fire' ? "#FFF" : "#AAA"} /> 불 멍
+                        </button>
+                        <button
+                            onClick={() => { initAudio(); setMode('water'); }}
+                            style={{
+                                background: mode === 'water' ? 'rgba(74,144,226,0.6)' : 'rgba(0,0,0,0.4)',
+                                border: `1px solid ${mode === 'water' ? '#4A90E2' : 'rgba(255,255,255,0.2)'}`,
+                                color: '#FFF', padding: '10px 20px', borderRadius: '30px', cursor: 'pointer',
+                                fontSize: '0.85rem', transition: 'all 0.3s', display: 'flex', alignItems: 'center', gap: '6px', backdropFilter: 'blur(5px)'
+                            }}
+                        >
+                            <Waves size={18} color={mode === 'water' ? "#FFF" : "#AAA"} /> 물 멍
+                        </button>
+                    </div>
+
+                    <button onClick={() => setShowExitModal(true)} style={{
+                        background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)',
+                        color: '#FFF', padding: '12px 30px', borderRadius: '40px', cursor: 'pointer',
+                        fontSize: '0.75rem', letterSpacing: '3px', transition: 'all 0.3s', backdropFilter: 'blur(5px)'
+                    }} onMouseOver={e => e.currentTarget.style.background = 'rgba(255,255,255,0.2)'}
+                        onMouseOut={e => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}>
+                        EXIT SANCTUARY
+                    </button>
+                </div>
+            </div>
+
+            {/* Exit Modal (Hybrid UX) */}
+            {showExitModal && (
+                <div style={{
+                    position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+                    background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(10px)',
+                    display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 100,
+                    animation: 'fade-in 0.3s'
+                }}>
+                    <div className="glass-card" style={{
+                        width: '85%', maxWidth: '400px', padding: '40px 24px', textAlign: 'center',
+                        border: '1px solid rgba(218,165,32,0.3)', animation: 'scale-up 0.4s'
+                    }}>
+                        <div style={{ marginBottom: '25px' }}>
+                            <Activity size={40} color="#DAA520" style={{ marginBottom: '15px', display: 'inline-block' }} />
+                            <h3 style={{ margin: '0 0 10px 0', fontSize: '1.2rem', color: '#FFF' }}>치유 결과를 확인하시겠습니까?</h3>
+                            <p style={{ margin: 0, fontSize: '0.85rem', color: '#AAA', lineHeight: '1.5' }}>
+                                3초간 깊이 호흡하세요.<br />디지털 삿구르가 당신의 변화를 측정합니다.
+                            </p>
+                        </div>
+
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                            <button
+                                onClick={() => handleExit(true)}
+                                style={{
+                                    background: '#DAA520', border: 'none', color: '#000',
+                                    padding: '16px', borderRadius: '30px', fontWeight: 600,
+                                    fontSize: '0.9rem', cursor: 'pointer'
+                                }}
+                            >
+                                결과 확인하고 나가기
+                            </button>
+                            <button
+                                onClick={() => handleExit(false)}
+                                style={{
+                                    background: 'transparent', border: 'none', color: '#888',
+                                    padding: '10px', fontSize: '0.8rem', cursor: 'pointer',
+                                    textDecoration: 'underline'
+                                }}
+                            >
+                                다음에 확인하기
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {showInfo && (
+                <div style={{
+                    position: 'absolute', bottom: '120px', left: '40px', right: '40px',
+                    background: 'rgba(10,10,12,0.95)', border: '1px solid rgba(255,255,255,0.1)',
+                    padding: '30px', borderRadius: '20px', zIndex: 20, animation: 'fade-up 0.5s'
+                }}>
+                    <h3 style={{ margin: '0 0 15px 0', fontSize: '1rem' }} className="gold-text">DIGITAL SADHGURU INSIGHTS</h3>
+                    <p style={{ fontSize: '0.85rem', lineHeight: '1.6', color: '#CCC', margin: 0 }}>
+                        {mode === 'fire'
+                            ? "불꽃의 불규칙한 리듬은 '부드러운 매혹'을 통해 전두엽의 과부하를 해소합니다. 타닥거리는 핑크 노이즈와 432Hz 배음은 당신의 아드레날린 수치를 낮추고 깊은 이완 상태로 인도합니다."
+                            : "물멍은 뇌를 '레드 마인드'에서 '블루 마인드'로 전환시킵니다. 흐르는 물의 시각적 파동과 백색 소음은 일시적인 인지적 탈출을 제공하며, 고갈된 주의력을 회복시키는 가장 빠른 방법입니다."}
+                    </p>
+                    <div style={{ marginTop: '20px', padding: '15px', background: 'rgba(218,165,32,0.05)', borderRadius: '10px', border: '1px solid rgba(218,165,32,0.1)' }}>
+                        <h4 style={{ margin: '0 0 8px 0', fontSize: '0.8rem', color: '#DAA520' }}>권장 치유 시간</h4>
+                        <ul style={{ margin: 0, padding: '0 0 0 15px', fontSize: '0.75rem', color: '#AAA', lineHeight: '1.6' }}>
+                            <li><span style={{ color: '#DDD' }}>3분 (Quick Reset):</span> 주의력 회복 시작</li>
+                            <li><span style={{ color: '#DDD' }}>10분 (Deep Recovery):</span> 스트레스 수치 강하</li>
+                            <li><span style={{ color: '#DDD' }}>20분+ (Transcendence):</span> 완전한 안식과 에너지 재배열</li>
+                        </ul>
+                    </div>
+                    <button onClick={() => setShowInfo(false)} style={{ marginTop: '20px', background: 'none', border: 'none', color: '#DAA520', fontSize: '0.8rem', cursor: 'pointer' }}>CLOSE</button>
+                </div>
+            )}
+
+            {/* Removed RitualPortal to prioritize full immersion */}
+
+            <style>{`
+                @keyframes fade-in {
+                    from { opacity: 0; }
+                    to { opacity: 1; }
+                }
+                @keyframes scale-up {
+                    from { opacity: 0; transform: scale(0.9); }
+                    to { opacity: 1; transform: scale(1); }
+                }
+                @keyframes pulse-ring {
+                    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0.1); }
+                    50% { transform: scale(1.02); box-shadow: 0 0 50px 10px rgba(255,255,255,0.05); }
+                    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0.1); }
+                }
+                @keyframes fade-up {
+                    from { opacity: 0; transform: translateY(20px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+            `}</style>
+        </div>
+    );
+};
+
+export default ElementalTherapyScreen;

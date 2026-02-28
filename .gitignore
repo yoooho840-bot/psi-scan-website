@@ -1,0 +1,35 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# SEC-005 환경변수 유출 방지
+.env
+.env.local
+.env.*
+
+# 지식 베이스(LanceDB) 통째 유출 방지
+server/data/
+data/lancedb_data/
+*.db
+*.sqlite
