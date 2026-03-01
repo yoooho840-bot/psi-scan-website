@@ -97,13 +97,20 @@ export default function LandingScreen() {
             </div>
 
             {/* Developer Theme Control Panel (Temporary) */}
-            <div style={{
-                position: 'fixed', bottom: '80px', left: '20px', zIndex: 999999, display: 'flex', gap: '10px',
-                background: 'rgba(255,255,255,0.95)', padding: '15px', borderRadius: '15px',
-                boxShadow: '0 10px 40px rgba(0,0,0,0.15)', border: '2px solid var(--color-gold-main)',
-                flexDirection: 'column'
-            }}>
-                <span style={{ fontSize: '0.8rem', color: 'var(--color-gold-main)', fontWeight: 'bold', marginBottom: '5px' }}>✨ 히어로 섹션 라이브 테스터</span>
+            <motion.div
+                drag
+                dragMomentum={false}
+                style={{
+                    position: 'fixed', bottom: '80px', left: '20px', zIndex: 999999, display: 'flex', gap: '10px',
+                    background: 'rgba(255,255,255,0.95)', padding: '15px', borderRadius: '15px',
+                    boxShadow: '0 10px 40px rgba(0,0,0,0.15)', border: '2px solid var(--color-gold-main)',
+                    flexDirection: 'column',
+                    cursor: 'grab' // Indicate it can be dragged
+                }}
+            >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--color-gold-main)', fontWeight: 'bold', marginBottom: '5px' }}>✨ 히어로 섹션 라이브 테스터 (드래그 가능)</span>
+                </div>
                 <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', maxWidth: '300px' }}>
                     <button onClick={() => setHeroTheme(1)} style={{ padding: '8px 12px', background: heroTheme === 1 ? 'var(--color-gold-main)' : 'transparent', color: heroTheme === 1 ? '#FFF' : 'var(--color-text-primary)', border: '1px solid var(--color-gold-main)', borderRadius: '8px', cursor: 'pointer', fontSize: '0.85rem', transition: 'all 0.3s' }}>1. 에너지 필드 블렌딩</button>
                     <button onClick={() => setHeroTheme(2)} style={{ padding: '8px 12px', background: heroTheme === 2 ? 'var(--color-gold-main)' : 'transparent', color: heroTheme === 2 ? '#FFF' : 'var(--color-text-primary)', border: '1px solid var(--color-gold-main)', borderRadius: '8px', cursor: 'pointer', fontSize: '0.85rem', transition: 'all 0.3s' }}>2. 에너지 필드</button>
@@ -118,7 +125,7 @@ export default function LandingScreen() {
                     <button onClick={() => setHeroTheme(11)} style={{ padding: '8px 12px', background: heroTheme === 11 ? 'var(--color-gold-main)' : 'transparent', color: heroTheme === 11 ? '#FFF' : 'var(--color-text-primary)', border: '1px solid var(--color-gold-main)', borderRadius: '8px', cursor: 'pointer', fontSize: '0.85rem', transition: 'all 0.3s' }}>11. 코스믹 블루</button>
                     <button onClick={() => setHeroTheme(12)} style={{ padding: '8px 12px', background: heroTheme === 12 ? 'var(--color-gold-main)' : 'transparent', color: heroTheme === 12 ? '#FFF' : 'var(--color-text-primary)', border: '1px solid var(--color-gold-main)', borderRadius: '8px', cursor: 'pointer', fontSize: '0.85rem', transition: 'all 0.3s' }}>12. 스페이스 나이트</button>
                 </div>
-            </div>
+            </motion.div>
 
             {/* Core Visual Elements - Dynamic Background Themes */}
             {heroTheme === 1 && (
