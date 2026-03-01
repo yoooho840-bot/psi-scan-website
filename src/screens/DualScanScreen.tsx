@@ -167,13 +167,15 @@ const DualScanScreen = () => {
                                 />
                                 <div style={{ position: 'relative' }}>
                                     <input
-                                        type="date"
-                                        placeholder="상대방 생년월일 (양력)"
+                                        type="tel"
+                                        pattern="[0-9]{8}"
+                                        maxLength={8}
+                                        placeholder="상대방 생년월일 8자리 (예: 19900101)"
                                         value={partnerBirthDate}
-                                        onChange={(e) => setPartnerBirthDate(e.target.value)}
+                                        onChange={(e) => setPartnerBirthDate(e.target.value.replace(/[^0-9]/g, ''))}
                                         required
                                         className="quantum-input"
-                                        style={{ paddingRight: '80px' }}
+                                        style={{ paddingRight: '100px' }}
                                     />
                                     <span style={{ position: 'absolute', right: '15px', top: '50%', transform: 'translateY(-50%)', fontSize: '0.75rem', color: '#FFF', pointerEvents: 'none', background: 'rgba(56,189,248,0.3)', padding: '4px 8px', borderRadius: '6px' }}>필수 좌표</span>
                                 </div>

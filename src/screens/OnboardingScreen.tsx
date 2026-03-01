@@ -233,21 +233,25 @@ const OnboardingScreen: React.FC = () => {
                                 <div style={{ display: 'flex', gap: '10px' }}>
                                     <div style={{ flex: 1, position: 'relative' }}>
                                         <input
-                                            type="date"
-                                            placeholder="생년월일 (양력)"
+                                            type="tel"
+                                            pattern="[0-9]{8}"
+                                            maxLength={8}
+                                            placeholder="생년월일 8자리 (예: 19900101)"
                                             value={birthDate}
-                                            onChange={(e) => setBirthDate(e.target.value)}
+                                            onChange={(e) => setBirthDate(e.target.value.replace(/[^0-9]/g, ''))}
                                             required
                                             className="quantum-input"
                                             style={{ paddingRight: '70px' }}
                                         />
-                                        <span style={{ position: 'absolute', right: '40px', top: '50%', transform: 'translateY(-50%)', fontSize: '0.75rem', color: 'var(--color-text-muted)', pointerEvents: 'none', background: 'rgba(20,20,30,0.8)', padding: '2px 6px', borderRadius: '4px' }}>양력 기준</span>
+                                        <span style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', fontSize: '0.75rem', color: 'var(--color-text-muted)', pointerEvents: 'none', background: 'rgba(20,20,30,0.8)', padding: '2px 6px', borderRadius: '4px' }}>양력 기준</span>
                                     </div>
                                     <input
-                                        type="time"
-                                        placeholder="태어난 시간"
+                                        type="tel"
+                                        pattern="[0-9]{4}"
+                                        maxLength={4}
+                                        placeholder="태어난 시간 (예: 1430)"
                                         value={birthTime}
-                                        onChange={(e) => setBirthTime(e.target.value)}
+                                        onChange={(e) => setBirthTime(e.target.value.replace(/[^0-9]/g, ''))}
                                         className="quantum-input"
                                         style={{ flex: 1 }}
                                     />
