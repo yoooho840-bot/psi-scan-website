@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Activity, Eye, Hexagon, Zap, Target, Combine, Clock, HeartPulse } from 'lucide-react';
+import { ArrowLeft, Activity, Eye, Hexagon, Zap, Target, Combine, Clock, HeartPulse, Cpu } from 'lucide-react';
 import { tarotDeck, type TarotCard } from '../data/tarotData';
 import useAutoFullscreen from '../hooks/useAutoFullscreen';
 
@@ -17,6 +17,7 @@ const TarotStationScreen: React.FC = () => {
     const [drawnCards, setDrawnCards] = useState<TarotCard[]>([]);
     const [revealedCount, setRevealedCount] = useState<number>(0);
     const [scanProgress, setScanProgress] = useState(0);
+    const [extrapolatedLog, setExtrapolatedLog] = useState<string[]>([]);
 
     useAutoFullscreen();
 
@@ -67,12 +68,39 @@ const TarotStationScreen: React.FC = () => {
     const startDrawingProcess = () => {
         setIsDrawing(true);
         setScanProgress(0);
+        setExtrapolatedLog([]);
+
+        // Retrieve biometric data for Quantum Weighted Extraction
+        const voiceFreqRaw = sessionStorage.getItem('scan_voice_freq');
+        const surveyRaw = localStorage.getItem('pre_scan_survey');
+        const voiceFreq = parseFloat(voiceFreqRaw || '0') || 180;
+        let stressExtracted = 3;
+        try { if (surveyRaw) stressExtracted = JSON.parse(surveyRaw).stressLevel || 3; } catch (e) { }
+
+        const extractionLogs = [
+            `[1] 생체 마커 수신 완료 (성대 진동수: ${voiceFreq.toFixed(1)}Hz)`,
+            `[2] 심장 변이도(HRV) 스트레스 지수 반영: Level ${stressExtracted}`,
+            `[3] 양자 얽힘 함수 가동 (단순 난수 배제)...`,
+            stressExtracted >= 4 ? `[4] 경고: 극도의 긴장 파동 감지 -> 불(Fire)/소드(Swords) 원소 가중치 부여됨` : `[4] 안정 파동 감지 -> 물(Water)/대지(Earth) 원소 가중치 유지`,
+            voiceFreq > 200 ? `[5] 고주파수(High Freq) 간섭 발생 -> 상위 차원(Major Arcana) 출현 확률 조정 중` : `[5] 저주파수(Low Freq) 동기화 -> 기본 물리 현실 배열 확률 조정 중`,
+            `[6] 파동 붕괴 및 최종 확률 덱 추출 완료.`
+        ];
+
+        let logIdx = 0;
+        const logInterval = setInterval(() => {
+            if (logIdx < extractionLogs.length) {
+                const currentLog = extractionLogs[logIdx];
+                setExtrapolatedLog(prev => [...prev, currentLog]);
+                logIdx++;
+            }
+        }, 400);
 
         const interval = setInterval(() => {
             setScanProgress(prev => {
-                const next = prev + (Math.random() * 20);
+                const next = prev + (Math.random() * 15);
                 if (next >= 100) {
                     clearInterval(interval);
+                    clearInterval(logInterval);
 
                     // Determine how many cards
                     let count = 3;
@@ -82,8 +110,37 @@ const TarotStationScreen: React.FC = () => {
                     if (readingMode === 'celtic') count = 10;
                     if (readingMode === 'biomarker') count = 4;
 
-                    const shuffled = [...tarotDeck].sort(() => 0.5 - Math.random());
-                    const selected = shuffled.slice(0, count);
+                    // QUANTUM WEIGHTED ALGORITHM (No longer purely random)
+                    // We bias the deck mathematically based on their actual biometric state
+                    let weightedDeck = [...tarotDeck].map(card => {
+                        // Base randomness is minimized, replaced by deterministic weight + small chaos factor
+                        let weight = Math.random() * 0.2;
+
+                        if (stressExtracted >= 4) {
+                            if (card.element === 'Fire' || card.name.includes('Swords') || card.id === 15 || card.id === 16) weight += 0.6; // High stress draws Devil, Tower, Swords
+                        } else if (stressExtracted <= 2) {
+                            if (card.element === 'Water' || card.element === 'Earth' || card.id === 17 || card.id === 19) weight += 0.6; // Low stress draws Star, Sun, Cups
+                        }
+
+                        if (voiceFreq > 220) {
+                            if (card.element === 'Air' || String(card.romanNumeral).length > 0) weight += 0.4;
+                        }
+
+                        // Add a slight deterministic hash based on user string so the exact same person with same stats gets similar themes
+                        const nameHash = (userName.length * 0.05) % 0.3;
+                        weight += nameHash;
+
+                        return { card, weight };
+                    });
+
+                    // Sort by highest weight first
+                    weightedDeck.sort((a, b) => b.weight - a.weight);
+
+                    // Take the top candidate pool (depending on draw count + margin) and softly shuffle
+                    const candidatePool = weightedDeck.slice(0, Math.max(count + 7, 20)).map(item => item.card);
+                    const finalShuffled = candidatePool.sort(() => 0.5 - Math.random());
+
+                    const selected = finalShuffled.slice(0, count);
 
                     setDrawnCards(selected);
                     setIsDrawing(false);
@@ -108,6 +165,7 @@ const TarotStationScreen: React.FC = () => {
         setDrawnCards([]);
         setRevealedCount(0);
         setScanProgress(0);
+        setExtrapolatedLog([]);
         setReadingMode(null);
         setCrossroadsOptions({ a: '', b: '' });
     };
@@ -259,8 +317,14 @@ const TarotStationScreen: React.FC = () => {
                                 </div>
                             ) : isDrawing ? (
                                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px' }}>
-                                    <Activity size={50} color="var(--color-gold-main)" className="pulse-anim" />
-                                    <span style={{ color: 'var(--color-gold-main)', fontWeight: 'bold' }}>양자 배열 셔플링... {Math.round(scanProgress)}%</span>
+                                    <Cpu size={50} color="var(--color-gold-main)" style={{ animation: 'spin 3s linear infinite' }} />
+                                    <span style={{ color: 'var(--color-gold-main)', fontWeight: 'bold' }}>양자 파동 기반 확정성 추출 중... {Math.round(scanProgress)}%</span>
+
+                                    <div style={{ width: '100%', maxWidth: '400px', background: 'rgba(0,0,0,0.6)', border: '1px solid rgba(218, 165, 32, 0.4)', padding: '15px', borderRadius: '8px', textAlign: 'left', minHeight: '120px', fontFamily: 'monospace', fontSize: '0.8rem', color: '#ffecb3', marginTop: '10px', overflow: 'hidden' }}>
+                                        {extrapolatedLog.map((log, i) => (
+                                            <div key={i} style={{ marginBottom: '5px', animation: 'fadeIn 0.2s ease-out' }}>&gt; {log}</div>
+                                        ))}
+                                    </div>
                                 </div>
                             ) : (
                                 <Eye size={50} color="rgba(218, 165, 32, 0.3)" />
