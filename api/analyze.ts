@@ -10,13 +10,11 @@ export default async function handler(req: Request) {
     try {
         const { bioSeeds, scanMode, surveyData } = await req.json();
 
-        const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+        const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
-        if (!OPENAI_API_KEY) {
-            return new Response(JSON.stringify({ error: 'Missing OPENAI_API_KEY in environment variables' }), { status: 500 });
+        if (!GEMINI_API_KEY) {
+            return new Response(JSON.stringify({ error: 'Missing GEMINI_API_KEY in environment variables' }), { status: 500 });
         }
-
-        // SEC-005: Use API Key securely via environment variables.
 
         // Construct the prompt for the 12-dimensional analysis
         const systemPrompt = `
@@ -33,7 +31,7 @@ export default async function handler(req: Request) {
       - Survey Stress: ${surveyData?.stressLevel || 3}
 
       Generate an elegant, professional, and slightly mystical 12-dimensional report in Korean.
-      Return EXACTLY this JSON structure:
+      Return EXACTLY this JSON structure, and nothing else:
       {
         "overallEnergy": <number between 0-100>,
         "stressIndex": <number between 0-100>,
@@ -59,29 +57,36 @@ export default async function handler(req: Request) {
       }
     `;
 
-        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        const response = await fetch(\`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=\${GEMINI_API_KEY}\`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${OPENAI_API_KEY}`
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                model: 'gpt-4o-mini', // or gpt-3.5-turbo if cost is a concern, but 4o-mini is best overall
-                messages: [
-                    { role: 'system', content: systemPrompt }
-                ],
-                temperature: 0.7,
-                response_format: { type: "json_object" }
+                system_instruction: {
+                    parts: [{ text: "You must return a raw, unformatted JSON object. Do not use code blocks. Do not wrap in backticks." }]
+                },
+                contents: [{
+                    parts: [{ text: systemPrompt }]
+                }],
+                generationConfig: {
+                    responseMimeType: "application/json",
+                    temperature: 0.7
+                }
             })
         });
 
         if (!response.ok) {
             const errorData = await response.json();
-            return new Response(JSON.stringify({ error: 'OpenAI API Error', details: errorData }), { status: response.status });
+            return new Response(JSON.stringify({ error: 'Gemini API Error', details: errorData }), { status: response.status });
         }
 
         const data = await response.json();
-        const generatedContent = data.choices[0].message.content;
+        const generatedContent = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+        if (!generatedContent) {
+             return new Response(JSON.stringify({ error: 'No content returned from Gemini' }), { status: 500 });
+        }
 
         return new Response(generatedContent, {
             status: 200,
