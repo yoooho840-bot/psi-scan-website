@@ -54,34 +54,35 @@ export default function FeedbackWidget() {
                     onClick={() => setIsOpen(true)}
                     style={{
                         position: 'fixed',
-                        bottom: '30px',
-                        right: '30px', // Right side, slightly above the global pass button
+                        bottom: '40px',
+                        right: '40px', // Right side, slightly above the global pass button
                         backgroundColor: 'var(--color-gold-main)',
                         color: '#000',
-                        border: 'none',
+                        border: '2px solid rgba(255,255,255,0.4)',
                         borderRadius: '50px',
-                        padding: '12px 20px',
+                        padding: '16px 28px',
                         display: 'flex',
                         alignItems: 'center',
-                        gap: '8px',
-                        boxShadow: '0 4px 20px rgba(218, 165, 32, 0.4)',
+                        gap: '12px',
+                        boxShadow: '0 8px 30px rgba(218, 165, 32, 0.6), 0 0 15px rgba(255,255,255,0.3) inset',
                         cursor: 'pointer',
                         zIndex: 999999,
-                        fontWeight: 'bold',
-                        fontSize: '0.9rem',
-                        transition: 'all 0.3s ease',
-                        fontFamily: '"Noto Sans KR", sans-serif'
+                        fontWeight: '800',
+                        fontSize: '1.2rem',
+                        transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+                        fontFamily: '"Noto Sans KR", sans-serif',
+                        letterSpacing: '1px'
                     }}
                     onMouseOver={(e) => {
-                        e.currentTarget.style.transform = 'translateY(-3px)';
-                        e.currentTarget.style.boxShadow = '0 6px 25px rgba(218, 165, 32, 0.6)';
+                        e.currentTarget.style.transform = 'translateY(-5px) scale(1.05)';
+                        e.currentTarget.style.boxShadow = '0 12px 40px rgba(218, 165, 32, 0.8), 0 0 20px rgba(255,255,255,0.5) inset';
                     }}
                     onMouseOut={(e) => {
-                        e.currentTarget.style.transform = 'translateY(0)';
-                        e.currentTarget.style.boxShadow = '0 4px 20px rgba(218, 165, 32, 0.4)';
+                        e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                        e.currentTarget.style.boxShadow = '0 8px 30px rgba(218, 165, 32, 0.6), 0 0 15px rgba(255,255,255,0.3) inset';
                     }}
                 >
-                    <MessageSquarePlus size={18} />
+                    <MessageSquarePlus size={24} />
                     <span>베타 피드백 📝</span>
                 </button>
             )}
