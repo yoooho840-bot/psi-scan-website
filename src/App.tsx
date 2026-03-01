@@ -400,7 +400,7 @@ function AppContent() {
           {/* Payment & Admin */}
           <Route path="/paywall" element={<PaywallScreen />} />
           <Route path="/payment-success" element={<PaymentSuccessScreen />} />
-          <Route path="/admin" element={<AdminDashboardScreen />} />
+          <Route path="/admin" element={<AuthGate><AdminDashboardScreen /></AuthGate>} />
         </Routes>
       </div>
     </div>
@@ -409,11 +409,9 @@ function AppContent() {
 
 function App() {
   return (
-    <AuthGate>
-      <Router>
-        <AppContent />
-      </Router>
-    </AuthGate>
+    <Router>
+      <AppContent />
+    </Router>
   );
 }
 
