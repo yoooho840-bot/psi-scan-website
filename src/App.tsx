@@ -143,6 +143,8 @@ const AuthGate = ({ children }: { children: React.ReactNode }) => {
   );
 }
 
+import FeedbackWidget from './components/FeedbackWidget';
+
 const GlobalFloatingButtons = () => {
   const location = useLocation();
   const isHome = location.pathname === '/';
@@ -152,6 +154,9 @@ const GlobalFloatingButtons = () => {
 
   return (
     <>
+      {/* Global Feedback Widget for Beta Testers */}
+      <FeedbackWidget />
+
       {/* Global Admin Pass Button */}
       <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: 9999 }}>
         <button
