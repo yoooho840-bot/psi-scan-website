@@ -470,14 +470,55 @@ const DualScanScreen = () => {
                                             <div style={{ width: '120px', height: '180px', borderRadius: '8px', overflow: 'hidden', border: `2px solid ${item.color}`, marginBottom: '15px' }}>
                                                 <img src={`/assets/tarot/${item.card.imgFileName}`} alt={item.card.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                                             </div>
-                                            <div style={{ textAlign: 'center' }}>
-                                                <h4 style={{ color: '#FFF', margin: '0 0 5px 0', fontSize: '1.1rem' }}>{item.card.name}</h4>
-                                                <p style={{ color: '#94a3b8', fontSize: '0.8rem', lineHeight: 1.5, margin: 0, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                                            <div style={{ textAlign: 'center', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                                                <h4 style={{ color: '#FFF', margin: '0 0 10px 0', fontSize: '1.1rem' }}>{item.card.name}</h4>
+                                                <p style={{ color: '#E2E8F0', fontSize: '0.9rem', lineHeight: 1.6, margin: 0, textAlign: 'left', flex: 1 }}>
                                                     {item.card.description}
                                                 </p>
+                                                <div style={{ marginTop: '15px', paddingTop: '15px', borderTop: `1px dashed ${item.color}40`, textAlign: 'left' }}>
+                                                    <span style={{ fontSize: '0.8rem', color: item.color, fontWeight: 'bold', display: 'block', marginBottom: '5px' }}>오라클의 조언</span>
+                                                    <p style={{ fontSize: '0.85rem', color: '#94a3b8', margin: 0, lineHeight: 1.5 }}>{item.card.advice}</p>
+                                                </div>
                                             </div>
                                         </div>
                                     ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Overall Comprehensive Report */}
+                        {drawnCards.length === 4 && (
+                            <div className="glass-card" style={{ padding: '40px 30px', borderRadius: '24px', border: '1px solid rgba(56, 189, 248, 0.3)', marginBottom: '50px', background: 'rgba(15, 15, 20, 0.8)', textAlign: 'left' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '25px', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '15px' }}>
+                                    <Sparkles size={26} color="#38bdf8" />
+                                    <h3 style={{ margin: 0, fontSize: '1.4rem', color: '#FFF' }}>종합 파동 에너지 평가 보고서</h3>
+                                </div>
+                                <div style={{ color: '#E2E8F0', fontSize: '1.05rem', lineHeight: 1.8 }}>
+                                    <p style={{ marginBottom: '20px' }}>
+                                        <strong style={{ color: '#38bdf8' }}>[{partnerName}]</strong>님과의 종합 공명 지수는 <strong style={{ color: '#fbbf24', fontSize: '1.2rem' }}>{compatibility}%</strong>로 측정되었습니다.
+                                        이는 두 분의 에너지가 우주적 주파수 안에서 서로 얽히고 반응하는 강도를 나타냅니다.
+                                    </p>
+                                    <h4 style={{ color: '#c084fc', marginBottom: '10px', fontSize: '1.1rem' }}>🔮 관계의 본질 및 현재 상태</h4>
+                                    <p style={{ marginBottom: '20px', paddingLeft: '15px', borderLeft: '3px solid #c084fc', color: '#94a3b8' }}>
+                                        나의 에너지는 <strong>[{drawnCards[0].name}]</strong>의 기운을 담고 있어, {drawnCards[0].description.split('.')[0]} 형태를 띱니다.
+                                        반면, 상대방의 무의식은 <strong>[{drawnCards[1].name}]</strong>의 주파수 속에서 {drawnCards[1].description.split('.')[0]} 흐름을 보여줍니다.
+                                        이 두 에너지가 만나 형성된 현재의 얽힘은 <strong>[{drawnCards[2].name}]</strong>의 파동입니다. {drawnCards[2].advice}
+                                    </p>
+                                    <h4 style={{ color: '#4ade80', marginBottom: '10px', fontSize: '1.1rem' }}>💡 앞으로 나아가야 할 방향성 (미래 역학)</h4>
+                                    <p style={{ marginBottom: '20px', paddingLeft: '15px', borderLeft: '3px solid #4ade80', color: '#94a3b8' }}>
+                                        두 사람의 파동이 향하는 미래의 에너지는 <strong>[{drawnCards[3].name}]</strong>에서 가장 강하게 진동합니다.
+                                        관계의 질적인 성장을 위해서는 반드시 이 카드의 조언을 새겨야 합니다: <span style={{ color: '#FFF' }}>"{drawnCards[3].advice}"</span>
+                                    </p>
+                                    <div style={{ background: 'rgba(56, 189, 248, 0.05)', padding: '20px', borderRadius: '12px', border: '1px dashed rgba(56, 189, 248, 0.3)' }}>
+                                        <h4 style={{ color: '#38bdf8', margin: '0 0 10px 0', fontSize: '1.1rem' }}>총평 및 제안</h4>
+                                        <p style={{ margin: 0, color: '#E2E8F0' }}>
+                                            {compatibility >= 80
+                                                ? "두 분의 시너지는 매우 강력하며 건설적인 간섭을 일으키고 있습니다. 작은 오해보다는 서로의 연결성에 집중하면 훌륭한 파트너십을 오래 지속할 수 있습니다."
+                                                : compatibility >= 60
+                                                    ? "서로 다른 요소가 만나 조율해가는 과정에 있습니다. 타로의 조언처럼 각자의 고유한 파동을 억누르지 않으면서도 서로를 존중하는 지혜로운 태도가 절실하게 필요합니다."
+                                                    : "현재 파동 충돌 빈도가 높습니다. 서로의 방식에 고집하기보다는 무의식에 자리잡은 방어 기제를 먼저 내려놓는 내면의 성찰이 요구됩니다. 아래 AI 가이드와 심층적인 힐링 대화를 시작해보시길 강력히 권장합니다."}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         )}
