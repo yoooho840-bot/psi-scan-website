@@ -149,7 +149,7 @@ const ComparativeResultScreen: React.FC = () => {
                         <div style={{ fontSize: '1.2rem', fontWeight: 600 }}>{Math.floor(state.duration / 60)}분 {state.duration % 60}초</div>
                     </div>
                     <div className="glass-card" style={{ padding: '15px', textAlign: 'center' }}>
-                        <span style={{ fontSize: '0.7rem', color: '#888', display: 'block', marginBottom: '5px' }}>최종 주파수</span>
+                        <span style={{ fontSize: '0.7rem', color: '#888', display: 'block', marginBottom: '5px' }}>최종 파동</span>
                         <div style={{ fontSize: '1.2rem', fontWeight: 600 }}>{afterData.voiceFreq} Hz</div>
                     </div>
                 </div>

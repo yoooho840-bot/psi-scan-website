@@ -8,7 +8,7 @@ const AdminDashboardScreen: React.FC = () => {
     const menuItems = [
         { path: '/dashboard', label: '마이페이지', icon: <LayoutGrid size={20} />, desc: '메인 대시보드' },
         { path: '/elemental-therapy', label: '명상 (불멍/물멍)', icon: <Flame size={20} />, desc: '자연 소리와 시각 명상' },
-        { path: '/frequency-lab', label: '사운드 힐링 (주파수)', icon: <Music size={20} />, desc: '마음을 편안하게 하는 주파수 소리' },
+        { path: '/frequency-lab', label: '사운드 힐링 (파동)', icon: <Music size={20} />, desc: '마음을 편안하게 하는 파동 소리' },
         { path: '/sound-bath', label: '사운드 힐링 (싱잉볼)', icon: <Volume2 size={20} />, desc: '편안한 싱잉볼 연주' },
         { path: '/color-therapy', label: '컬러 힐링', icon: <Sparkles size={20} />, desc: '색채를 통한 시각적 휴식' },
         { path: '/chat', label: 'AI 맞춤 상담', icon: <MessageCircle size={20} />, desc: 'AI 가이드와의 멘탈 케어 대화' },

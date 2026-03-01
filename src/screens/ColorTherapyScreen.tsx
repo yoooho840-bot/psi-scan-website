@@ -362,7 +362,7 @@ const ColorTherapyScreen: React.FC = () => {
                         색채 테라피
                     </h1>
                     <p style={{ color: '#eee', fontSize: '1.4rem', lineHeight: 1.6, marginBottom: '40px', wordBreak: 'keep-all', wordWrap: 'break-word', fontWeight: 300 }}>
-                        스캔 결과를 바탕으로 도출된 <b>나만의 결핍 파동</b>을 보완하는 맞춤형 색채와 주파수가 매칭되었습니다.<br /><br />
+                        스캔 결과를 바탕으로 도출된 <b>나만의 결핍 파동</b>을 보완하는 맞춤형 색채와 파동가 매칭되었습니다.<br /><br />
                         어두운 곳에서 이어폰을 착용하고, 편안한 자세로 화면 중심을 응시하며 깊은 호흡에 집중하십시오.
                     </p>
 
@@ -483,7 +483,7 @@ const ColorTherapyScreen: React.FC = () => {
                         )}
                     </h1>
                     <p style={{ fontSize: '0.75rem', letterSpacing: '1px', color: '#333', opacity: isScanning ? 0.7 : 0.6, margin: 0 }}>
-                        {isScanning ? '맞춤 주파수 탐색' : '에너지장 최적화 완료'}
+                        {isScanning ? '맞춤 파동 탐색' : '에너지장 최적화 완료'}
                     </p>
                 </div>
 

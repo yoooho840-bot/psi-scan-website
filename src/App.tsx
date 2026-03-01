@@ -312,7 +312,7 @@ const Sidebar = () => {
         <div style={{ height: '1px', background: 'var(--color-border-subtle)', margin: '15px 0 10px 0' }} />
         <p style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)', marginBottom: '10px', paddingLeft: '10px', letterSpacing: '1px', fontWeight: 'bold' }}>HEALING CHAMBER</p>
 
-        <SidebarLink href="/elemental-therapy" icon={Activity} text="내면 파동 동기화" color="#EF4444" restricted={true} tooltipDesc="신경계 내성을 방지하는 주파수와 4-7-8 소마틱 호흡" />
+        <SidebarLink href="/elemental-therapy" icon={Activity} text="내면 파동 동기화" color="#EF4444" restricted={true} tooltipDesc="신경계 내성을 방지하는 파동와 4-7-8 소마틱 호흡" />
         <SidebarLink href="/fire-meditation" icon={Flame} text="불멍 명상" color="#ff6600" restricted={true} tooltipDesc="실시간 WebGL과 양자 바이노럴 비트 불꽃 명상" />
         <SidebarLink href="/water-meditation" icon={Waves} text="물멍 명상" color="#00d2ff" restricted={true} tooltipDesc="델타파 수면 유도와 심해 파도 소리 명상" />
         <SidebarLink href="/sound-bath" icon={Music} text="싱잉볼 파동" color="#8B5CF6" restricted={true} tooltipDesc="차크라 공명에 특화된 티베탄 볼 사운드 샤워" />
@@ -327,7 +327,7 @@ const Sidebar = () => {
           <SidebarLink href="/tarot" icon={Sparkles} text="PSI Tarot Match" color="#bf5af2" restricted={true} tooltipDesc="Ayurvedic Bio-Resonance Analysis" />
         )}
         <SidebarLink href="/dual-scan" icon={Users} text="타로 듀얼 스캔" color="#38bdf8" restricted={true} tooltipDesc="친구/연인과 함께 공명 호환성 테스트" />
-        <SidebarLink href="/wave-diary" icon={Palette} text="다이어리 색칠하기" color="#ec4899" restricted={true} tooltipDesc="나의 감정 주파수를 컬러 캔버스로 기록" />
+        <SidebarLink href="/wave-diary" icon={Palette} text="다이어리 색칠하기" color="#ec4899" restricted={true} tooltipDesc="나의 감정 파동를 컬러 캔버스로 기록" />
       </div>
 
       <div style={{ marginTop: 'auto', paddingTop: '20px', borderTop: '1px solid var(--color-border-subtle)' }}>

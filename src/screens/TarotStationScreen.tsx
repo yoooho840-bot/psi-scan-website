@@ -335,7 +335,7 @@ const TarotStationScreen: React.FC = () => {
                                 <div className="glass-card" style={{ width: '100%', padding: '30px', marginBottom: '40px', borderLeft: '3px solid var(--color-gold-main)', animation: 'fadeIn 1.5s ease-out' }}>
                                     <h3 style={{ color: 'var(--color-gold-main)', fontSize: '1.2rem', marginBottom: '15px' }}>최종 에너지 동조 가이드 (Action Plan)</h3>
                                     <p style={{ color: '#E0E0E0', lineHeight: 1.8, fontSize: '1.05rem', wordBreak: 'keep-all', fontWeight: '500' }}>
-                                        과거의 [{drawnCards[0].name}] 파동을 자연스럽게 흘려보내고, 현재의 [{drawnCards[1].name}] 에너지에 온전히 집중하십시오. 주변의 낡은 패턴을 정화한다면 당신의 미래는 완벽한 [{drawnCards[2].name}] 주파수로 수렴하게 될 것입니다.
+                                        과거의 [{drawnCards[0].name}] 파동을 자연스럽게 흘려보내고, 현재의 [{drawnCards[1].name}] 에너지에 온전히 집중하십시오. 주변의 낡은 패턴을 정화한다면 당신의 미래는 완벽한 [{drawnCards[2].name}] 파동로 수렴하게 될 것입니다.
                                         <br /><br />
                                         <strong>핵심 조언:</strong> {drawnCards[1].advice}
                                     </p>

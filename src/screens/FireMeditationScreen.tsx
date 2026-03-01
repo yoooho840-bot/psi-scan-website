@@ -22,6 +22,27 @@ const FireMeditationScreen: React.FC = () => {
     const [showUI, setShowUI] = useState(true);
     const uiTimeoutRef = useRef<any>(null);
 
+    const meditationThemes = [
+        {
+            vid: "L_LUpnjgPso",
+            freqL: 256.0, freqR: 266.0, name: "알파파 (10Hz) - 신체적 안정 (벽난로)"
+        },
+        {
+            vid: "AWKza6q8uO8",
+            freqL: 320.0, freqR: 328.0, name: "알파파 (8Hz) - 내면의 온기 (장작불)"
+        }
+    ];
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    // 10-minute video & frequency rotation
+    useEffect(() => {
+        if (!isStarted) return;
+        const interval = setInterval(() => {
+            setCurrentIndex(prev => (prev + 1) % meditationThemes.length);
+        }, 10 * 60 * 1000); // 10 minutes in ms
+        return () => clearInterval(interval);
+    }, [isStarted]);
+
     const handleUserActivity = useCallback(() => {
         setShowUI(true);
         if (uiTimeoutRef.current) {
@@ -97,18 +118,21 @@ const FireMeditationScreen: React.FC = () => {
 
         const merger = ctx.createChannelMerger(2);
 
-        // Left: 140Hz
+        // Calculate initial frequencies based on the current theme
+        const initialTheme = meditationThemes[currentIndex];
+
+        // Left channel
         const oscL = ctx.createOscillator();
         const gainL = ctx.createGain();
-        oscL.frequency.value = 140;
+        oscL.frequency.value = initialTheme.freqL;
         oscL.type = 'sine';
         gainL.gain.value = 0.05;
         oscL.connect(gainL).connect(merger, 0, 0);
 
-        // Right: 150Hz
+        // Right channel (Binaural Beat offset)
         const oscR = ctx.createOscillator();
         const gainR = ctx.createGain();
-        oscR.frequency.value = 150;
+        oscR.frequency.value = initialTheme.freqR;
         oscR.type = 'sine';
         gainR.gain.value = 0.05;
         oscR.connect(gainR).connect(merger, 0, 1);
@@ -147,6 +171,18 @@ const FireMeditationScreen: React.FC = () => {
             }
         };
     }, [isStarted, isUnmounting]);
+
+    // Smooth Frequency Transition upon Theme Change
+    useEffect(() => {
+        if (isStarted && oscLRef.current && oscRRef.current && audioCtxRef.current) {
+            const { freqL, freqR } = meditationThemes[currentIndex];
+            const now = audioCtxRef.current.currentTime;
+
+            // Glide the frequency over 2 seconds to make the transition very subtle and relaxing
+            oscLRef.current.frequency.setTargetAtTime(freqL, now, 2);
+            oscRRef.current.frequency.setTargetAtTime(freqR, now, 2);
+        }
+    }, [currentIndex, isStarted]);
 
     const toggleFullscreen = useCallback(() => {
         const docElm = document.documentElement as any;
@@ -276,10 +312,11 @@ const FireMeditationScreen: React.FC = () => {
                 pointerEvents: 'none', // Prevent clicking the video to pause
             }}>
                 <iframe
+                    key={meditationThemes[currentIndex].vid}  /* Ensure iframe completely replaces on change */
                     width="100%"
                     height="100%"
-                    src={`https://www.youtube.com/embed/L_LUpnjgPso?autoplay=1&loop=1&mute=${isMuted ? 1 : 0}&controls=0&showinfo=0&rel=0&iv_load_policy=3&playlist=L_LUpnjgPso`}
-                    title="4K Fireplace Background"
+                    src={`https://www.youtube.com/embed/${meditationThemes[currentIndex].vid}?autoplay=1&loop=1&mute=${isMuted ? 1 : 0}&controls=0&showinfo=0&rel=0&iv_load_policy=3&playlist=${meditationThemes[currentIndex].vid}`}
+                    title="4K Fire Background"
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowFullScreen
@@ -307,7 +344,7 @@ const FireMeditationScreen: React.FC = () => {
                 {/* 1. Status Text */}
                 <div style={{ pointerEvents: 'none', textAlign: 'right' }}>
                     <span style={{ fontSize: '0.8rem', color: '#ff8c00', letterSpacing: '2px', opacity: 0.8, fontWeight: 500 }}>
-                        불멍 명상 | 알파파 동기화 (10Hz)
+                        불멍 명상 | {meditationThemes[currentIndex].name}
                     </span>
                 </div>
 

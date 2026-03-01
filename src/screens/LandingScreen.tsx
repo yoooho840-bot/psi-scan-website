@@ -393,12 +393,12 @@ export default function LandingScreen() {
                             <div style={{ background: 'var(--color-blue-mystic)', padding: '12px', borderRadius: '50%', color: '#FFF' }}><Wind size={28} /></div>
                             <h3 style={{ fontSize: '1.8rem', color: '#FFF', margin: 0 }}>Healing Zone</h3>
                         </div>
-                        <p style={{ color: 'var(--color-text-secondary)', fontSize: '1.1rem', marginBottom: '30px' }}>지친 영혼을 보듬어 주는 주파수 테라피. 당신에게 부족한 파동을 채워 온전한 평온을 선사합니다.</p>
+                        <p style={{ color: 'var(--color-text-secondary)', fontSize: '1.1rem', marginBottom: '30px' }}>지친 영혼을 보듬어 주는 파동 테라피. 당신에게 부족한 파동을 채워 온전한 평온을 선사합니다.</p>
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
                             <div className="glass-card" style={{ padding: '25px', textAlign: 'center' }}>
                                 <Volume2 color="var(--color-blue-mystic)" size={32} style={{ margin: '0 auto 15px' }} />
                                 <h4 style={{ color: '#FFF', marginBottom: '10px' }}>사운드 힐링 (싱잉볼)</h4>
-                                <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', margin: 0 }}>뇌신경 완화 체감 주파수</p>
+                                <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', margin: 0 }}>뇌신경 완화 체감 파동</p>
                             </div>
                             <div className="glass-card" style={{ padding: '25px', textAlign: 'center' }}>
                                 <Sparkles color="#ff6600" size={32} style={{ margin: '0 auto 15px' }} />
@@ -424,12 +424,12 @@ export default function LandingScreen() {
                             <div className="glass-card" style={{ padding: '25px', textAlign: 'center' }}>
                                 <BrainCircuit color="#ec4899" size={32} style={{ margin: '0 auto 15px' }} />
                                 <h4 style={{ color: '#FFF', marginBottom: '10px' }}>파동 타로</h4>
-                                <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', margin: 0 }}>무의식 주파수 공명 드로우</p>
+                                <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', margin: 0 }}>무의식 파동 공명 드로우</p>
                             </div>
                             <div className="glass-card" style={{ padding: '25px', textAlign: 'center' }}>
                                 <Compass color="#ec4899" size={32} style={{ margin: '0 auto 15px' }} />
                                 <h4 style={{ color: '#FFF', marginBottom: '10px' }}>마음 일기</h4>
-                                <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', margin: 0 }}>매일의 감정 주파수 시각화</p>
+                                <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', margin: 0 }}>매일의 감정 파동 시각화</p>
                             </div>
                             <div className="glass-card" style={{ padding: '25px', textAlign: 'center' }}>
                                 <Network color="#ec4899" size={32} style={{ margin: '0 auto 15px' }} />
@@ -470,21 +470,21 @@ export default function LandingScreen() {
                         <Volume2 color="var(--color-gold-main)" size={40} style={{ marginBottom: '20px' }} />
                         <h3 style={{ marginBottom: '15px', fontSize: '1.4rem', color: 'var(--color-text-primary)' }}>Acoustic Entrainment</h3>
                         <p style={{ color: 'var(--color-text-secondary)', fontSize: '1rem', lineHeight: 1.6, wordBreak: 'keep-all', wordWrap: 'break-word' }}>
-                            6Hz 테타파 바이노럴 비트와 솔페지오 주파수의 결합을 통해 깊은 명상 상태를 경험하게 하며, 스트레스 완화와 깊은 휴식에 도움을 줍니다.
+                            6Hz 테타파 바이노럴 비트와 솔페지오 파동의 결합을 통해 깊은 명상 상태를 경험하게 하며, 스트레스 완화와 깊은 휴식에 도움을 줍니다.
                         </p>
                     </div>
                     <div className="glass-card" style={{ padding: '40px' }}>
                         <Sparkles color="var(--color-gold-main)" size={40} style={{ marginBottom: '20px' }} />
                         <h3 style={{ marginBottom: '15px', fontSize: '1.4rem', color: 'var(--color-text-primary)' }}>Energy Color Coding</h3>
                         <p style={{ color: 'var(--color-text-secondary)', fontSize: '1rem', lineHeight: 1.6, wordBreak: 'keep-all', wordWrap: 'break-word' }}>
-                            256색 주파수 스윕으로 개인의 에너지 결핍을 식별하고, 특정 파장의 빛(Photon) 공명을 통해 신체 생체장을 재배열합니다.
+                            256색 파동 스윕으로 개인의 에너지 결핍을 식별하고, 특정 파장의 빛(Photon) 공명을 통해 신체 생체장을 재배열합니다.
                         </p>
                     </div>
                     <div className="glass-card" style={{ padding: '40px' }}>
                         <Shield color="var(--color-gold-main)" size={40} style={{ marginBottom: '20px' }} />
                         <h3 style={{ marginBottom: '15px', fontSize: '1.4rem', color: 'var(--color-text-primary)' }}>Vagal Stability</h3>
                         <p style={{ color: 'var(--color-text-secondary)', fontSize: '1rem', lineHeight: 1.6, wordBreak: 'keep-all', wordWrap: 'break-word' }}>
-                            432Hz 주파수 사운드는 마음의 안정을 돕는 편안한 환경을 조성하며, 몸과 마음의 밸런스를 회복하고 일상의 활력을 되찾는 데 도움을 줍니다.
+                            432Hz 파동 사운드는 마음의 안정을 돕는 편안한 환경을 조성하며, 몸과 마음의 밸런스를 회복하고 일상의 활력을 되찾는 데 도움을 줍니다.
                         </p>
                     </div>
                 </div>

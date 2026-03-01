@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Sparkles, HeartPulse, Zap, Users, Share2, ScanFace, CheckCircle2, Image as ImageIcon } from 'lucide-react';
+import { ArrowLeft, Sparkles, HeartPulse, Zap, Users, Share2, ScanFace, CheckCircle2, Image as ImageIcon, MessageCircle, BarChart as BarChartIcon, Target, BrainCircuit } from 'lucide-react';
+import { tarotDeck, type TarotCard } from '../data/tarotData';
 
 const DualScanScreen = () => {
     const navigate = useNavigate();
@@ -17,6 +18,13 @@ const DualScanScreen = () => {
     const [scanProgress, setScanProgress] = useState(0);
     const [compatibility, setCompatibility] = useState<number | null>(null);
     const [elements, setElements] = useState({ element1: '', element2: '' });
+    const [drawnCards, setDrawnCards] = useState<TarotCard[]>([]);
+    const [dimensionScores, setDimensionScores] = useState({
+        spiritual: 0,
+        emotional: 0,
+        intellectual: 0,
+        physical: 0
+    });
     const videoRef = useRef<HTMLVideoElement>(null);
     const imageRef = useRef<HTMLImageElement>(null);
 
@@ -73,6 +81,19 @@ const DualScanScreen = () => {
             element1: elementTypes[Math.floor(Math.random() * elementTypes.length)],
             element2: elementTypes[Math.floor(Math.random() * elementTypes.length)]
         });
+
+        // Generate multi-dimensional scores
+        setDimensionScores({
+            spiritual: Math.floor(Math.random() * 40) + 60,
+            emotional: Math.floor(Math.random() * 40) + 60,
+            intellectual: Math.floor(Math.random() * 40) + 60,
+            physical: Math.floor(Math.random() * 40) + 60
+        });
+
+        // Draw 4 Tarot Cards automatically
+        const shuffled = [...tarotDeck].sort(() => 0.5 - Math.random());
+        setDrawnCards(shuffled.slice(0, 4));
+
         setStep(4);
     };
 
@@ -136,8 +157,8 @@ const DualScanScreen = () => {
                     <ArrowLeft size={24} />
                 </button>
                 <div style={{ textAlign: 'center' }}>
-                    <h2 style={{ fontSize: '1.2rem', margin: 0, color: '#38bdf8', letterSpacing: '4px', fontWeight: 'bold' }}>ENERGY SYNCHRONIZATION</h2>
-                    <p style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)', margin: 0, letterSpacing: '2px' }}>파동 듀얼 스캔</p>
+                    <h2 style={{ fontSize: '1.2rem', margin: 0, color: '#38bdf8', letterSpacing: '4px', fontWeight: 'bold' }}>TAROT DUAL SCAN</h2>
+                    <p style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)', margin: 0, letterSpacing: '2px' }}>타로 듀얼 스캔</p>
                 </div>
                 <div style={{ width: '44px' }}></div> {/* Spacer */}
             </div>
@@ -152,7 +173,7 @@ const DualScanScreen = () => {
                         </div>
                         <h1 style={{ fontSize: '2rem', marginBottom: '10px', fontWeight: 'bold' }}>타겟 파동 좌표 설정</h1>
                         <p style={{ color: 'var(--color-text-secondary)', fontSize: '1rem', lineHeight: 1.6, marginBottom: '40px', wordBreak: 'keep-all' }}>
-                            에너지 동기화(Energy Synchronization) 분석을 위해<br />동기화할 대상의 주파수 좌표를 정확히 입력해주세요.
+                            에너지 동기화(Energy Synchronization) 분석을 위해<br />동기화할 대상의 파동 좌표를 정확히 입력해주세요.
                         </p>
 
                         <form onSubmit={handleFormSubmit} style={{ background: 'rgba(20,20,30,0.5)', padding: '30px', borderRadius: '20px', border: '1px solid rgba(56, 189, 248, 0.2)', boxShadow: '0 10px 30px rgba(0,0,0,0.3)' }}>
@@ -221,7 +242,7 @@ const DualScanScreen = () => {
                                 </ul>
                             ) : (
                                 <p style={{ color: 'var(--color-text-secondary)', lineHeight: 1.8, marginBottom: '30px', fontSize: '0.95rem', textAlign: 'left', wordBreak: 'keep-all' }}>
-                                    "단순한 사진 한 장에도 두 사람만의 고유한 <b>에너지 주파수(Psi)</b>가 홀로그램처럼 새겨져 있습니다.<br /><br />
+                                    "단순한 사진 한 장에도 두 사람만의 고유한 <b>에너지 파동(Psi)</b>가 홀로그램처럼 새겨져 있습니다.<br /><br />
                                     사진을 스캔하는 순간, 시공간을 초월하여 두 사람의 파동이 얽혀있는(Entangled) 깊은 시너지가 분석됩니다."<br /><br />
                                     두 사람이 함께 있는 사진이나, 서로의 사진이 모두 포함된 이미지를 업로드하세요.
                                 </p>
@@ -337,54 +358,146 @@ const DualScanScreen = () => {
                     </div>
                 )}
 
-                {/* STEP 4: Result */}
+                {/* STEP 4: Comprehensive Multi-dimensional Result */}
                 {step === 4 && compatibility && (
-                    <div style={{ animation: 'zoomIn 0.8s ease' }}>
-                        <h1 style={{ fontSize: '2rem', marginBottom: '5px', background: 'linear-gradient(90deg, #38bdf8, #818cf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                            에너지 호환성 테스트 결과
-                        </h1>
-                        <p style={{ color: 'var(--color-text-muted)', marginBottom: '30px' }}>두 사람의 에너지 파동이 만났을 때...</p>
+                    <div style={{ animation: 'zoomIn 0.8s ease', maxWidth: '900px', margin: '0 auto' }}>
 
-                        <div style={{ position: 'relative', width: '220px', height: '220px', margin: '0 auto 40px' }}>
-                            <div style={{ position: 'absolute', inset: 10, background: 'var(--color-bg-panel)', borderRadius: '50%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', zIndex: 2, border: '2px solid rgba(255,255,255,0.1)' }}>
-                                <HeartPulse size={30} color="#38bdf8" style={{ marginBottom: '10px' }} />
-                                <span style={{ fontSize: '3.5rem', fontWeight: 800, lineHeight: 1 }}>{compatibility}%</span>
-                                <span style={{ fontSize: '0.8rem', color: '#94a3b8', letterSpacing: '2px', marginTop: '8px' }}>RESONANCE</span>
-                            </div>
-                            <div style={{ position: 'absolute', inset: 0, border: '2px dashed #38bdf8', borderRadius: '50%', opacity: 0.5, animation: 'spin 10s linear infinite' }} />
-                            <div style={{ position: 'absolute', inset: -15, border: '2px dashed #818cf8', borderRadius: '50%', opacity: 0.3, animation: 'spin 15s linear infinite reverse' }} />
-                        </div>
-
-                        <div style={{ background: 'rgba(255,255,255,0.03)', padding: '25px', borderRadius: '20px', border: '1px solid rgba(56, 189, 248, 0.2)', marginBottom: '30px' }}>
-                            <h3 style={{ margin: '0 0 20px 0', fontSize: '1.2rem', color: '#FFF' }}>에너지 시너지 요약</h3>
-                            <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
-                                <div style={{ textAlign: 'center' }}>
-                                    <div style={{ color: '#FFF', fontSize: '0.8rem', marginBottom: '8px', opacity: 0.7 }}>본인(Host)</div>
-                                    <div style={{ fontWeight: 'bold', fontSize: '1.1rem', color: '#38bdf8' }}>{elements.element1}</div>
-                                </div>
-                                <Zap size={24} color="#fbbf24" style={{ animation: 'pulse 2s infinite' }} />
-                                <div style={{ textAlign: 'center' }}>
-                                    <div style={{ color: '#FFF', fontSize: '0.8rem', marginBottom: '8px', opacity: 0.7 }}>{partnerName}(Target)</div>
-                                    <div style={{ fontWeight: 'bold', fontSize: '1.1rem', color: '#818cf8' }}>{elements.element2}</div>
-                                </div>
-                            </div>
-                            <p style={{ marginTop: '25px', fontSize: '1rem', color: 'var(--color-text-secondary)', lineHeight: 1.6, wordBreak: 'keep-all' }}>
-                                {compatibility >= 90 ? '영혼의 단짝 수준입니다. 서로의 부족한 파동을 완전히 채워주는 환상적인 공명 상태입니다.' :
-                                    compatibility >= 75 ? '매우 좋은 궁합입니다. 서로에게 긍정적인 스파크를 일으키는 조화로운 주파수입니다.' :
-                                        compatibility >= 60 ? '잔잔하고 무난한 관계입니다. 서로의 다름을 이해하기 위한 약간의 양자 조율이 필요합니다.' :
-                                            '상호 간섭 패턴이 강하게 충돌하고 있습니다. 관계 개선을 위해 서로의 주파수 파악과 깊은 이해가 절실히 요구되는 상태입니다.'}
+                        {/* Header Section */}
+                        <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+                            <h1 style={{ fontSize: '2.5rem', marginBottom: '10px', background: 'linear-gradient(90deg, #38bdf8, #818cf8, #fbbf24)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontWeight: 'bold' }}>
+                                듀얼 파동 역학 보고서
+                            </h1>
+                            <p style={{ color: 'var(--color-text-secondary)', fontSize: '1.1rem' }}>
+                                [{partnerName}]님과의 심층 에너지 호환성 분석이 완료되었습니다.
                             </p>
                         </div>
 
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', alignItems: 'center' }}>
-                            <button onClick={() => navigate('/dual-tarot', { state: { partnerName, compatibility } })} style={{ width: '100%', padding: '16px', borderRadius: '12px', background: 'linear-gradient(135deg, #f472b6, #818cf8)', color: '#FFF', border: 'none', fontSize: '1.2rem', fontWeight: 'bold', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', boxShadow: '0 5px 20px rgba(244,114,182,0.4)', transition: 'all 0.3s' }} onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'} onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
-                                <Sparkles size={22} /> [ {partnerName} ]님과의 듀얼 타로 매칭하기
+                        {/* Top: Core Resonance */}
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px', marginBottom: '40px' }}>
+                            {/* Resonance Score Circle */}
+                            <div className="glass-card" style={{ padding: '30px', borderRadius: '24px', border: '1px solid rgba(56, 189, 248, 0.3)', display: 'flex', flexDirection: 'column', alignItems: 'center', background: 'rgba(20, 20, 30, 0.6)', backdropFilter: 'blur(20px)' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
+                                    <HeartPulse size={24} color="#38bdf8" />
+                                    <h3 style={{ margin: 0, fontSize: '1.2rem', color: '#FFF' }}>종합 공명 지수 (Resonance Core)</h3>
+                                </div>
+                                <div style={{ position: 'relative', width: '200px', height: '200px', margin: '0 auto 20px' }}>
+                                    <div style={{ position: 'absolute', inset: 10, background: 'var(--color-bg-panel)', borderRadius: '50%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', zIndex: 2, border: '2px solid rgba(255,255,255,0.05)', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
+                                        <span style={{ fontSize: '4rem', fontWeight: 800, lineHeight: 1, color: '#FFF', textShadow: '0 0 20px rgba(56,189,248,0.5)' }}>{compatibility}%</span>
+                                    </div>
+                                    <div style={{ position: 'absolute', inset: 0, border: '4px solid #38bdf8', borderRadius: '50%', borderTopColor: 'transparent', animation: 'spin 3s linear infinite' }} />
+                                    <div style={{ position: 'absolute', inset: -15, border: '2px dashed #818cf8', borderRadius: '50%', opacity: 0.5, animation: 'spin 15s linear infinite reverse' }} />
+                                </div>
+                            </div>
+
+                            {/* Multi-Dimensional Analytics Line Bars */}
+                            <div className="glass-card" style={{ padding: '30px', borderRadius: '24px', border: '1px solid rgba(129, 140, 248, 0.3)', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: 'rgba(20, 20, 30, 0.6)', backdropFilter: 'blur(20px)' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '25px' }}>
+                                    <BarChartIcon size={24} color="#818cf8" />
+                                    <h3 style={{ margin: 0, fontSize: '1.2rem', color: '#FFF' }}>다각적 차원 분석 (Dimension Sync)</h3>
+                                </div>
+
+                                {[
+                                    { label: '영적 연결 (Spiritual Sync)', val: dimensionScores.spiritual, color: '#c084fc' },
+                                    { label: '감정 동기화 (Emotional Sync)', val: dimensionScores.emotional, color: '#f472b6' },
+                                    { label: '지적 교감 (Intellectual Sync)', val: dimensionScores.intellectual, color: '#38bdf8' },
+                                    { label: '물리적 에너지 (Physical Sync)', val: dimensionScores.physical, color: '#4ade80' }
+                                ].map((dim, i) => (
+                                    <div key={i} style={{ marginBottom: '15px' }}>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px', fontSize: '0.9rem', color: '#E2E8F0', fontWeight: 'bold' }}>
+                                            <span>{dim.label}</span>
+                                            <span style={{ color: dim.color }}>{dim.val}%</span>
+                                        </div>
+                                        <div style={{ width: '100%', height: '8px', background: 'rgba(255,255,255,0.1)', borderRadius: '4px', overflow: 'hidden' }}>
+                                            <div style={{ width: `${dim.val}%`, height: '100%', background: dim.color, borderRadius: '4px', boxShadow: `0 0 10px ${dim.color}` }}></div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Middle: Synergy Interpretation */}
+                        <div className="glass-card" style={{ background: 'rgba(25, 25, 35, 0.8)', padding: '35px', borderRadius: '24px', border: '1px solid rgba(251, 191, 36, 0.3)', marginBottom: '40px', textAlign: 'left' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '25px' }}>
+                                <BrainCircuit size={26} color="#fbbf24" />
+                                <h3 style={{ margin: 0, fontSize: '1.3rem', color: '#FFF' }}>에너지 원소 및 간섭 패턴</h3>
+                            </div>
+
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', alignItems: 'center', marginBottom: '25px', background: 'rgba(0,0,0,0.3)', padding: '20px', borderRadius: '16px' }}>
+                                <div style={{ flex: 1, textAlign: 'center' }}>
+                                    <div style={{ color: '#94a3b8', fontSize: '0.9rem', marginBottom: '8px' }}>나의 본질 주파수</div>
+                                    <div style={{ fontWeight: 'bold', fontSize: '1.3rem', color: '#38bdf8', textShadow: '0 0 10px rgba(56, 189, 248, 0.5)' }}>{elements.element1}</div>
+                                </div>
+                                <div style={{ padding: '10px', background: 'rgba(251, 191, 36, 0.1)', borderRadius: '50%' }}>
+                                    <Zap size={28} color="#fbbf24" style={{ animation: 'pulse 2s infinite' }} />
+                                </div>
+                                <div style={{ flex: 1, textAlign: 'center' }}>
+                                    <div style={{ color: '#94a3b8', fontSize: '0.9rem', marginBottom: '8px' }}>[{partnerName}]님의 주파수</div>
+                                    <div style={{ fontWeight: 'bold', fontSize: '1.3rem', color: '#818cf8', textShadow: '0 0 10px rgba(129, 140, 248, 0.5)' }}>{elements.element2}</div>
+                                </div>
+                            </div>
+
+                            <h4 style={{ color: '#FFF', marginBottom: '10px', fontSize: '1.1rem' }}>패턴 분석 결과:</h4>
+                            <p style={{ fontSize: '1.05rem', color: 'var(--color-text-secondary)', lineHeight: 1.8, wordBreak: 'keep-all', margin: 0 }}>
+                                {compatibility >= 90 ? '영혼의 단짝 수준입니다. 두 원소가 기막힌 조화를 이루며 서로의 부족한 파동을 완전히 채워주는 환상적인 конструк(건설적) 간섭 상태입니다.' :
+                                    compatibility >= 75 ? '매우 좋은 궁합입니다. 서로에게 긍정적인 스파크를 일으키며 성장을 돕는 조화로운 파동 얽힘을 보여줍니다.' :
+                                        compatibility >= 60 ? '안정적이지만 섬세한 조율이 필요한 관계입니다. 양측이 주파수를 맞추기 위해 상호 배려와 커뮤니케이션 양자 튜닝이 요구됩니다.' :
+                                            '상호 간섭 패턴이 주기적으로 충돌(Destructive Interference)하고 있습니다. 관계 개선을 위해 깊은 내면의 상처 치유와 서로의 파동 형질에 대한 극적인 이해가 절실히 요구되는 상태입니다.'}
+                            </p>
+                        </div>
+
+                        {/* Cards: Dual Tarot Oracle reading integrated */}
+                        {drawnCards.length === 4 && (
+                            <div className="glass-card" style={{ padding: '40px 30px', borderRadius: '24px', border: '1px solid rgba(244, 114, 182, 0.3)', marginBottom: '40px', background: 'rgba(20, 20, 30, 0.6)' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '30px', justifyContent: 'center' }}>
+                                    <Target size={28} color="#f472b6" />
+                                    <h3 style={{ margin: 0, fontSize: '1.5rem', color: '#FFF' }}>듀얼 타로 오라클 리딩</h3>
+                                </div>
+                                <p style={{ textAlign: 'center', color: '#94a3b8', marginBottom: '40px', fontSize: '1rem' }}>
+                                    양자 난수(Quantum RNG) 추출을 통해 동기화된 두 사람의 에너지 궤적입니다.
+                                </p>
+
+                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
+                                    {[
+                                        { title: '나의 현재 파동', card: drawnCards[0], color: '#38bdf8' },
+                                        { title: '상대의 무의식', card: drawnCards[1], color: '#818cf8' },
+                                        { title: '현재의 얽힘', card: drawnCards[2], color: '#fbbf24' },
+                                        { title: '관계의 미래 역학', card: drawnCards[3], color: '#f472b6' }
+                                    ].map((item, idx) => (
+                                        <div key={idx} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', background: 'rgba(0,0,0,0.4)', padding: '20px', borderRadius: '16px', border: `1px solid ${item.color}40`, transition: 'transform 0.3s' }} onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-5px)'} onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
+                                            <div style={{ color: item.color, fontSize: '0.9rem', fontWeight: 'bold', marginBottom: '15px', padding: '5px 10px', background: `${item.color}15`, borderRadius: '20px' }}>
+                                                {item.title}
+                                            </div>
+                                            <div style={{ width: '120px', height: '180px', borderRadius: '8px', overflow: 'hidden', border: `2px solid ${item.color}`, marginBottom: '15px' }}>
+                                                <img src={`/assets/tarot/${item.card.imgFileName}`} alt={item.card.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                            </div>
+                                            <div style={{ textAlign: 'center' }}>
+                                                <h4 style={{ color: '#FFF', margin: '0 0 5px 0', fontSize: '1.1rem' }}>{item.card.name}</h4>
+                                                <p style={{ color: '#94a3b8', fontSize: '0.8rem', lineHeight: 1.5, margin: 0, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                                                    {item.card.description}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Prominent Action Buttons */}
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center', maxWidth: '600px', margin: '0 auto' }}>
+                            <button
+                                onClick={() => navigate('/chat', { state: { tarotCards: drawnCards, partnerName, compatibility, context: 'dual_tarot' } })}
+                                style={{ width: '100%', padding: '20px', borderRadius: '16px', background: 'linear-gradient(135deg, #10b981, #059669)', color: '#FFF', border: '1px solid #34d399', fontSize: '1.3rem', fontWeight: 'bold', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', boxShadow: '0 10px 30px rgba(16, 185, 129, 0.4)', transition: 'all 0.3s' }}
+                                onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 15px 40px rgba(16, 185, 129, 0.6)'; }}
+                                onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 10px 30px rgba(16, 185, 129, 0.4)'; }}
+                            >
+                                <MessageCircle size={28} /> AI 가이드와 이 결과 심층 상담하기
                             </button>
+
                             <div style={{ display: 'flex', gap: '15px', justifyContent: 'center', width: '100%' }}>
-                                <button onClick={() => { setStep(0); setCompatibility(null); }} style={{ padding: '16px', borderRadius: '12px', background: 'transparent', color: '#fff', border: '1px solid rgba(255,255,255,0.2)', fontSize: '1.1rem', cursor: 'pointer', flex: 1, transition: 'all 0.3s' }} onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.05)'} onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}>
-                                    새로운 파동 스캔
+                                <button onClick={() => { setStep(0); setCompatibility(null); setDrawnCards([]); }} style={{ padding: '16px', borderRadius: '12px', background: 'transparent', color: '#fff', border: '1px solid rgba(255,255,255,0.2)', fontSize: '1.1rem', cursor: 'pointer', flex: 1, transition: 'all 0.3s' }} onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.05)'} onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}>
+                                    처음으로 돌아가기
                                 </button>
-                                <button style={{ padding: '16px', borderRadius: '12px', background: 'linear-gradient(135deg, #0ea5e9, #3b82f6)', color: '#FFF', border: 'none', fontSize: '1.1rem', fontWeight: 'bold', cursor: 'pointer', flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', boxShadow: '0 5px 15px rgba(56,189,248,0.3)', transition: 'all 0.3s' }} onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'} onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
+                                <button style={{ padding: '16px', borderRadius: '12px', background: 'rgba(56, 189, 248, 0.1)', color: '#38bdf8', border: '1px solid #38bdf8', fontSize: '1.1rem', fontWeight: 'bold', cursor: 'pointer', flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', transition: 'all 0.3s' }} onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(56, 189, 248, 0.2)'; e.currentTarget.style.transform = 'translateY(-2px)' }} onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(56, 189, 248, 0.1)'; e.currentTarget.style.transform = 'translateY(0)' }}>
                                     <Share2 size={20} /> 결과 공유
                                 </button>
                             </div>

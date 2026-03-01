@@ -37,7 +37,7 @@ export const dimensionData: Record<string, DimensionData> = {
             {
                 type: 'action',
                 title: '에너지 튜닝 가이드',
-                content: '오라장이 탁해지거나 깨진 부분이 있다면, 자연 속에서의 그라운딩(Grounding) 명상이나 432Hz 주파수 사운드 테라피를 통해 전자기장의 균형을 즉각적으로 회복할 수 있습니다.'
+                content: '오라장이 탁해지거나 깨진 부분이 있다면, 자연 속에서의 그라운딩(Grounding) 명상이나 432Hz 파동 사운드 테라피를 통해 전자기장의 균형을 즉각적으로 회복할 수 있습니다.'
             }
         ]
     },
@@ -117,8 +117,8 @@ export const dimensionData: Record<string, DimensionData> = {
             },
             {
                 type: 'action',
-                title: '에너지 주파수 튜닝',
-                content: '고갈된 생명력의 파동을 보존하고 끌어올려야 합니다. 내면의 밸런스를 회복하는 고주파수 오디오 테라피와 함께 휴식을 취하는 것을 강력히 권장합니다.'
+                title: '에너지 파동 튜닝',
+                content: '고갈된 생명력의 파동을 보존하고 끌어올려야 합니다. 내면의 밸런스를 회복하는 고파동 오디오 테라피와 함께 휴식을 취하는 것을 강력히 권장합니다.'
             }
         ]
     },
@@ -211,7 +211,7 @@ export const dimensionData: Record<string, DimensionData> = {
         color: '#F97F51', // Orange
         sections: [
             { type: 'definition', title: '경락 시스템', content: '동양의학의 핵심인 인체를 흐르는 기(에너지)의 통로입니다. 미세한 전류 파동을 분석하여 어느 장부(간, 심장, 비장 등)의 에너지가 울체되었는지 스캔합니다.' },
-            { type: 'action', title: '흐름 회복', content: '울체된 경락의 포인트에 맞는 특정 주파수의 소리 파동이나 지압(Acupressure)을 통해 체성 에너지 네트워크를 재가동시켜야 합니다.' }
+            { type: 'action', title: '흐름 회복', content: '울체된 경락의 포인트에 맞는 특정 파동의 소리 파동이나 지압(Acupressure)을 통해 체성 에너지 네트워크를 재가동시켜야 합니다.' }
         ]
     },
     voice: {
@@ -221,7 +221,7 @@ export const dimensionData: Record<string, DimensionData> = {
         color: '#58B19F', // Teal
         sections: [
             { type: 'definition', title: '보이스 바이오마커', content: '목소리의 미세한 떨림(Jitter), 진폭(Shimmer)을 통해 5차크라의 상태와 무의식에 억눌린 트라우마, 자율신경계 긴장도를 입체적으로 도출합니다.' },
-            { type: 'action', title: '사운드 테라피', content: '자신의 음성을 녹음하여 특정 주파수로 변조한 힐링 사운드를 청취하여 성대와 뇌신경의 텐션을 역으로 이완시킵니다.' }
+            { type: 'action', title: '사운드 테라피', content: '자신의 음성을 녹음하여 특정 파동로 변조한 힐링 사운드를 청취하여 성대와 뇌신경의 텐션을 역으로 이완시킵니다.' }
         ]
     },
     facial_micro: {
@@ -240,8 +240,8 @@ export const dimensionData: Record<string, DimensionData> = {
         subtitle: 'Quantum Entanglement & Healing',
         color: '#1B9CFC', // Bright Blue
         sections: [
-            { type: 'definition', title: '파동 동조 원리', content: '만물은 고유의 진동수를 가집니다. 손상된 세포나 왜곡된 감정에 정상적이고 건강한 자연의 주파수를 쏘아 보내어 본연의 리듬을 되찾게 하는 양자의학의 핵심 섹터입니다.' },
-            { type: 'action', title: '주파수 매칭', content: '스캔을 통해 도출된 당신의 결핍 주파수를 채워줄 맞춤형 바이노럴 비트(Binaural Beats)와 컬러 테라피를 가이드 받으세요.' }
+            { type: 'definition', title: '파동 동조 원리', content: '만물은 고유의 진동수를 가집니다. 손상된 세포나 왜곡된 감정에 정상적이고 건강한 자연의 파동를 쏘아 보내어 본연의 리듬을 되찾게 하는 양자의학의 핵심 섹터입니다.' },
+            { type: 'action', title: '파동 매칭', content: '스캔을 통해 도출된 당신의 결핍 파동를 채워줄 맞춤형 바이노럴 비트(Binaural Beats)와 컬러 테라피를 가이드 받으세요.' }
         ]
     },
     consciousness: {
@@ -251,7 +251,7 @@ export const dimensionData: Record<string, DimensionData> = {
         color: '#FFF200', // Bright Yellow
         sections: [
             { type: 'definition', title: '의식 수준 척도', content: '데이비드 호킨스 박사의 지표를 기반으로, 당신의 현재 에너지 장이 어느 의식의 층위(수치심 20 ~ 평화 600, 깨달음 1000)를 방사하고 있는지 정밀하게 측정합니다.' },
-            { type: 'action', title: '주파수 점프 (Quantum Leap)', content: '부정적 파동(두려움, 분노)에서 긍정적 파동(용기, 수용, 사랑)으로 의식을 전환하기 위한 데일리 확언과 무의식 정화 프로그램을 수립합니다.' }
+            { type: 'action', title: '파동 점프 (Quantum Leap)', content: '부정적 파동(두려움, 분노)에서 긍정적 파동(용기, 수용, 사랑)으로 의식을 전환하기 위한 데일리 확언과 무의식 정화 프로그램을 수립합니다.' }
         ]
     }
 };

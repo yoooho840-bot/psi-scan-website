@@ -157,7 +157,7 @@ const HealingPlayer: React.FC<HealingPlayerProps> = ({ baseHz, therapyName, onCl
                 minWidth: '200px', justifyContent: 'center'
             }}>
                 {isPlaying ? <Pause size={20} /> : <Play size={20} fill="currentColor" />}
-                {isPlaying ? '주파수 재생 중지' : '힐링 주파수 재생 시작'}
+                {isPlaying ? '파동 재생 중지' : '힐링 파동 재생 시작'}
             </button>
         </div>
     );

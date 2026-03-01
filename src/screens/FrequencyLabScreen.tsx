@@ -10,9 +10,9 @@ const SOLFEGGIO_FREQS = [
     { hz: 285, name: '285Hz 세포 재생', desc: '손상된 에너지 필드와 조직을 재구성합니다.' },
     { hz: 396, name: '396Hz 두려움 해방', desc: '슬픔과 죄책감을 긍정의 파동으로 바꿉니다.' },
     { hz: 417, name: '417Hz 트라우마 정화', desc: '과거의 상처를 지우고 새로운 변화를 유도합니다.' },
-    { hz: 432, name: '432Hz 미주신경 안정', desc: '자연의 기본 주파수로 교감신경을 이완시킵니다.' },
+    { hz: 432, name: '432Hz 미주신경 안정', desc: '자연의 기본 파동로 교감신경을 이완시킵니다.' },
     { hz: 528, name: '528Hz 기적의 DNA 복구', desc: '세포 단위의 긍정적 변형과 기적을 부릅니다.' },
-    { hz: 639, name: '639Hz 관계의 조화', desc: '주변 사람들과의 주파수를 공명시켜 줍니다.' },
+    { hz: 639, name: '639Hz 관계의 조화', desc: '주변 사람들과의 파동를 공명시켜 줍니다.' },
     { hz: 741, name: '741Hz 직관력 각성', desc: '독소를 배출하고 직관적 해결책을 제시합니다.' },
     { hz: 852, name: '852Hz 영적 질서', desc: '사물을 바라보는 명확한 통찰력을 줍니다.' },
     { hz: 963, name: '963Hz 송과체 활성화', desc: '가장 높은 차원의 영적 파동과 연결됩니다.' }
@@ -278,8 +278,8 @@ const FrequencyLabScreen: React.FC = () => {
                         사운드 힐링 (공명)
                     </h1>
                     <p style={{ color: '#eee', fontSize: '1.1rem', lineHeight: 1.6, marginBottom: '30px', wordBreak: 'keep-all', wordWrap: 'break-word', fontWeight: 300 }}>
-                        나를 치유하는 10가지 솔페지오 주파수와 마스터 주파수를 통해 에너지 필드의 <b>불균형을 조율</b>합니다.<br /><br />
-                        조용한 환경에서 이어폰을 착용하고, 자신에게 가장 필요한 주파수를 찾아 깊은 이완 상태를 경험해 보세요.
+                        나를 치유하는 10가지 솔페지오 파동와 마스터 파동를 통해 에너지 필드의 <b>불균형을 조율</b>합니다.<br /><br />
+                        조용한 환경에서 이어폰을 착용하고, 자신에게 가장 필요한 파동를 찾아 깊은 이완 상태를 경험해 보세요.
                     </p>
 
                     <button onClick={handleStart} style={{
@@ -288,7 +288,7 @@ const FrequencyLabScreen: React.FC = () => {
                         fontSize: '1.2rem', fontWeight: 600, letterSpacing: '2px', cursor: 'pointer',
                         boxShadow: '0 10px 30px rgba(218,165,32,0.2)', transition: 'all 0.3s'
                     }} onMouseOver={e => { e.currentTarget.style.transform = 'translateY(-3px)'; }} onMouseOut={e => { e.currentTarget.style.transform = 'none'; }}>
-                        주파수 공명 시작하기
+                        파동 공명 시작하기
                     </button>
                     <button onClick={() => navigate(-1)} style={{ background: 'none', border: 'none', color: '#888', marginTop: '20px', cursor: 'pointer', display: 'block', margin: '20px auto 0 auto', letterSpacing: '2px', fontSize: '1rem', transition: 'color 0.3s' }} onMouseOver={e => e.currentTarget.style.color = '#fff'} onMouseOut={e => e.currentTarget.style.color = '#888'}>
                         뒤로가기
@@ -338,7 +338,7 @@ const FrequencyLabScreen: React.FC = () => {
                     </h2>
                 </div>
                 <p style={{ position: 'absolute', bottom: '20px', color: '#AAA', fontSize: '0.9rem', margin: 0 }}>
-                    {isPlaying ? activeItem?.name : '주파수를 선택하세요'}
+                    {isPlaying ? activeItem?.name : '파동를 선택하세요'}
                 </p>
             </div>
 
@@ -381,7 +381,7 @@ const FrequencyLabScreen: React.FC = () => {
 
             {/* Frequencies List */}
             <div style={{ padding: '20px 24px' }}>
-                <h3 style={{ color: '#888', fontSize: '0.85rem', marginBottom: '15px', textTransform: 'uppercase', letterSpacing: '1px' }}>솔페지오 & 마스터 주파수</h3>
+                <h3 style={{ color: '#888', fontSize: '0.85rem', marginBottom: '15px', textTransform: 'uppercase', letterSpacing: '1px' }}>솔페지오 & 마스터 파동</h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                     {SOLFEGGIO_FREQS.map(freq => {
                         const isActive = activeHz === freq.hz && isPlaying;

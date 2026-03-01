@@ -59,17 +59,30 @@ const AccurateAnalysisScreen: React.FC = () => {
             };
 
             try {
-                // Call actual Vercel Serverless Function (OpenAI)
-                const res = await fetch('/api/analyze', {
+                // SEC-005 & SEC-006: Call actual secure backend API instead of mock
+                const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
+                const res = await fetch(`${apiUrl}/api/scan/analyze`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ bioSeeds, scanMode: 'camera', surveyData })
+                    body: JSON.stringify({
+                        bioSeeds,
+                        contextInfo: "웹 환경 데스크탑 파동 분석"
+                    })
                 });
 
                 if (res.ok) {
-                    const data = await res.json();
-                    localStorage.setItem('final_scan_results', JSON.stringify(data));
-                    setScanResult(data.kingpinResult);
+                    const jsonRes = await res.json();
+                    if (jsonRes.success && jsonRes.data) {
+                        // Store the REAL data from AI
+                        localStorage.setItem('final_scan_results', JSON.stringify(jsonRes.data));
+                        setScanResult({
+                            title: `에너지 응집도: ${jsonRes.data.coherenceScore || 80}%`,
+                            desc: `"${jsonRes.data.oracleInsight || '오라클과 파동이 동기화 되었습니다.'}"`
+                        });
+                    } else {
+                        throw new Error("Invalid response format");
+                    }
                 } else {
                     console.error("AI API Error, falling back to local engine:", await res.text());
                     runFallback();

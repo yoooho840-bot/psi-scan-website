@@ -455,12 +455,12 @@ const ElementalTherapyScreen: React.FC = () => {
                 <div style={{ opacity: tuningStage >= 1 ? 1 : 0, transition: 'opacity 2s ease', width: '100%', pointerEvents: 'none', display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
                     <div style={{ display: 'flex', gap: '15px', background: 'rgba(0,0,0,0.3)', padding: '12px 15px', borderRadius: '12px', backdropFilter: 'blur(5px)', border: '1px solid rgba(255,255,255,0.05)' }}>
                         <div>
-                            <p style={{ fontSize: '0.6rem', color: '#888', margin: '0 0 3px 0', letterSpacing: '1px' }}>기본 주파수</p>
+                            <p style={{ fontSize: '0.6rem', color: '#888', margin: '0 0 3px 0', letterSpacing: '1px' }}>기본 파동</p>
                             <p style={{ fontSize: '1.1rem', color: '#FFF', margin: 0, fontWeight: 500 }}>{prescription.targetFrequency1} Hz</p>
                         </div>
                         <div style={{ width: '1px', background: 'rgba(255,255,255,0.1)' }}></div>
                         <div>
-                            <p style={{ fontSize: '0.6rem', color: '#888', margin: '0 0 3px 0', letterSpacing: '1px' }}>화음 주파수</p>
+                            <p style={{ fontSize: '0.6rem', color: '#888', margin: '0 0 3px 0', letterSpacing: '1px' }}>화음 파동</p>
                             <p style={{ fontSize: '1.1rem', color: '#FFF', margin: 0, fontWeight: 500 }}>{prescription.targetFrequency2} Hz</p>
                         </div>
                     </div>

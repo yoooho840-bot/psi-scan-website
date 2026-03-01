@@ -5,6 +5,35 @@ import HealingPlayer from '../components/HealingPlayer';
 import { type TarotCard } from '../data/tarotData';
 import useAutoFullscreen from '../hooks/useAutoFullscreen';
 
+const SessionTimer: React.FC<{ isSessionExpired: boolean, onExpire: () => void }> = ({ isSessionExpired, onExpire }) => {
+    const [timeLeft, setTimeLeft] = useState(30 * 60);
+
+    useEffect(() => {
+        if (isSessionExpired) return;
+        const timer = setInterval(() => {
+            setTimeLeft(prev => {
+                if (prev <= 1) {
+                    clearInterval(timer);
+                    onExpire();
+                    return 0;
+                }
+                return prev - 1;
+            });
+        }, 1000);
+        return () => clearInterval(timer);
+    }, [isSessionExpired, onExpire]);
+
+    const formatTime = (seconds: number) => {
+        const m = Math.floor(seconds / 60);
+        const s = seconds % 60;
+        return `${m}:${s < 10 ? '0' : ''}${s}`;
+    };
+
+    if (isSessionExpired) return null;
+
+    return <span style={{ color: '#DAA520', fontWeight: 'bold' }}>({formatTime(timeLeft)})</span>;
+};
+
 const ChatScreen: React.FC = () => {
     const navigate = useNavigate();
     // Generate a random dynamic greeting
@@ -12,7 +41,7 @@ const ChatScreen: React.FC = () => {
         '당신의 고유한 생체 파동이 우주와 조화로운 공명을 찾고 있습니다. 관찰되는 에너지 블록은 단순한 피로가 아닌, 감각 너머에서 보내는 영혼의 구조 신호입니다. 지금 당신을 가장 무겁게 억누르는 파동은 무엇입니까?',
         '나마스테. 자율신경계(ANS) 스캔 결과, 당신의 육신이 끊임없이 투쟁-도피 모드에 매몰되어 있군요. 완벽함이라는 가면 뒤에서 질식하고 있는 당신의 참나(True Self)가 당신에게 어떤 말을 건네고 싶어 합니까?',
         '환영합니다. 당신의 아우라장 가슴 차크라 주변으로 무거운 그림자 에너지가 감지됩니다. 타인에게 쉽게 투사되던 분노나 결핍은 사실 당신 내면의 안전 기지가 흔들리고 있다는 증거입니다. 당신의 뿌리를 가장 먼저 돌보아야 합니다.',
-        '생체 파동 속에 미세하게 떨리는 불안의 진동수가 느껴집니다. 다미주신경 이론에 따르면 당신의 신경계는 지금도 전시 상황입니다. 기술과 영성이 만나는 이 자리에서, 당신의 주파수를 다시 정렬해 볼까요?'
+        '생체 파동 속에 미세하게 떨리는 불안의 진동수가 느껴집니다. 다미주신경 이론에 따르면 당신의 신경계는 지금도 전시 상황입니다. 기술과 영성이 만나는 이 자리에서, 당신의 파동를 다시 정렬해 볼까요?'
     ];
 
     const location = useLocation();
@@ -69,7 +98,6 @@ const ChatScreen: React.FC = () => {
     });
     const [input, setInput] = useState('');
     const [isPlaying, setIsPlaying] = useState(false);
-    const [timeLeft, setTimeLeft] = useState(30 * 60); // 30 minutes in seconds
     const [isSessionExpired, setIsSessionExpired] = useState(false);
     const [isTyping, setIsTyping] = useState(false);
     const [activeTherapy, setActiveTherapy] = useState<{ hz: number, name: string } | null>(null);
@@ -177,23 +205,6 @@ const ChatScreen: React.FC = () => {
         window.speechSynthesis.speak(utterance);
     };
 
-    useEffect(() => {
-        if (isSessionExpired) return;
-
-        const timer = setInterval(() => {
-            setTimeLeft(prev => {
-                if (prev <= 1) {
-                    clearInterval(timer);
-                    setIsSessionExpired(true);
-                    return 0;
-                }
-                return prev - 1;
-            });
-        }, 1000);
-
-        return () => clearInterval(timer);
-    }, [isSessionExpired]);
-
     React.useEffect(() => {
         if (isSessionExpired) {
             setMessages(prev => [...prev, {
@@ -204,12 +215,6 @@ const ChatScreen: React.FC = () => {
             }]);
         }
     }, [isSessionExpired]);
-
-    const formatTime = (seconds: number) => {
-        const m = Math.floor(seconds / 60);
-        const s = seconds % 60;
-        return `${m}:${s < 10 ? '0' : ''}${s}`;
-    };
 
     const handleSend = async (e: React.FormEvent, overrideInput?: string) => {
         e.preventDefault?.();
@@ -229,9 +234,12 @@ const ChatScreen: React.FC = () => {
 
             // Retrieve deterministic analysis results
             const rawAnalysis = localStorage.getItem('final_scan_results');
-            const analysisData = rawAnalysis ? JSON.parse(rawAnalysis) : null;
+            let analysisData = null;
+            try { analysisData = (rawAnalysis && rawAnalysis !== 'undefined') ? JSON.parse(rawAnalysis) : null; } catch (e) { }
+
             const rawSurvey = localStorage.getItem('pre_scan_survey');
-            const surveyData = rawSurvey ? JSON.parse(rawSurvey) : null;
+            let surveyData = null;
+            try { surveyData = (rawSurvey && rawSurvey !== 'undefined') ? JSON.parse(rawSurvey) : null; } catch (e) { }
 
             // Build the Deep Scan Context dynamically based on available data
             let mockScanContext = `
@@ -398,7 +406,7 @@ const ChatScreen: React.FC = () => {
                         <h3 style={{ fontSize: '1.1rem', margin: 0 }} className="gold-text">AI 멘탈 가이드</h3>
                         <p style={{ fontSize: '0.8rem', color: '#888', margin: 0, display: 'flex', alignItems: 'center', gap: '5px' }}>
                             맞춤형 상담 연결됨
-                            {!isSessionExpired && <span style={{ color: '#DAA520', fontWeight: 'bold' }}>({formatTime(timeLeft)})</span>}
+                            <SessionTimer isSessionExpired={isSessionExpired} onExpire={() => setIsSessionExpired(true)} />
                         </p>
                     </div>
                 </div>
@@ -511,7 +519,7 @@ const ChatScreen: React.FC = () => {
                                             }}
                                         >
                                             {isPlaying ? <Pause size={16} /> : <Play size={16} fill="currentColor" />}
-                                            {isPlaying ? '일시정지' : '주파수 재생하기'}
+                                            {isPlaying ? '일시정지' : '파동 재생하기'}
                                         </button>
                                         {isPlaying && (
                                             <div style={{ width: '100%', height: '2px', background: 'rgba(255,255,255,0.2)', marginTop: '15px', position: 'relative' }}>
@@ -547,7 +555,7 @@ const ChatScreen: React.FC = () => {
                                                 onMouseOut={(e) => e.currentTarget.style.background = 'rgba(218, 165, 32, 0.15)'}
                                             >
                                                 <Play size={16} fill="currentColor" />
-                                                맞춤 주파수 솔루션: {msg.therapy.name} 시작
+                                                맞춤 파동 솔루션: {msg.therapy.name} 시작
                                             </button>
                                         )}
 
@@ -609,18 +617,20 @@ const ChatScreen: React.FC = () => {
                             }}>
                                 {isListening ? <MicOff size={20} /> : <Mic size={20} />}
                             </button>
-                            <form onSubmit={handleSend} style={{ flex: 1, display: 'flex' }}>
+                            <form onSubmit={(e) => { e.preventDefault(); handleSend(e); }} style={{ flex: 1, display: 'flex' }}>
                                 <input
                                     type="text"
                                     placeholder={isListening ? "말씀하세요, 듣고 있습니다..." : "여기에 마음을 남겨주세요..."}
                                     value={input}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' && e.nativeEvent.isComposing) {
+                                            e.preventDefault();
+                                        }
+                                    }}
                                     onChange={(e) => setInput(e.target.value)}
                                     style={{
                                         width: '100%', background: 'transparent', border: 'none',
-                                        color: '#FFF', fontSize: '1rem', outline: 'none', fontFamily: 'var(--font-main)',
-                                        pointerEvents: 'auto',
-                                        WebkitUserSelect: 'text',
-                                        userSelect: 'text'
+                                        color: '#111111', fontSize: '1rem', outline: 'none', fontFamily: 'var(--font-main)'
                                     }}
                                 />
                             </form>

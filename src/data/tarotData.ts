@@ -29,7 +29,7 @@ export const tarotDeck: TarotCard[] = [
         element: "Aether",
         resonanceFrequency: "528Hz",
         quantumState: "Manifestation Frequency (창조적 구현 파동)",
-        description: "의식(관찰자)이 현실을 물리적으로 붕괴시키는 강력한 창조적 주파수가 형성되었습니다. 불, 물, 흙, 공기의 모든 4원소 에너지가 당신의 채널을 통해 자유자재로 다루어질 준비가 되어 있는 고밀도 집중 상태입니다.",
+        description: "의식(관찰자)이 현실을 물리적으로 붕괴시키는 강력한 창조적 파동가 형성되었습니다. 불, 물, 흙, 공기의 모든 4원소 에너지가 당신의 채널을 통해 자유자재로 다루어질 준비가 되어 있는 고밀도 집중 상태입니다.",
         advice: "생각이 곧 물리적 현실이 됩니다. 원하지 않는 것에 집중하지 말고, 이루고자 하는 명확한 목표에만 에너지를 조사(Irradiate)하십시오.",
         imgFileName: "m01.jpg"
     },
@@ -62,7 +62,7 @@ export const tarotDeck: TarotCard[] = [
         element: "Fire",
         resonanceFrequency: "417Hz",
         quantumState: "Structural Ordering (구조적 질서 재편)",
-        description: "무질서한 엔트로피를 통제하고 견고한 질서와 구조를 확립하는 남성적 에너지 파동입니다. 강력한 의지력으로 현실의 논리적 규칙을 설계하고 이끌어가는 리더십 주파수가 최고조에 달해 있습니다.",
+        description: "무질서한 엔트로피를 통제하고 견고한 질서와 구조를 확립하는 남성적 에너지 파동입니다. 강력한 의지력으로 현실의 논리적 규칙을 설계하고 이끌어가는 리더십 파동가 최고조에 달해 있습니다.",
         advice: "감정보다 체계와 규칙을 앞세워 환경을 통제하십시오. 흔들리지 않는 중심축이 되어야 할 시기입니다.",
         imgFileName: "m04.jpg"
     },
@@ -73,7 +73,7 @@ export const tarotDeck: TarotCard[] = [
         element: "Earth",
         resonanceFrequency: "639Hz",
         quantumState: "Collective Consciousness (집단 무의식 동기화)",
-        description: "오랜 시간 검증된 집단 지성과 전통적인 지혜의 파장에 동기화되어 있습니다. 기존의 규칙과 신념 체계 안에서 깊은 깨달음을 얻거나, 타인과 영적/지적 연결을 맺는 주파수입니다.",
+        description: "오랜 시간 검증된 집단 지성과 전통적인 지혜의 파장에 동기화되어 있습니다. 기존의 규칙과 신념 체계 안에서 깊은 깨달음을 얻거나, 타인과 영적/지적 연결을 맺는 파동입니다.",
         advice: "혼자만의 독창적인 방식보다는 이미 검증된 전문가의 멘토링이나 체계화된 시스템의 힘을 빌리는 것이 효과적입니다.",
         imgFileName: "m05.jpg"
     },
@@ -96,7 +96,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "417Hz",
         quantumState: "Focused Velocity (지향성 운동 에너지)",
         description: "상반된 두 가지 감정(이성과 본능)의 파동을 하나의 목표로 강제 정렬시켜 폭발적인 추진력을 만들어내는 상태입니다. 의지의 초점이 극도로 명확하여 장애물을 뚫고 나가는 벡터(Vector) 파워가 활성화되었습니다.",
-        advice: "주변의 혼란스러운 에너지에 휩쓸리지 말고, 오직 목표점만 바라보고 가속 페달을 밟아야 할 승리의 주파수입니다.",
+        advice: "주변의 혼란스러운 에너지에 휩쓸리지 말고, 오직 목표점만 바라보고 가속 페달을 밟아야 할 승리의 파동입니다.",
         imgFileName: "m07.jpg"
     },
     {
@@ -106,7 +106,7 @@ export const tarotDeck: TarotCard[] = [
         element: "Fire",
         resonanceFrequency: "528Hz",
         quantumState: "Inner Resonance Control (내적 파동 제어력)",
-        description: "거친 원초적 본능이나 두려움의 주파수를 억누르는 것이 아니라, 부드러운 수용의 에너지로 감싸 안아 길들이는 고도의 심리적, 영적 통제 상태입니다. 진정한 힘은 저항이 아닌 허용과 조율에서 나옴을 증명하는 파동입니다.",
+        description: "거친 원초적 본능이나 두려움의 파동를 억누르는 것이 아니라, 부드러운 수용의 에너지로 감싸 안아 길들이는 고도의 심리적, 영적 통제 상태입니다. 진정한 힘은 저항이 아닌 허용과 조율에서 나옴을 증명하는 파동입니다.",
         advice: "힘으로 상황을 제압하려 하지 마십시오. 인내와 부드러운 카리스마로 상대의 거친 파장을 중화(Neutralize)시키는 것이 핵심입니다.",
         imgFileName: "m08.jpg"
     },
@@ -150,7 +150,7 @@ export const tarotDeck: TarotCard[] = [
         element: "Water",
         resonanceFrequency: "963Hz",
         quantumState: "Perspective Inversion (관점의 위상 역전)",
-        description: "물리적 시간과 공간이 멈춘 듯한 정체기처럼 보이지만, 내면은 위상이 180도 뒤집히는 급격한 의식의 확장이 일어나고 있습니다. 기존의 세팅된 주파수 값을 자발적으로 포기함으로써 역설적으로 고차원의 통찰을 얻는 파동입니다.",
+        description: "물리적 시간과 공간이 멈춘 듯한 정체기처럼 보이지만, 내면은 위상이 180도 뒤집히는 급격한 의식의 확장이 일어나고 있습니다. 기존의 세팅된 파동 값을 자발적으로 포기함으로써 역설적으로 고차원의 통찰을 얻는 파동입니다.",
         advice: "자발적인 희생이나 포기가 필요한 시점입니다. 억지로 나아가려 하지 말고, 전혀 다른 각도로 세상을 바라보며 잠시 멈춤의 미학을 경험하십시오.",
         imgFileName: "m12.jpg"
     },
@@ -162,7 +162,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "174Hz",
         quantumState: "Phase Transition (상전이/급격한 종결과 시작)",
         description: "기존의 에너지 시스템이 붕괴되고 완전히 새로운 형태로 재구성되는 거대한 상전이(Phase Transition) 상태입니다. 낡은 습관, 마모된 관계 등 불필요한 파동들이 철저하게 청산되며 치명적인 해방감을 동반합니다.",
-        advice: "끝나가는 것을 억지로 붙잡는 것은 고통만 과중시킵니다. 저항 없이 과거를 소각(Burn out)해야만 새로운 생기 주파수가 유입될 수 있습니다.",
+        advice: "끝나가는 것을 억지로 붙잡는 것은 고통만 과중시킵니다. 저항 없이 과거를 소각(Burn out)해야만 새로운 생기 파동가 유입될 수 있습니다.",
         imgFileName: "m13.jpg"
     },
     {
@@ -171,9 +171,9 @@ export const tarotDeck: TarotCard[] = [
         romanNumeral: "XIV",
         element: "Fire",
         resonanceFrequency: "528Hz",
-        quantumState: "Frequency Modulation (주파수 조율과 희석)",
+        quantumState: "Frequency Modulation (파동 조율과 희석)",
         description: "상반된 속성(불과 물, 이상과 현실)의 에너지를 미세하게 섞고 조율하여, 화학적 폭발 없이 완벽한 제3의 안정적 파동을 창조해내는 상태입니다. 가장 치유적이고 평안한 밸런싱 모드가 가동되고 있습니다.",
-        advice: "극단적인 선택을 피하고 끊임없는 타협과 중도의 길을 모색하십시오. 인내심을 갖고 천천히 주파수를 맞춰가야 완성됩니다.",
+        advice: "극단적인 선택을 피하고 끊임없는 타협과 중도의 길을 모색하십시오. 인내심을 갖고 천천히 파동를 맞춰가야 완성됩니다.",
         imgFileName: "m14.jpg"
     },
     {
@@ -183,7 +183,7 @@ export const tarotDeck: TarotCard[] = [
         element: "Earth",
         resonanceFrequency: "396Hz",
         quantumState: "Entanglement Bound (강박적 양자 얽힘 상태)",
-        description: "특정 욕망, 물질, 혹은 유해한 관계나 패턴과 강력한 양자 얽힘(Quantum Entanglement) 상태에 빠져 있어 스스로의 에너지장 통제권을 상실했습니다. 집착의 주파수가 이성의 뇌파를 덮어버린 중독적이고 무거운 파동입니다.",
+        description: "특정 욕망, 물질, 혹은 유해한 관계나 패턴과 강력한 양자 얽힘(Quantum Entanglement) 상태에 빠져 있어 스스로의 에너지장 통제권을 상실했습니다. 집착의 파동가 이성의 뇌파를 덮어버린 중독적이고 무거운 파동입니다.",
         advice: "자발적으로 자신을 옭아매고 있는 보이지 않는 사슬(집착)을 직시하십시오. 두려움을 깨고 그 연결을 강제로 단선(Cut-off)해야만 해방됩니다.",
         imgFileName: "m15.jpg"
     },
@@ -228,7 +228,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "528Hz",
         quantumState: "Maximum Radiance (절대적 빛의 방사)",
         description: "모든 에너지장이 티끌 하나 없는 명료함으로 빛을 발산하며 최대의 코히런스(Coherence) 상태를 유지합니다. 숨길 것이 없는 순수한 생명력과 기쁨, 절대적인 긍정의 파동이 존재를 가득 채우며 주변까지 밝게 진동시킵니다.",
-        advice: "지금 당신의 주파수는 무엇이든 성공적으로 이뤄낼 수 있는 정점에 있습니다. 아이와 같은 순수한 열정을 마음껏 표출하십시오.",
+        advice: "지금 당신의 파동는 무엇이든 성공적으로 이뤄낼 수 있는 정점에 있습니다. 아이와 같은 순수한 열정을 마음껏 표출하십시오.",
         imgFileName: "m19.jpg"
     },
     {
@@ -238,7 +238,7 @@ export const tarotDeck: TarotCard[] = [
         element: "Fire",
         resonanceFrequency: "852Hz",
         quantumState: "Quantum Awakening (양자적 각성호출)",
-        description: "높은 차원으로부터 강렬한 각성의 주파수가 송신되어, 깊이 잠들어 있던 영혼의 목적(진정성)이 깨어나는 상태입니다. 과거의 오래된 카르마가 정산되고 완전히 진화된 상위 주파수 대역으로 업그레이드되는 결정적 순간입니다.",
+        description: "높은 차원으로부터 강렬한 각성의 파동가 송신되어, 깊이 잠들어 있던 영혼의 목적(진정성)이 깨어나는 상태입니다. 과거의 오래된 카르마가 정산되고 완전히 진화된 상위 파동 대역으로 업그레이드되는 결정적 순간입니다.",
         advice: "운명의 거대한 부름(Calling)에 응답하십시오. 작은 미련이나 두려움 때문에 과거의 차원에 머무는 것은 불가합니다.",
         imgFileName: "m20.jpg"
     },
@@ -261,7 +261,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "741Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Ace of Cups의 파동은 Water 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "c01.jpg"
     },
     {
@@ -272,7 +272,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "741Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Two of Cups의 파동은 Water 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "c02.jpg"
     },
     {
@@ -283,7 +283,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "741Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Three of Cups의 파동은 Water 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "c03.jpg"
     },
     {
@@ -294,7 +294,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "741Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Four of Cups의 파동은 Water 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "c04.jpg"
     },
     {
@@ -305,7 +305,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "741Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Five of Cups의 파동은 Water 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "c05.jpg"
     },
     {
@@ -316,7 +316,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "741Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Six of Cups의 파동은 Water 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "c06.jpg"
     },
     {
@@ -327,7 +327,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "741Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Seven of Cups의 파동은 Water 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "c07.jpg"
     },
     {
@@ -338,7 +338,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "741Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Eight of Cups의 파동은 Water 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "c08.jpg"
     },
     {
@@ -349,7 +349,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "741Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Nine of Cups의 파동은 Water 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "c09.jpg"
     },
     {
@@ -360,7 +360,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "741Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Ten of Cups의 파동은 Water 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "c10.jpg"
     },
     {
@@ -371,7 +371,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "741Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Page of Cups의 파동은 Water 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "c11.jpg"
     },
     {
@@ -382,7 +382,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "741Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Knight of Cups의 파동은 Water 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "c12.jpg"
     },
     {
@@ -393,7 +393,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "741Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Queen of Cups의 파동은 Water 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "c13.jpg"
     },
     {
@@ -404,7 +404,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "741Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "King of Cups의 파동은 Water 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "c14.jpg"
     },
     {
@@ -415,7 +415,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "852Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Ace of Swords의 파동은 Air 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "s01.jpg"
     },
     {
@@ -426,7 +426,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "852Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Two of Swords의 파동은 Air 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "s02.jpg"
     },
     {
@@ -437,7 +437,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "852Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Three of Swords의 파동은 Air 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "s03.jpg"
     },
     {
@@ -448,7 +448,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "852Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Four of Swords의 파동은 Air 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "s04.jpg"
     },
     {
@@ -459,7 +459,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "852Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Five of Swords의 파동은 Air 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "s05.jpg"
     },
     {
@@ -470,7 +470,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "852Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Six of Swords의 파동은 Air 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "s06.jpg"
     },
     {
@@ -481,7 +481,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "852Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Seven of Swords의 파동은 Air 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "s07.jpg"
     },
     {
@@ -492,7 +492,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "852Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Eight of Swords의 파동은 Air 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "s08.jpg"
     },
     {
@@ -503,7 +503,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "852Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Nine of Swords의 파동은 Air 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "s09.jpg"
     },
     {
@@ -514,7 +514,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "852Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Ten of Swords의 파동은 Air 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "s10.jpg"
     },
     {
@@ -525,7 +525,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "852Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Page of Swords의 파동은 Air 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "s11.jpg"
     },
     {
@@ -536,7 +536,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "852Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Knight of Swords의 파동은 Air 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "s12.jpg"
     },
     {
@@ -547,7 +547,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "852Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Queen of Swords의 파동은 Air 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "s13.jpg"
     },
     {
@@ -558,7 +558,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "852Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "King of Swords의 파동은 Air 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "s14.jpg"
     },
     {
@@ -569,7 +569,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "417Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Ace of Wands의 파동은 Fire 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "w01.jpg"
     },
     {
@@ -580,7 +580,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "417Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Two of Wands의 파동은 Fire 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "w02.jpg"
     },
     {
@@ -591,7 +591,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "417Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Three of Wands의 파동은 Fire 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "w03.jpg"
     },
     {
@@ -602,7 +602,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "417Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Four of Wands의 파동은 Fire 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "w04.jpg"
     },
     {
@@ -613,7 +613,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "417Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Five of Wands의 파동은 Fire 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "w05.jpg"
     },
     {
@@ -624,7 +624,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "417Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Six of Wands의 파동은 Fire 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "w06.jpg"
     },
     {
@@ -635,7 +635,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "417Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Seven of Wands의 파동은 Fire 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "w07.jpg"
     },
     {
@@ -646,7 +646,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "417Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Eight of Wands의 파동은 Fire 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "w08.jpg"
     },
     {
@@ -657,7 +657,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "417Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Nine of Wands의 파동은 Fire 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "w09.jpg"
     },
     {
@@ -668,7 +668,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "417Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Ten of Wands의 파동은 Fire 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "w10.jpg"
     },
     {
@@ -679,7 +679,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "417Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Page of Wands의 파동은 Fire 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "w11.jpg"
     },
     {
@@ -690,7 +690,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "417Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Knight of Wands의 파동은 Fire 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "w12.jpg"
     },
     {
@@ -701,7 +701,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "417Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Queen of Wands의 파동은 Fire 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "w13.jpg"
     },
     {
@@ -712,7 +712,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "417Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "King of Wands의 파동은 Fire 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "w14.jpg"
     },
     {
@@ -723,7 +723,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "396Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Ace of Pentacles의 파동은 Earth 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "p01.jpg"
     },
     {
@@ -734,7 +734,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "396Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Two of Pentacles의 파동은 Earth 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "p02.jpg"
     },
     {
@@ -745,7 +745,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "396Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Three of Pentacles의 파동은 Earth 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "p03.jpg"
     },
     {
@@ -756,7 +756,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "396Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Four of Pentacles의 파동은 Earth 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "p04.jpg"
     },
     {
@@ -767,7 +767,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "396Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Five of Pentacles의 파동은 Earth 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "p05.jpg"
     },
     {
@@ -778,7 +778,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "396Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Six of Pentacles의 파동은 Earth 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "p06.jpg"
     },
     {
@@ -789,7 +789,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "396Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Seven of Pentacles의 파동은 Earth 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "p07.jpg"
     },
     {
@@ -800,7 +800,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "396Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Eight of Pentacles의 파동은 Earth 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "p08.jpg"
     },
     {
@@ -811,7 +811,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "396Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Nine of Pentacles의 파동은 Earth 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "p09.jpg"
     },
     {
@@ -822,7 +822,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "396Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Ten of Pentacles의 파동은 Earth 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "p10.jpg"
     },
     {
@@ -833,7 +833,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "396Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Page of Pentacles의 파동은 Earth 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "p11.jpg"
     },
     {
@@ -844,7 +844,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "396Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Knight of Pentacles의 파동은 Earth 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "p12.jpg"
     },
     {
@@ -855,7 +855,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "396Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "Queen of Pentacles의 파동은 Earth 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "p13.jpg"
     },
     {
@@ -866,7 +866,7 @@ export const tarotDeck: TarotCard[] = [
         resonanceFrequency: "396Hz",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "King of Pentacles의 파동은 Earth 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "p14.jpg"
     },
 ];

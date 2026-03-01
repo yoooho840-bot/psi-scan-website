@@ -49,7 +49,7 @@ export default async function handler(req: Request) {
             { "id": 6, "title": "6. 환경 독소 및 파동 알러지", "status": "<Short status word>", "desc": "<Detailed explanation>", "color": "<hex color code>" },
             { "id": 7, "title": "7. 자연 파동 공명", "status": "<Short status word>", "desc": "<Detailed explanation>", "color": "<hex color code>" },
             { "id": 8, "title": "8. 에너지 필드 매칭 타로카드", "status": "<Short status word>", "desc": "<Detailed explanation>", "color": "<hex color code>" },
-            { "id": 9, "title": "9. 경락 및 장부 주파수 불균형", "status": "<Short status word>", "desc": "<Detailed explanation>", "color": "<hex color code>" },
+            { "id": 9, "title": "9. 경락 및 장부 파동 불균형", "status": "<Short status word>", "desc": "<Detailed explanation>", "color": "<hex color code>" },
             { "id": 10, "title": "10. 생명력 에너지 공명", "status": "<Short status word>", "desc": "<Detailed explanation>", "color": "<hex color code>" },
             { "id": 11, "title": "11. 자율신경계 코히런스", "status": "<Short status word>", "desc": "<Detailed explanation>", "color": "<hex color code>" },
             { "id": 12, "title": "12. 상위 자아 동조율", "status": "<Short status word>", "desc": "<Detailed explanation>", "color": "<hex color code>" }

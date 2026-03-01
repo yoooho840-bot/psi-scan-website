@@ -224,7 +224,7 @@ const HistoryScreen: React.FC = () => {
                                                 </div>
                                             </div>
                                             <div>
-                                                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)', marginBottom: '5px' }}>기준 주파수</div>
+                                                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)', marginBottom: '5px' }}>기준 파동</div>
                                                 <div style={{ fontSize: '1.2rem', color: 'var(--color-blue-mystic)', fontWeight: '300' }}>
                                                     {log.voice_freq}Hz
                                                 </div>

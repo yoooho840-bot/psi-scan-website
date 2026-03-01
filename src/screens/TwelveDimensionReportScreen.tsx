@@ -12,6 +12,26 @@ const TwelveDimensionReportScreen: React.FC = () => {
 
     const [dimensions, setDimensions] = useState<any[]>([]);
 
+    // Helper to map icon components safely outside of DB
+    const getIconForDimension = (id: number, color: string) => {
+        const props = { size: 24, color: color || "var(--color-gold-main)" };
+        switch (id) {
+            case 1: return <Sparkles {...props} />;
+            case 2: return <Activity {...props} />;
+            case 3: return <BrainCircuit {...props} />;
+            case 4: return <Heart {...props} />;
+            case 5: return <Network {...props} />;
+            case 6: return <Shield {...props} />;
+            case 7: return <Eye {...props} />;
+            case 8: return <Sparkles {...props} />;
+            case 9: return <Compass {...props} />;
+            case 10: return <Activity {...props} />;
+            case 11: return <Network {...props} />;
+            case 12: return <Sparkles {...props} />;
+            default: return <Sparkles {...props} />;
+        }
+    };
+
     useEffect(() => {
         const checkAuth = async () => {
             await supabase.auth.getSession();
@@ -61,25 +81,6 @@ const TwelveDimensionReportScreen: React.FC = () => {
         setDimensions(dimsToSet);
     }, []);
 
-    // Helper to map icon components safely outside of DB
-    const getIconForDimension = (id: number, color: string) => {
-        const props = { size: 24, color: color || "var(--color-gold-main)" };
-        switch (id) {
-            case 1: return <Sparkles {...props} />;
-            case 2: return <Activity {...props} />;
-            case 3: return <BrainCircuit {...props} />;
-            case 4: return <Heart {...props} />;
-            case 5: return <Network {...props} />;
-            case 6: return <Shield {...props} />;
-            case 7: return <Eye {...props} />;
-            case 8: return <Sparkles {...props} />;
-            case 9: return <Compass {...props} />;
-            case 10: return <Activity {...props} />;
-            case 11: return <Network {...props} />;
-            case 12: return <Sparkles {...props} />;
-            default: return <Sparkles {...props} />;
-        }
-    };
 
     return (
         <div className="screen" style={{ overflowY: 'auto', paddingBottom: '40px' }}>

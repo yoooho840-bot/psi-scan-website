@@ -22,6 +22,35 @@ const WaterMeditationScreen: React.FC = () => {
     const [showUI, setShowUI] = useState(true);
     const uiTimeoutRef = useRef<any>(null);
 
+    const meditationThemes = [
+        {
+            vid: "https://cdn.coverr.co/videos/coverr-sunlight-on-the-water-surface-5984/1080p.mp4",
+            freqL: 136.1, freqR: 140.0, name: "델타파 (3.9Hz) - 수면 윤슬 햇빛 (깊은 수면 유도)"
+        },
+        {
+            vid: "https://cdn.coverr.co/videos/coverr-calm-water-surface-2-4113/1080p.mp4",
+            freqL: 174.0, freqR: 177.5, name: "델타파 (3.5Hz) - 고요한 수면 (에테르 정화)"
+        },
+        {
+            vid: "https://cdn.coverr.co/videos/coverr-water-ripples-5152/1080p.mp4",
+            freqL: 285.0, freqR: 288.0, name: "델타파 (3.0Hz) - 잔잔한 파문 (세포 재생)"
+        },
+        {
+            vid: "https://cdn.coverr.co/videos/coverr-aerial-view-of-ocean-waves-9507/1080p.mp4",
+            freqL: 396.0, freqR: 398.5, name: "델타파 (2.5Hz) - 심해 파동 (무의식 심층 동조)"
+        }
+    ];
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    // 10-minute video & frequency rotation
+    useEffect(() => {
+        if (!isStarted) return;
+        const interval = setInterval(() => {
+            setCurrentIndex(prev => (prev + 1) % meditationThemes.length);
+        }, 10 * 60 * 1000); // 10 minutes in ms
+        return () => clearInterval(interval);
+    }, [isStarted]);
+
     const handleUserActivity = useCallback(() => {
         setShowUI(true);
         if (uiTimeoutRef.current) {
@@ -97,18 +126,21 @@ const WaterMeditationScreen: React.FC = () => {
 
         const merger = ctx.createChannelMerger(2);
 
-        // Left: 136.1Hz (OM Frequency)
+        // Calculate initial frequencies based on the current theme
+        const initialTheme = meditationThemes[currentIndex];
+
+        // Left channel
         const oscL = ctx.createOscillator();
         const gainL = ctx.createGain();
-        oscL.frequency.value = 136.1;
+        oscL.frequency.value = initialTheme.freqL;
         oscL.type = 'sine';
         gainL.gain.value = 0.05;
         oscL.connect(gainL).connect(merger, 0, 0);
 
-        // Right: 140Hz (3.9Hz Delta waves for deep sleep / profound relaxation)
+        // Right channel (Binaural Beat offset)
         const oscR = ctx.createOscillator();
         const gainR = ctx.createGain();
-        oscR.frequency.value = 140;
+        oscR.frequency.value = initialTheme.freqR;
         oscR.type = 'sine';
         gainR.gain.value = 0.05;
         oscR.connect(gainR).connect(merger, 0, 1);
@@ -147,6 +179,18 @@ const WaterMeditationScreen: React.FC = () => {
             }
         };
     }, [isStarted, isUnmounting]);
+
+    // Smooth Frequency Transition upon Theme Change
+    useEffect(() => {
+        if (isStarted && oscLRef.current && oscRRef.current && audioCtxRef.current) {
+            const { freqL, freqR } = meditationThemes[currentIndex];
+            const now = audioCtxRef.current.currentTime;
+
+            // Glide the frequency over 2 seconds to make the transition very subtle and relaxing
+            oscLRef.current.frequency.setTargetAtTime(freqL, now, 2);
+            oscRRef.current.frequency.setTargetAtTime(freqR, now, 2);
+        }
+    }, [currentIndex, isStarted]);
 
     const toggleFullscreen = useCallback(() => {
         const docElm = document.documentElement as any;
@@ -264,26 +308,24 @@ const WaterMeditationScreen: React.FC = () => {
             opacity: opacity, transition: 'opacity 2s ease-in-out',
             margin: 0, padding: 0, pointerEvents: 'auto'
         }}>
-            {/* Seamless 4K YouTube Ocean Embed Background */}
+            {/* High Quality Ocean Mp4 Background */}
             <div style={{
                 position: 'absolute',
-                top: '50%',
-                left: '50%',
-                width: '120vw',
-                height: '120vh',
-                transform: 'translate(-50%, -50%)',
+                top: 0,
+                left: 0,
+                width: '100vw',
+                height: '100vh',
                 zIndex: 0,
                 pointerEvents: 'none', // Prevent clicking the video to pause
             }}>
-                <iframe
-                    width="100%"
-                    height="100%"
-                    src={`https://www.youtube.com/embed/1QKtt6CTf_I?autoplay=1&loop=1&mute=1&controls=0&showinfo=0&rel=0&iv_load_policy=3&playlist=1QKtt6CTf_I`}
-                    title="4K Ocean Background"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                    style={{ filter: 'contrast(1.1) brightness(0.9) saturate(1.2)' }}
+                <video
+                    key={meditationThemes[currentIndex].vid}
+                    src={meditationThemes[currentIndex].vid}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.9)' }}
                 />
             </div>
 
@@ -307,7 +349,7 @@ const WaterMeditationScreen: React.FC = () => {
                 {/* 1. Status Text */}
                 <div style={{ pointerEvents: 'none', textAlign: 'right' }}>
                     <span style={{ fontSize: '0.8rem', color: '#00d2ff', letterSpacing: '2px', opacity: 0.8, fontWeight: 500 }}>
-                        심해 몰입형 명상 | 델타파 동기화 (3.9Hz)
+                        심해 몰입형 명상 | {meditationThemes[currentIndex].name}
                     </span>
                 </div>
 

@@ -405,7 +405,7 @@ const SoundBathScreen: React.FC = () => {
                     }}>
                         <h3 style={{ margin: '0 0 8px 0', fontSize: '0.75rem', color: `rgba(${PRESETS[preset].color}, 1)`, letterSpacing: '1px' }}>PSI SOUND BATH</h3>
                         <p style={{ fontSize: '0.7rem', lineHeight: '1.5', color: '#CCC', margin: 0 }}>
-                            싱잉볼의 배음 구조를 디지털로 완벽하게 재현했습니다. 기저 주파수와 테타파 바이노럴 비트가 결합되어 깊은 명상 상태(Theta State)를 유도합니다. (이어폰 착용 권장)
+                            싱잉볼의 배음 구조를 디지털로 완벽하게 재현했습니다. 기저 파동와 테타파 바이노럴 비트가 결합되어 깊은 명상 상태(Theta State)를 유도합니다. (이어폰 착용 권장)
                         </p>
                     </div>
                 )}

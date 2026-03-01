@@ -12,7 +12,7 @@ const RitualPortal: React.FC<RitualPortalProps> = ({ currentPath }) => {
     const rituals = [
         { path: '/elemental-therapy', label: '불멍/물멍', icon: <Flame size={16} /> },
         { path: '/sound-bath', label: '싱잉볼', icon: <Volume2 size={16} /> },
-        { path: '/frequency-lab', label: '주파수', icon: <Music size={16} /> },
+        { path: '/frequency-lab', label: '파동', icon: <Music size={16} /> },
         { path: '/color-therapy', label: '컬러', icon: <Sparkles size={16} /> },
     ];
 

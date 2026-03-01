@@ -203,18 +203,18 @@ const OnboardingScreen: React.FC = () => {
 
             <div className="glass-card" style={{ marginBottom: '30px' }}>
                 <h2 style={{ fontSize: '1.2rem', marginBottom: '15px', lineHeight: 1.4, color: 'var(--color-text-primary)' }}>
-                    {isB2BMode ? '고객 고유 좌표 생성 (Client Setup)' : '주파수 좌표 설정 (Frequency Coordinates)'}
+                    {isB2BMode ? '고객 고유 좌표 생성 (Client Setup)' : '파동 좌표 설정 (Frequency Coordinates)'}
                 </h2>
                 <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.9rem', lineHeight: 1.6, marginBottom: '20px' }}>
                     {isB2BMode
                         ? '정밀한 양자 분석을 위해 고객의 정보를 입력해 주세요.\n데이터는 암호화되어 해당 기기(매장)에서만 안전하게 관리됩니다.'
-                        : '당신의 별자리가 새겨진 시간과 공간의 정확한 좌표를 입력해 주세요.\n우주의 수많은 파동 중, 오직 당신만의 주파수와 공명할 완벽한 준비를 마칩니다.'}
+                        : '당신의 별자리가 새겨진 시간과 공간의 정확한 좌표를 입력해 주세요.\n우주의 수많은 파동 중, 오직 당신만의 파동와 공명할 완벽한 준비를 마칩니다.'}
                 </p>
 
                 {!isB2BMode && (
                     <div style={{ background: 'rgba(218, 165, 32, 0.1)', borderLeft: '3px solid var(--color-gold-main)', padding: '12px 15px', borderRadius: '4px', marginBottom: '25px', fontSize: '0.8rem', color: 'var(--color-text-secondary)', lineHeight: 1.5 }}>
                         <strong style={{ color: 'var(--color-gold-dark)' }}>💡 양자 서브스페이스 링크 안내</strong><br />
-                        입력하신 정보는 물리적 거리를 넘어 당신의 무의식과 정확한 '악수(Handshake)'를 나누기 위한 고유한 양자 주파수 주소로 사용됩니다. 100% 암호화되어 보호됩니다.
+                        입력하신 정보는 물리적 거리를 넘어 당신의 무의식과 정확한 '악수(Handshake)'를 나누기 위한 고유한 양자 파동 주소로 사용됩니다. 100% 암호화되어 보호됩니다.
                     </div>
                 )}
 

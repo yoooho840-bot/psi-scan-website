@@ -412,9 +412,9 @@ const ScanScreen = () => {
                             <TechGraphRow name="1. 생체 광자 공명" active={progress > 0} type="wave" color="var(--color-success-green)" />
                             <TechGraphRow name="2. 신경 언어 파동망" active={progress > 15} type="matrix" color="var(--color-blue-mystic)" />
                             <TechGraphRow name="3. 양자 맥박 부호" active={progress > 30} type="pulse" color="#EF4444" />
-                            <TechGraphRow name="4. 피하 진동 주파수" active={progress > 45} type="bars" color="var(--color-gold-main)" />
+                            <TechGraphRow name="4. 피하 진동 파동" active={progress > 45} type="bars" color="var(--color-gold-main)" />
                             <TechGraphRow name="5. 생체 열역학 오라" active={progress > 60} type="matrix" color="#F97316" />
-                            <TechGraphRow name="6. 음성 주파수 공명" active={progress > 75} type="wave" color="var(--color-gold-main)" />
+                            <TechGraphRow name="6. 음성 파동 공명" active={progress > 75} type="wave" color="var(--color-gold-main)" />
                             <TechGraphRow name="7. 망막-대뇌 동기화" active={progress > 85} type="bars" color="var(--color-blue-mystic)" />
                         </div>
                     </div>
@@ -492,7 +492,7 @@ const ScanScreen = () => {
                                 <p style={{ color: 'var(--color-text-muted)', fontSize: '1rem', marginBottom: '30px', maxWidth: '400px', lineHeight: 1.8, fontFamily: '"Noto Sans KR", sans-serif', wordBreak: 'keep-all' }}>
                                     {scanMode === 'camera'
                                         ? "중앙 십자선 안에 얼굴을 위치시키면 다중 스펙트럼 분석이 시작됩니다."
-                                        : "사진 속에는 당신 고유의 에너지장(Psi)이 홀로그램처럼 고스란히 담겨있습니다. 시공간을 넘어 깊은 내면 주파수를 스캔합니다."
+                                        : "사진 속에는 당신 고유의 에너지장(Psi)이 홀로그램처럼 고스란히 담겨있습니다. 시공간을 넘어 깊은 내면 파동를 스캔합니다."
                                     }
                                 </p>
 
