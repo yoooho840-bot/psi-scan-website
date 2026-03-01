@@ -452,9 +452,15 @@ const DualScanScreen = () => {
                                     <Target size={28} color="#f472b6" />
                                     <h3 style={{ margin: 0, fontSize: '1.5rem', color: '#FFF' }}>듀얼 타로 오라클 리딩</h3>
                                 </div>
-                                <p style={{ textAlign: 'center', color: '#94a3b8', marginBottom: '40px', fontSize: '1rem' }}>
+                                <p style={{ textAlign: 'center', color: '#94a3b8', marginBottom: '20px', fontSize: '1rem' }}>
                                     양자 난수(Quantum RNG) 추출을 통해 동기화된 두 사람의 에너지 궤적입니다.
                                 </p>
+                                <div style={{ background: 'rgba(244, 114, 182, 0.1)', border: '1px solid rgba(244, 114, 182, 0.2)', borderRadius: '12px', padding: '15px 20px', marginBottom: '40px', maxWidth: '600px', margin: '0 auto 40px auto' }}>
+                                    <p style={{ margin: 0, fontSize: '0.9rem', color: '#f472b6', textAlign: 'center', lineHeight: 1.6 }}>
+                                        <strong>[관계 역학 4카드 배열법]</strong><br />
+                                        단일 인물의 시간 축(과거-현재-미래)을 보는 싱글 스캔과 달리, 듀얼 스캔은 두 에너지의 <strong>'상호 작용'</strong>을 심층 분석하기 위해 4장의 타로를 사용합니다. <strong>나의 파동</strong>과 <strong>상대의 무의식</strong>이 만나 생성되는 <strong>결합된 에너지(얽힘)</strong>, 그리고 그것이 향하는 <strong>미래의 방향</strong>을 입체적으로 조명합니다.
+                                    </p>
+                                </div>
 
                                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
                                     {[
