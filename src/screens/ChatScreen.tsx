@@ -266,14 +266,10 @@ const ChatScreen: React.FC = () => {
 - 무의식/신체 차크라 분석 (AnalysisEngine 결과):
   * 종합 스트레스 인덱스(100만점): ${analysisData.stressIndex}
   * 심층 뿌리 원인: ${analysisData.primaryIssue}
-  * 에너지장 (Aura) 컬러: ${analysisData.auraColor}
-  * 당신은 이 정확한 수치와 분석을 바탕으로 내담자에게 맞춤형 힐링 상담을 제공해야 합니다.
-`;
+  * 에너지장 (Aura) 컬러: ${analysisData.auraColor}\n`;
             } else {
                 mockScanContext += `- 현재 내담자의 에너지 파동이 다소 불안정함.\n`;
             }
-
-            mockScanContext += `- 질문의 맥락과 위 데이터/상태를 깊이 결합하여, 전문적이면서도 매우 따뜻한 원인 분석과 실천 솔루션을 제공할 것.\n`;
 
             if (readingMode) {
                 mockScanContext += `\n[선택된 양자 배열 시스템 - ${readingMode}]\n`;
@@ -290,12 +286,13 @@ const ChatScreen: React.FC = () => {
                     mockScanContext += `내담자는 시간의 파동 궤적 배열(과거-현재-미래)입니다. 이 3장의 서사를 완벽하게 내담자의 현재 고통과 엮어내십시오.\n`;
                     mockScanContext += `과거: ${tarotCards[0].name}\n현재: ${tarotCards[1].name}\n미래: ${tarotCards[2].name}\n`;
                 } else if (readingMode === 'biomarker' && tarotCards && tarotCards.length === 4) {
-                    mockScanContext += `내담자는 '생체 마커 섀도우 미러' 배열입니다. 점술이 아니라 철저한 생체 진동 기반의 불균형을 진단하십시오.\n`;
+                    mockScanContext += `내담자는 '생체 마커 섀도우 미러' 배열입니다. 신비주의나 오컬트적인 '위로'를 전면 배제하십시오.\n`;
+                    mockScanContext += `오직 철저한 생체 진동 데이터(HRV, 보컬 텐션)와 타로 직관을 결합한 [양자-심리 진단 툴]로서만 기능하십시오.\n`;
                     mockScanContext += `[1. 물리적 신경계 붕괴점/HRV]: ${tarotCards[0].name} - ${tarotCards[0].description}\n`;
                     mockScanContext += `[2. 이성적 인지 왜곡점/성대파동]: ${tarotCards[1].name} - ${tarotCards[1].description}\n`;
                     mockScanContext += `[3. 억압된 감정 전이체/무의식투사]: ${tarotCards[2].name} - ${tarotCards[2].description}\n`;
                     mockScanContext += `[4. 영적 주파수 단절점/영혼상실]: ${tarotCards[3].name} - ${tarotCards[3].description}\n`;
-                    mockScanContext += `당신은 위 4가지 요소 중 어디에서 가장 치명적인 '기계적/에너지적 고장'이 났는지 차갑고 해부학적인 관점, 그러나 양자역학의 신비로움을 섞어 팩트 폭행을 가하십시오.\n`;
+                    mockScanContext += `당신은 위 4가지 요소 중 어디가 기계적/에너지적으로 박살이 났는지 해부학적 관점으로만 진단하고, 팩트 폭행을 가하십시오.\n`;
                 } else if (readingMode === 'daily' && tarotCards) {
                     mockScanContext += `내담자의 오늘의 단일 오라클 원형: ${tarotCards[0].name} - ${tarotCards[0].description}\n이 한 장의 상징과 디테일을 극한으로 파고들어 내담자에게 적용하십시오.\n`;
                 }
