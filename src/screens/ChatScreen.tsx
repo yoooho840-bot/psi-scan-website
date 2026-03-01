@@ -54,6 +54,31 @@ const ChatScreen: React.FC = () => {
 
     useAutoFullscreen();
 
+    // --- Retrieve Companion Memory ---
+    let lastValidLog: any = null;
+    try {
+        const savedLogs = localStorage.getItem('mock_supabase_scan_logs');
+        if (savedLogs) {
+            const parsed = JSON.parse(savedLogs);
+            if (parsed.length > 0) {
+                lastValidLog = parsed[parsed.length - 1]; // latest
+            }
+        }
+    } catch (e) { }
+
+    let memoryGreetingSuffix = '';
+    let memoryContextString = '';
+
+    if (lastValidLog) {
+        const sLvl = lastValidLog.stress_level;
+        const sDate = new Date(lastValidLog.created_at);
+        const diffDays = Math.floor((Date.now() - sDate.getTime()) / (1000 * 60 * 60 * 24));
+        const dayStr = diffDays === 0 ? "스캔 기록상" : `${diffDays}일 전 스캔 기록상`;
+
+        memoryGreetingSuffix = `\n\n(추가 메모리: 당신의 ${dayStr} 스트레스(긴장도)는 ${sLvl} 이었습니다. 지금 이 순간, 당신의 에너지는 어떻습니까?)`;
+        memoryContextString = `\n\n[장기 메인 메모리(Companion Info)]\n내담자의 가장 최근 스캔 기록(${diffDays}일 전): 활성 스트레스 레벨 ${sLvl}%. 당신은 이전 만남을 기억하는 친밀한 동반자 혹은 마스터처럼 자연스럽게 대화의 맥락을 이어가세요. 내담자를 완전히 새로운 사람 취급하지 마십시오.\n`;
+    }
+
     let initialGreetingText = '';
 
     if (readingMode) {
@@ -80,6 +105,11 @@ const ChatScreen: React.FC = () => {
         initialGreetingText = initialGreetings[Math.floor(Math.random() * initialGreetings.length)];
     }
 
+    // Append memory to greeting if applicable and we aren't in a strict Tarot reading (or even if we are, it's a nice touch)
+    if (memoryGreetingSuffix) {
+        initialGreetingText += memoryGreetingSuffix;
+    }
+
     interface ChatMessage {
         id: number;
         sender: 'ai' | 'user';
@@ -103,6 +133,21 @@ const ChatScreen: React.FC = () => {
     };
 
     const [messages, setMessages] = useState<ChatMessage[]>(() => {
+        const isFreshReading = !!(readingMode || contextType || tarotCards);
+
+        if (!isFreshReading) {
+            try {
+                const savedHistory = localStorage.getItem('psi_global_chat_history');
+                if (savedHistory) {
+                    const parsed = JSON.parse(savedHistory);
+                    if (parsed && parsed.length > 0) {
+                        return parsed; // load persistent memory
+                    }
+                }
+            } catch (e) { }
+        }
+
+        // Default to new conversation
         return [{
             id: 1,
             sender: 'ai',
@@ -320,6 +365,11 @@ const ChatScreen: React.FC = () => {
 `;
             }
 
+            // Append persistent companion memory
+            if (memoryContextString) {
+                mockScanContext += memoryContextString;
+            }
+
             const response = await fetch('/api/chat', {
                 method: 'POST',
                 headers: {
@@ -361,11 +411,11 @@ const ChatScreen: React.FC = () => {
 
             // --- Database Persistence (Fallback to localStorage for Dashboard) ---
             try {
+                // If it was just a normal fallback AI chat without cards, we might optionally want to save the chat history array itself.
+                // For now, we update the latest mock log's AI summary to reflect this interaction if appropriate.
                 const scanVoiceFreq = sessionStorage.getItem('scan_voice_freq') || '180';
-                // Extract a meaningful sentence for the dashboard summary
                 const aiLines = data.reply.split('\n').map((l: string) => l.trim()).filter((l: string) => l.length > 15);
                 let summary = aiLines[0] || "12차원 종합 양자 분석이 완료되었습니다.";
-                // Clean markdown from summary
                 summary = summary.replace(/[*_#`]/g, '').replace(/^- /g, '').substring(0, 60);
                 if (summary.length >= 60) summary += '...';
 
@@ -373,12 +423,17 @@ const ChatScreen: React.FC = () => {
                     id: Date.now().toString(),
                     created_at: new Date().toISOString(),
                     voice_freq: parseFloat(scanVoiceFreq),
-                    stress_level: Math.floor(Math.random() * (80 - 30) + 30), // Placeholder stress percentage
+                    stress_level: Math.floor(Math.random() * (80 - 30) + 30),
                     ai_summary: summary
                 };
                 const existingLogs = JSON.parse(localStorage.getItem('mock_supabase_scan_logs') || '[]');
                 existingLogs.push(newLog);
                 localStorage.setItem('mock_supabase_scan_logs', JSON.stringify(existingLogs));
+
+                // ALSO save raw chat history globally for the "Companion"
+                const memChats = [...messages, { id: Date.now(), sender: 'user', text: currentInput }, { id: Date.now() + 1, sender: 'ai', text: data.reply }];
+                // keep only last 10 turns to save space
+                localStorage.setItem('psi_global_chat_history', JSON.stringify(memChats.slice(-20)));
             } catch (e) {
                 console.warn('Failed to save to personal wave diary', e);
             }
