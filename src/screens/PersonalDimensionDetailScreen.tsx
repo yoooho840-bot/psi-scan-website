@@ -112,7 +112,33 @@ const PersonalDimensionDetailScreen: React.FC = () => {
     const navigate = useNavigate();
     const [isVisible, setIsVisible] = useState(false);
 
-    const dim = id && mockDimensionDb[id] ? mockDimensionDb[id] : mockDimensionDb["2"];
+    // Fallback data mapping from mock DB
+    const baseDim = (id && mockDimensionDb[id]) ? mockDimensionDb[id] : mockDimensionDb["2"];
+
+    // Try to extract AI-generated data from localStorage
+    let aiDim: any = null;
+    try {
+        const raw = localStorage.getItem('final_scan_results');
+        if (raw) {
+            const parsed = JSON.parse(raw);
+            if (parsed.dimensions && Array.isArray(parsed.dimensions)) {
+                aiDim = parsed.dimensions.find((d: any) => d.id.toString() === id);
+            }
+        }
+    } catch (e) {
+        console.error("Failed to parse localized AI dimension data", e);
+    }
+
+    // Merge AI Data with Fallback Data
+    const dim = {
+        title: aiDim?.title || baseDim.title,
+        icon: baseDim.icon || <Sparkles size={28} color="#FFF" />,
+        color: aiDim?.color || baseDim.color,
+        status: aiDim?.status || baseDim.status,
+        state: baseDim.state,
+        analysis: aiDim?.desc || baseDim.analysis,
+        advice: baseDim.advice
+    };
 
     useEffect(() => {
         // Trigger entrance animations

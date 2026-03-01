@@ -126,7 +126,7 @@ const TwelveDimensionReportScreen: React.FC = () => {
                     <div
                         key={dim.id}
                         className="glass-card dim-card-hover"
-                        onClick={() => navigate(`/ report / detail / ${dim.id} `)}
+                        onClick={() => navigate(`/report/detail/${dim.id}`)}
                         style={{
                             padding: '20px',
                             display: 'flex',
