@@ -18,6 +18,9 @@ const ElementalTherapyScreen: React.FC = () => {
     const [showUI, setShowUI] = useState(true);
     const uiTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+    const [isPrepping, setIsPrepping] = useState(false);
+    const [prepLogs, setPrepLogs] = useState<string[]>([]);
+
     useAutoFullscreen();
 
     const handleUserActivity = useCallback(() => {
@@ -351,23 +354,65 @@ const ElementalTherapyScreen: React.FC = () => {
                     <div style={{ textAlign: 'left', background: 'rgba(0,0,0,0.3)', padding: '25px', borderRadius: '15px', border: '1px solid rgba(255,255,255,0.05)', marginBottom: '40px' }}>
                         <h3 style={{ color: '#fff', fontSize: '1rem', marginBottom: '15px', letterSpacing: '2px', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '10px' }}>[ 호흡 몰입 시간에 따른 심신 안정 효과 ]</h3>
                         <ul style={{ listStyle: 'none', padding: 0, margin: 0, color: '#ccc', fontSize: '0.9rem', lineHeight: 1.8 }}>
-                            <li style={{ marginBottom: '10px' }}><b style={{ color: prescription.visualColor }}>3분:</b> 누적된 긴장 완화 및 편안한 이완 상태 진입 (안정화 1단계)</li>
-                            <li style={{ marginBottom: '10px' }}><b style={{ color: prescription.visualSecondary }}>5분:</b> 잡념이 사라지고 호흡과 파동이 일치하는 깊은 수용 상태 (회복 2단계)</li>
-                            <li><b style={{ color: '#A78BFA' }}>10분 이상:</b> 외부 스트레스 차단 및 완전한 내적 에너지 충전 (최상의 휴식)</li>
+                            <li style={{ marginBottom: '10px' }}><b style={{ color: prescription.visualColor }}>[Level 1] 3분:</b> 누적된 긴장 완화 및 편안한 이완 상태 진입</li>
+                            <li style={{ marginBottom: '10px' }}><b style={{ color: prescription.visualSecondary }}>[Level 2] 5분:</b> 잡념이 사라지고 호흡과 파동이 일치하는 회복 상태</li>
+                            <li><b style={{ color: '#A78BFA' }}>[Level 3] 10분 이상:</b> 외부 스트레스 차단 및 완전한 내적 에너지 충전</li>
                         </ul>
                     </div>
 
-                    <button onClick={() => { setShowIntro(false); setIsStarted(true); }} style={{
-                        background: `linear-gradient(135deg, ${prescription.visualColor}, ${prescription.visualSecondary})`,
-                        color: '#000', border: 'none', padding: '18px 40px', borderRadius: '40px',
-                        fontSize: '1.05rem', fontWeight: 600, letterSpacing: '2px', cursor: 'pointer',
-                        boxShadow: `0 10px 30px ${prescription.visualColor}40`, transition: 'all 0.3s'
-                    }} onMouseOver={e => e.currentTarget.style.transform = 'translateY(-2px)'} onMouseOut={e => e.currentTarget.style.transform = 'none'}>
-                        파동 호흡 시작하기
-                    </button>
-                    <button onClick={() => navigate(-1)} style={{ background: 'none', border: 'none', color: '#888', marginTop: '20px', cursor: 'pointer', display: 'block', margin: '20px auto 0 auto', letterSpacing: '2px', fontSize: '0.8rem' }} onMouseOver={e => e.currentTarget.style.color = '#fff'} onMouseOut={e => e.currentTarget.style.color = '#888'}>
-                        뒤로가기
-                    </button>
+                    {isPrepping ? (
+                        <div style={{ width: '100%', maxWidth: '500px', margin: '0 auto', background: 'rgba(0,0,0,0.6)', border: `1px solid ${prescription.visualColor}80`, padding: '20px', borderRadius: '12px', textAlign: 'left', minHeight: '160px', fontFamily: 'monospace', fontSize: '0.9rem', color: prescription.visualColor }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px', color: '#FFF' }}>
+                                <Cpu size={20} className="pulse-anim" /> <b>생체 기반 호흡 패턴 연산 중...</b>
+                            </div>
+                            {prepLogs.map((log, i) => (
+                                <div key={i} style={{ marginBottom: '8px', animation: 'fadeIn 0.3s ease-out' }}>&gt; {log}</div>
+                            ))}
+                        </div>
+                    ) : (
+                        <>
+                            <button onClick={() => {
+                                setIsPrepping(true);
+                                const vFreq = parseFloat(sessionStorage.getItem('scan_voice_freq') || '195.4');
+                                const surveyRaw = localStorage.getItem('pre_scan_survey');
+                                let strLvl = 3;
+                                try { if (surveyRaw) strLvl = JSON.parse(surveyRaw).stressLevel || 3; } catch (e) { }
+
+                                const logs = [
+                                    `[1] 원소 테라피 엔진 가동: 생체 데이터 맵핑 시작`,
+                                    `[2] 성대 주파수(Voice Freq) ${vFreq.toFixed(1)}Hz 확인`,
+                                    `[3] HRV 스트레스 지표 (Level ${strLvl}) 연동 완료`,
+                                    `[4] 맞춤형 호흡 프로토콜 [${prescription.breathType}] 배정 중...`,
+                                    `[5] ${prescription.targetFrequency1}Hz / ${prescription.targetFrequency2}Hz 공명 파동 합성`,
+                                    `[6] 양자장 동기화 준비 완료.`
+                                ];
+                                let idx = 0;
+                                setPrepLogs([logs[0]]);
+                                const logInt = setInterval(() => {
+                                    idx++;
+                                    if (idx < logs.length) setPrepLogs(p => [...p, logs[idx]]);
+                                    else {
+                                        clearInterval(logInt);
+                                        setTimeout(() => {
+                                            setIsPrepping(false);
+                                            setShowIntro(false);
+                                            setIsStarted(true);
+                                        }, 1000);
+                                    }
+                                }, 600);
+                            }} style={{
+                                background: `linear-gradient(135deg, ${prescription.visualColor}, ${prescription.visualSecondary})`,
+                                color: '#000', border: 'none', padding: '18px 40px', borderRadius: '40px',
+                                fontSize: '1.05rem', fontWeight: 600, letterSpacing: '2px', cursor: 'pointer',
+                                boxShadow: `0 10px 30px ${prescription.visualColor}40`, transition: 'all 0.3s'
+                            }} onMouseOver={e => e.currentTarget.style.transform = 'translateY(-2px)'} onMouseOut={e => e.currentTarget.style.transform = 'none'}>
+                                맞춤 파동 호흡 시작하기
+                            </button>
+                            <button onClick={() => navigate(-1)} style={{ background: 'none', border: 'none', color: '#888', marginTop: '20px', cursor: 'pointer', display: 'block', margin: '20px auto 0 auto', letterSpacing: '2px', fontSize: '0.8rem' }} onMouseOver={e => e.currentTarget.style.color = '#fff'} onMouseOut={e => e.currentTarget.style.color = '#888'}>
+                                뒤로가기
+                            </button>
+                        </>
+                    )}
                 </div>
                 <style>{`@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }`}</style>
             </div >

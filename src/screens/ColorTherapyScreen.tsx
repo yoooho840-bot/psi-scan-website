@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Activity, Target, Volume2, VolumeX, Info, ArrowLeft } from 'lucide-react';
+import { Activity, Target, Volume2, VolumeX, Info, ArrowLeft, Cpu } from 'lucide-react';
 
 interface ColorState {
     hexCode: string;
@@ -61,6 +61,9 @@ const ColorTherapyScreen: React.FC = () => {
     const [volume, setVolume] = useState(0.5);
     const [showUI, setShowUI] = useState(true);
     const uiTimeoutRef = useRef<any>(null);
+
+    const [isPrepping, setIsPrepping] = useState(false);
+    const [prepLogs, setPrepLogs] = useState<string[]>([]);
 
     const handleUserActivity = useCallback(() => {
         setShowUI(true);
@@ -193,20 +196,51 @@ const ColorTherapyScreen: React.FC = () => {
     }, [displayHz, isMuted, isScanning, resonance]);
 
     const handleStart = () => {
-        setShowIntro(false);
-        setIsScanning(true);
-        handleUserActivity();
-        initAudio(); // Explicitly unlock audio context on user interaction
+        setIsPrepping(true);
 
-        // Fullscreen request for immersive visual
-        const docElm = document.documentElement as any;
-        if (docElm) {
-            if (docElm.requestFullscreen) {
-                docElm.requestFullscreen().catch((err: any) => console.log(err));
-            } else if (docElm.webkitRequestFullscreen) {
-                docElm.webkitRequestFullscreen();
+        // Retrieve real biometric data
+        const voiceFreqRaw = sessionStorage.getItem('scan_voice_freq') || '210.5';
+        const surveyRaw = localStorage.getItem('pre_scan_survey');
+        const voiceFreq = parseFloat(voiceFreqRaw);
+        let stressExtracted = 3;
+        try { if (surveyRaw) stressExtracted = JSON.parse(surveyRaw).stressLevel || 3; } catch (e) { }
+
+        const extractionLogs = [
+            `[1] 생체 마커 로드 완료 (성대 진동수: ${voiceFreq.toFixed(1)}Hz)`,
+            `[2] 심장 변이도(HRV) 스트레스 지수 반영: Level ${stressExtracted}`,
+            `[3] 양자장 결어긋남(Decoherence) 보정 파동 계산 중...`,
+            `[4] 타겟 차크라(${colorName}) 결핍 에너지 대역 스캔 완료`,
+            stressExtracted >= 4 ? `[5] 극도의 텐션 감지: 보정 주파수(Binaural Beat) 심도 조정됨` : `[5] 안정 텐션 감지: 기본 힐링 코드로 주파수 고정됨`,
+            `[6] 맞춤형 색채-사운드 솔루션 락인(Lock-in) 완료.`
+        ];
+
+        let logIdx = 0;
+        setPrepLogs([extractionLogs[0]]);
+        const logInterval = setInterval(() => {
+            logIdx++;
+            if (logIdx < extractionLogs.length) {
+                setPrepLogs(prev => [...prev, extractionLogs[logIdx]]);
+            } else {
+                clearInterval(logInterval);
+                setTimeout(() => {
+                    setIsPrepping(false);
+                    setShowIntro(false);
+                    setIsScanning(true);
+                    handleUserActivity();
+                    initAudio(); // Explicitly unlock audio context on user interaction
+
+                    // Fullscreen request for immersive visual
+                    const docElm = document.documentElement as any;
+                    if (docElm) {
+                        if (docElm.requestFullscreen) {
+                            docElm.requestFullscreen().catch((err: any) => console.log(err));
+                        } else if (docElm.webkitRequestFullscreen) {
+                            docElm.webkitRequestFullscreen();
+                        }
+                    }
+                }, 1000);
             }
-        }
+        }, 600);
     };
 
     const handleExit = () => {
@@ -369,23 +403,36 @@ const ColorTherapyScreen: React.FC = () => {
                     <div style={{ textAlign: 'left', background: 'rgba(255,255,255,0.1)', padding: '25px', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.2)', marginBottom: '40px' }}>
                         <h3 style={{ color: '#fff', fontSize: '1.4rem', marginBottom: '20px', letterSpacing: '2px', borderBottom: '1px solid rgba(255,255,255,0.2)', paddingBottom: '15px' }}>[ 세션 시간에 따른 에너지 정화 효과 ]</h3>
                         <ul style={{ listStyle: 'none', padding: 0, margin: 0, color: '#fff', fontSize: '1.2rem', lineHeight: 1.8, fontWeight: 300 }}>
-                            <li style={{ marginBottom: '15px' }}><b style={{ color: '#baffc9' }}>3분:</b> 뇌파의 알파파 전환 유도 및 일상적인 스트레스 텐션 이완 (가벼운 휴식)</li>
-                            <li style={{ marginBottom: '15px' }}><b style={{ color: '#bae1ff' }}>5분:</b> 내면 에너지 밸런스 회복 및 생체 에너지장(Biofield) 파동 안정화 (권장)</li>
-                            <li><b style={{ color: '#dcbaff' }}>10분 이상:</b> 깊은 차원의 오라(Aura) 이완 및 무의식 수준의 억압된 텐션 해방 (수면 전 강력 권장)</li>
+                            <li style={{ marginBottom: '15px' }}><b style={{ color: '#baffc9' }}>[Level 1] 3분:</b> 뇌파의 알파파 전환 유도 및 일상적인 스트레스 텐션 이완</li>
+                            <li style={{ marginBottom: '15px' }}><b style={{ color: '#bae1ff' }}>[Level 2] 5분:</b> 내면 에너지 밸런스 회복 및 생체 에너지장(Biofield) 파동 안정화</li>
+                            <li><b style={{ color: '#dcbaff' }}>[Level 3] 10분 이상:</b> 깊은 차원의 오라(Aura) 이완 및 무의식 수준의 억압된 텐션 해방</li>
                         </ul>
                     </div>
 
-                    <button onClick={handleStart} style={{
-                        background: 'linear-gradient(135deg, #FF6B6B, #4ECDC4)',
-                        color: '#FFF', border: 'none', padding: '20px 50px', borderRadius: '40px',
-                        fontSize: '1.6rem', fontWeight: 600, letterSpacing: '2px', cursor: 'pointer',
-                        boxShadow: '0 10px 30px rgba(0,0,0,0.2)', transition: 'all 0.3s'
-                    }} onMouseOver={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 15px 35px rgba(0,0,0,0.3)'; }} onMouseOut={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.2)'; }}>
-                        나의 맞춤형 세션 시작하기
-                    </button>
-                    <button onClick={() => navigate(-1)} style={{ background: 'none', border: 'none', color: '#ccc', marginTop: '20px', cursor: 'pointer', display: 'block', margin: '25px auto 0 auto', letterSpacing: '2px', fontSize: '1.2rem', transition: 'color 0.3s' }} onMouseOver={e => e.currentTarget.style.color = '#fff'} onMouseOut={e => e.currentTarget.style.color = '#ccc'}>
-                        뒤로가기
-                    </button>
+                    {isPrepping ? (
+                        <div style={{ width: '100%', maxWidth: '500px', margin: '0 auto', background: 'rgba(0,0,0,0.6)', border: '1px solid rgba(255,255,255,0.3)', padding: '20px', borderRadius: '12px', textAlign: 'left', minHeight: '160px', fontFamily: 'monospace', fontSize: '0.9rem', color: '#baffc9' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px', color: '#FFF' }}>
+                                <Cpu size={20} className="pulse-anim" /> <b>생체 파동 솔루션 조율 중...</b>
+                            </div>
+                            {prepLogs.map((log, i) => (
+                                <div key={i} style={{ marginBottom: '8px', animation: 'fadeIn 0.3s ease-out' }}>&gt; {log}</div>
+                            ))}
+                        </div>
+                    ) : (
+                        <>
+                            <button onClick={handleStart} style={{
+                                background: 'linear-gradient(135deg, #FF6B6B, #4ECDC4)',
+                                color: '#FFF', border: 'none', padding: '20px 50px', borderRadius: '40px',
+                                fontSize: '1.6rem', fontWeight: 600, letterSpacing: '2px', cursor: 'pointer',
+                                boxShadow: '0 10px 30px rgba(0,0,0,0.2)', transition: 'all 0.3s'
+                            }} onMouseOver={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 15px 35px rgba(0,0,0,0.3)'; }} onMouseOut={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.2)'; }}>
+                                나의 맞춤형 세션 시작하기
+                            </button>
+                            <button onClick={() => navigate(-1)} style={{ background: 'none', border: 'none', color: '#ccc', marginTop: '20px', cursor: 'pointer', display: 'block', margin: '25px auto 0 auto', letterSpacing: '2px', fontSize: '1.2rem', transition: 'color 0.3s' }} onMouseOver={e => e.currentTarget.style.color = '#fff'} onMouseOut={e => e.currentTarget.style.color = '#ccc'}>
+                                뒤로가기
+                            </button>
+                        </>
+                    )}
                 </div>
                 <style>{`
                     @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }

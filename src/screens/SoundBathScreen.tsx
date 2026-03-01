@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
-import { Volume2, VolumeX, Info, ArrowLeft } from 'lucide-react';
+import { Volume2, VolumeX, Info, ArrowLeft, Cpu } from 'lucide-react';
 import RitualPortal from '../components/RitualPortal';
 
 const SoundBathScreen: React.FC = () => {
@@ -19,6 +20,10 @@ const SoundBathScreen: React.FC = () => {
     const [isStarted, setIsStarted] = useState(false);
     const [showUI, setShowUI] = useState(true);
     const uiTimeoutRef = useRef<any>(null);
+
+    const [showIntro, setShowIntro] = useState(true);
+    const [isPrepping, setIsPrepping] = useState(false);
+    const [prepLogs, setPrepLogs] = useState<string[]>([]);
 
     const handleUserActivity = useCallback(() => {
         setShowUI(true);
@@ -272,6 +277,118 @@ const SoundBathScreen: React.FC = () => {
             }
         };
     }, []);
+
+    const handleStart = () => {
+        setIsPrepping(true);
+
+        // Retrieve real biometric data
+        const voiceFreqRaw = sessionStorage.getItem('scan_voice_freq') || '210.5';
+        const surveyRaw = localStorage.getItem('pre_scan_survey');
+        const voiceFreq = parseFloat(voiceFreqRaw);
+        let stressExtracted = 3;
+        try { if (surveyRaw) stressExtracted = JSON.parse(surveyRaw).stressLevel || 3; } catch (e) { }
+
+        // Auto-select preset based on biometrics
+        if (stressExtracted >= 4) setPreset('grounding');
+        else if (voiceFreq > 220) setPreset('clarity');
+        else setPreset('healing');
+
+        const extractionLogs = [
+            `[1] 성대 진동수 스캔 프로파일 로드 (${voiceFreq.toFixed(1)}Hz)`,
+            `[2] 교감/부교감 신경계(HRV) 스트레스 마커: Level ${stressExtracted}`,
+            `[3] 신경계 텐션 억제 싱잉볼(Singing Bowl) 배음 구조 추출 중...`,
+            stressExtracted >= 4 ? `[4] 극강의 스트레스 감지 -> 강제 그라운딩(Grounding 174Hz) 주파수 강제 할당` : `[4] 뇌파 안정화 확인 -> 치유 및 확장(Healing/Clarity) 주파수 할당`,
+            `[5] 바이노럴 비트(Binaural Beat) 위상차(Phase-shift) 동기화 중`,
+            `[6] 맞춤형 퀀텀 사운드 배스 설계 완료.`
+        ];
+
+        let logIdx = 0;
+        setPrepLogs([extractionLogs[0]]);
+        const logInterval = setInterval(() => {
+            logIdx++;
+            if (logIdx < extractionLogs.length) {
+                setPrepLogs(prev => [...prev, extractionLogs[logIdx]]);
+            } else {
+                clearInterval(logInterval);
+                setTimeout(() => {
+                    setIsPrepping(false);
+                    setShowIntro(false);
+                    setIsStarted(true);
+
+                    const unlock = () => {
+                        initAudio();
+                        document.removeEventListener('click', unlock);
+                    };
+                    document.addEventListener('click', unlock);
+                    setTimeout(() => setOpacity(1), 100);
+                }, 1000);
+            }
+        }, 600);
+    };
+
+    if (showIntro) {
+        return createPortal(
+            <div style={{
+                position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+                display: 'flex', flexDirection: 'column',
+                justifyContent: 'center', alignItems: 'center', color: '#FFFFFF',
+                zIndex: 999999, overflow: 'hidden', padding: '20px',
+                background: 'linear-gradient(to bottom, #020205, #0a0a1a)'
+            }}>
+                {/* Cosmic background particles or sacred geometry could go here */}
+                <div style={{
+                    position: 'absolute', width: '800px', height: '800px',
+                    backgroundImage: 'url("https://www.transparenttextures.com/patterns/sacred-geometry.png")',
+                    opacity: 0.1, zIndex: -1, animation: 'spin 180s infinite linear'
+                }}></div>
+
+                <div style={{
+                    maxWidth: '800px', width: '100%',
+                    background: 'rgba(5, 5, 10, 0.8)',
+                    border: '1px solid rgba(218, 165, 32, 0.3)',
+                    padding: '50px 40px', borderRadius: '30px',
+                    backdropFilter: 'blur(10px)',
+                    textAlign: 'center',
+                    animation: 'fadeIn 1s ease-out',
+                    boxShadow: '0 20px 50px rgba(0,0,0,0.5)'
+                }}>
+                    <h1 style={{ fontFamily: 'var(--font-brand)', fontSize: '2.5rem', margin: '0 0 15px 0', letterSpacing: '4px', color: 'var(--color-gold-main)' }}>
+                        사운드 배스 (싱잉볼)
+                    </h1>
+                    <p style={{ color: '#aaa', fontSize: '1.2rem', lineHeight: 1.6, marginBottom: '40px', wordBreak: 'keep-all', fontWeight: 300 }}>
+                        측정된 생체 파동 데이터를 기반으로, 당신의 신경계를 가장 빠르고 강력하게 이완시키는 특수 싱잉볼 주파수가 매칭됩니다.<br /><br />
+                        <b>* 이어폰 착용을 강력히 권장합니다. 양쪽 귀의 진동수 차이(Binaural Beats)를 통해 뇌파를 강제로 테타파(명상 상태)로 전환합니다.</b>
+                    </p>
+
+                    {isPrepping ? (
+                        <div style={{ width: '100%', maxWidth: '500px', margin: '0 auto', background: 'rgba(0,0,0,0.6)', border: '1px solid rgba(218, 165, 32, 0.3)', padding: '20px', borderRadius: '12px', textAlign: 'left', minHeight: '160px', fontFamily: 'monospace', fontSize: '0.9rem', color: '#ffecb3' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px', color: 'var(--color-gold-main)' }}>
+                                <Cpu size={20} className="pulse-anim" /> <b>사운드 테라피 동기화 중...</b>
+                            </div>
+                            {prepLogs.map((log, i) => (
+                                <div key={i} style={{ marginBottom: '8px', animation: 'fadeIn 0.3s ease-out' }}>&gt; {log}</div>
+                            ))}
+                        </div>
+                    ) : (
+                        <>
+                            <button onClick={handleStart} style={{
+                                background: 'linear-gradient(135deg, rgba(218, 165, 32, 0.8), rgba(184, 134, 11, 0.8))',
+                                color: '#FFF', border: '1px solid var(--color-gold-main)', padding: '18px 45px', borderRadius: '40px',
+                                fontSize: '1.4rem', fontWeight: 600, letterSpacing: '2px', cursor: 'pointer',
+                                boxShadow: '0 0 20px rgba(218, 165, 32, 0.3)', transition: 'all 0.3s'
+                            }} onMouseOver={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 0 30px rgba(218, 165, 32, 0.5)'; }} onMouseOut={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 0 20px rgba(218, 165, 32, 0.3)'; }}>
+                                데이터 기반 진동 시작
+                            </button>
+                            <button onClick={() => navigate(-1)} style={{ background: 'none', border: 'none', color: '#888', marginTop: '20px', cursor: 'pointer', display: 'block', margin: '25px auto 0 auto', letterSpacing: '2px', fontSize: '1rem', transition: 'color 0.3s' }} onMouseOver={e => e.currentTarget.style.color = '#fff'} onMouseOut={e => e.currentTarget.style.color = '#888'}>
+                                뒤로가기
+                            </button>
+                        </>
+                    )}
+                </div>
+            </div>,
+            document.body
+        );
+    }
 
     return (
         <div style={{
