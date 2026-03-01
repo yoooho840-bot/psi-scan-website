@@ -365,9 +365,7 @@ function AppContent() {
       {/* Desktop Sidebar (Left Panel) */}
       <Sidebar />
 
-      {/* Main Content Pane (Right) */}
       <div className={isScanScreen ? "" : "desktop-content"} style={isScanScreen ? { height: '100vh', overflowY: 'auto' } : {}}>
-        <GlobalFloatingButtons />
         <Routes>
           {/* Main Flow */}
           <Route path="/" element={<LandingScreen />} />
@@ -408,6 +406,9 @@ function AppContent() {
           <Route path="/admin" element={<AuthGate><AdminDashboardScreen /></AuthGate>} />
         </Routes>
       </div>
+
+      {/* Global overlays placed outside scroll containers to guarantee visibility */}
+      <GlobalFloatingButtons />
     </div>
   );
 }
