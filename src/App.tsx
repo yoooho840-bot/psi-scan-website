@@ -365,7 +365,7 @@ function AppContent() {
       {/* Desktop Sidebar (Left Panel) */}
       <Sidebar />
 
-      <div className={isScanScreen ? "" : "desktop-content"} style={isScanScreen ? { height: '100vh', overflowY: 'auto' } : {}}>
+      <div className={isScanScreen ? "" : "desktop-content"} style={isScanScreen ? { height: '100vh', overflowY: 'auto', flex: 1, minWidth: 0 } : { flex: 1, minWidth: 0, overflowX: 'hidden' }}>
         <Routes>
           {/* Main Flow */}
           <Route path="/" element={<LandingScreen />} />
