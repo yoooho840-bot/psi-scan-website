@@ -227,13 +227,31 @@ const ChatScreen: React.FC = () => {
             // Retrieve real biological voice frequency from sessionStorage
             const scanVoiceFreq = sessionStorage.getItem('scan_voice_freq') || '측정 안됨';
 
+            // Retrieve deterministic analysis results
+            const rawAnalysis = localStorage.getItem('final_scan_results');
+            const analysisData = rawAnalysis ? JSON.parse(rawAnalysis) : null;
+            const rawSurvey = localStorage.getItem('pre_scan_survey');
+            const surveyData = rawSurvey ? JSON.parse(rawSurvey) : null;
+
             // Build the Deep Scan Context dynamically based on available data
             let mockScanContext = `
 [내담자 기본 파동 스캔 요약]
 - 음성 생체 마커(Voice Frequency): ${scanVoiceFreq !== '측정 안됨' ? `${scanVoiceFreq} Hz` : '데이터 없음'}
-- 현재 내담자의 에너지 파동이 다소 불안정함.
-- 질문의 맥락과 위 데이터/상태를 깊이 결합하여, 통찰력 있는 원인 분석과 실천 솔루션을 제공할 것.
 `;
+
+            if (analysisData && surveyData) {
+                mockScanContext += `- 현재 의식적 심리 상태(본인 인지): ${surveyData.mentalState} (스트레스 지수: ${surveyData.stressLevel}/5, 피로도: ${5 - surveyData.vitality}/5)
+- 무의식/신체 차크라 분석 (AnalysisEngine 결과):
+  * 종합 스트레스 인덱스(100만점): ${analysisData.stressIndex}
+  * 심층 뿌리 원인: ${analysisData.primaryIssue}
+  * 에너지장 (Aura) 컬러: ${analysisData.auraColor}
+  * 당신은 이 정확한 수치와 분석을 바탕으로 내담자에게 맞춤형 힐링 상담을 제공해야 합니다.
+`;
+            } else {
+                mockScanContext += `- 현재 내담자의 에너지 파동이 다소 불안정함.\n`;
+            }
+
+            mockScanContext += `- 질문의 맥락과 위 데이터/상태를 깊이 결합하여, 전문적이면서도 매우 따뜻한 원인 분석과 실천 솔루션을 제공할 것.\n`;
 
             if (contextType === 'dual_tarot' && tarotCards && tarotCards.length >= 4) {
                 mockScanContext += `

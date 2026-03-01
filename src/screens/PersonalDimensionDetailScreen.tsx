@@ -121,9 +121,22 @@ const PersonalDimensionDetailScreen: React.FC = () => {
 
     // Helper for visualizer configuration
     const getEnergyLevel = () => {
+        const raw = localStorage.getItem('final_scan_results');
+        if (raw) {
+            const eg = JSON.parse(raw).overallEnergy;
+            return eg > 70 ? "high" : eg > 40 ? "medium" : "low";
+        }
         if (dim.status === "경고" || dim.status === "막힘") return "high";
         if (dim.status === "불균형" || dim.status === "수축") return "medium";
         return "low";
+    }
+
+    const getAuraColor = () => {
+        const raw = localStorage.getItem('final_scan_results');
+        if (raw) {
+            return JSON.parse(raw).auraColor;
+        }
+        return dim.color;
     }
 
     return (
@@ -168,7 +181,7 @@ const PersonalDimensionDetailScreen: React.FC = () => {
             {/* Dynamic Visualizer based on this specific dimension */}
             <div style={{ margin: '0 0 40px 0', borderTop: '1px solid rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)', background: `radial-gradient(ellipse at center, ${dim.color}10 0%, transparent 60%)` }}>
                 <HumanAuraFigure
-                    primaryColor={dim.color}
+                    primaryColor={getAuraColor()}
                     secondaryColor="#ffffff"
                     energyLevel={getEnergyLevel()}
                     isScanning={false}

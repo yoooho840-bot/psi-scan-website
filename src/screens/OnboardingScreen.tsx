@@ -1,15 +1,25 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Sparkles, Home } from 'lucide-react';
+import { Sparkles, Home, Activity } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import type { PreScanSurvey } from '../services/AnalysisEngine';
 
 const OnboardingScreen: React.FC = () => {
     const navigate = useNavigate();
+    const [step, setStep] = useState<1 | 2>(1); // Step 1: Info, Step 2: Survey
+
+    // Basic Info
     const [name, setName] = useState('');
     const [birthDate, setBirthDate] = useState('');
     const [birthTime, setBirthTime] = useState('');
     const [birthPlace, setBirthPlace] = useState('');
     const [currentAddress, setCurrentAddress] = useState('');
+
+    // Pre-Scan Survey
+    const [sleepQuality, setSleepQuality] = useState<number>(3);
+    const [stressLevel, setStressLevel] = useState<number>(3);
+    const [vitality, setVitality] = useState<number>(3);
+    const [mentalState, setMentalState] = useState<PreScanSurvey['mentalState']>('평온함');
 
     const [isB2BMode, setIsB2BMode] = useState(false);
     const [b2bSalonName, setB2BSalonName] = useState('');
@@ -22,10 +32,19 @@ const OnboardingScreen: React.FC = () => {
         }
     }, []);
 
+    const handleNextStep = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (name && birthDate && birthPlace && currentAddress) {
+            setStep(2);
+        } else {
+            alert("모든 필수 정보를 입력해주세요.");
+        }
+    };
+
     const handleStart = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        // SEC-006: 입력값 사전 검증 및 새니타이징 (기본 XSS 및 SQL 인젝션 방어형)
+        // SEC-006: 입력값 사전 검증 및 새니타이징
         const sanitizeInput = (str: string) => str.replace(/[<>;{}()]/g, '').trim();
 
         const safeName = sanitizeInput(name);
@@ -39,62 +58,53 @@ const OnboardingScreen: React.FC = () => {
             return;
         }
 
-        // 🚨 Database Injection Point
-        // In a real production app, we would authenticate the user properly.
-        // For the beta, we will "upsert" based on their name/birthDate to create a session ID.
+        // Save Survey Data to LocalStorage for the AnalysisEngine later
+        const surveyData: PreScanSurvey = {
+            sleepQuality,
+            stressLevel,
+            vitality,
+            mentalState
+        };
+        localStorage.setItem('psi_survey_data', JSON.stringify(surveyData));
+        localStorage.setItem('psi_birth_data', JSON.stringify({ date: safeBirthDate, time: safeBirthTime, name: safeName }));
+
         try {
-            if (name && birthDate && birthPlace && currentAddress) {
-                // If in B2B Mode, bypass the free trial check entirely
-                if (!isB2BMode) {
-                    const { data: existingUser } = await supabase
-                        .from('users')
-                        .select('subscription_status, free_trials_used')
-                        .eq('full_name', safeName) // SEC-002: Supabase ORM uses parameterized queries automatically
-                        .single();
-
-                    if (existingUser && existingUser.free_trials_used >= 1 && existingUser.subscription_status === 'free') {
-                        alert('무료 스캔 1회가 소진되었습니다. 심층 분석을 계속하려면 프리미엄 패스를 이용해 주세요.');
-                        navigate('/paywall', { state: { next: '/scan' } });
-                        return;
-                    }
-                }
-
-                // If user doesn't exist or is premium, log the session
-                const { data: newUser, error } = await supabase
+            if (!isB2BMode) {
+                const { data: existingUser } = await supabase
                     .from('users')
-                    .upsert([{
-                        full_name: safeName,
-                        birth_date: safeBirthDate,
-                        birth_time: safeBirthTime,
-                        birth_place: safeBirthPlace,
-                        current_address: safeAddress,
-                        last_active: new Date().toISOString()
-                    }])
-                    .select()
+                    .select('subscription_status, free_trials_used')
+                    .eq('full_name', safeName)
                     .single();
 
-                if (error) throw error;
-
-                // Save user session locally for this flow
-                if (newUser) {
-                    localStorage.setItem('currentUserId', newUser.id);
-                }
-
-                navigate('/scan');
-            }
-        } catch (err) {
-            console.error('Supabase DB Error (falling back to local):', err);
-            // Fallback for when keys are mock/invalid: proceed with local simulation
-            if (!isB2BMode) {
-                const hasUsedFreeTrial = localStorage.getItem('hasUsedFreeTrial') === 'true';
-                const hasPaidAccount = localStorage.getItem('hasPaidAccount') === 'true';
-
-                if (hasUsedFreeTrial && !hasPaidAccount) {
-                    alert('무료 체험 1회가 모두 소진되었습니다. 무제한 스캔 및 심층 분석을 원하시면 프리미엄 패스를 이용해 주세요.');
+                if (existingUser && existingUser.free_trials_used >= 1 && existingUser.subscription_status === 'free') {
+                    alert('무료 스캔 1회가 소진되었습니다. 심층 분석을 계속하려면 프리미엄 패스를 이용해 주세요.');
                     navigate('/paywall', { state: { next: '/scan' } });
                     return;
                 }
             }
+
+            const { data: newUser, error } = await supabase
+                .from('users')
+                .upsert([{
+                    full_name: safeName,
+                    birth_date: safeBirthDate,
+                    birth_time: safeBirthTime,
+                    birth_place: safeBirthPlace,
+                    current_address: safeAddress,
+                    last_active: new Date().toISOString()
+                }])
+                .select()
+                .single();
+
+            if (error) throw error;
+
+            if (newUser) {
+                localStorage.setItem('currentUserId', newUser.id);
+            }
+
+            navigate('/scan');
+        } catch (err) {
+            console.error('Supabase DB Error (falling back to local):', err);
             navigate('/scan');
         }
     };
@@ -211,71 +221,139 @@ const OnboardingScreen: React.FC = () => {
                 )}
 
                 <form onSubmit={handleStart}>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', marginBottom: '35px' }}>
-                        <input
-                            type="text"
-                            placeholder="이름 (영문 또는 한글)"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            required
-                            className="quantum-input"
-                        />
-                        <div style={{ display: 'flex', gap: '10px' }}>
-                            <div style={{ flex: 1, position: 'relative' }}>
+                    {step === 1 ? (
+                        <>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', marginBottom: '35px' }}>
                                 <input
-                                    type="date"
-                                    placeholder="생년월일 (양력)"
-                                    value={birthDate}
-                                    onChange={(e) => setBirthDate(e.target.value)}
+                                    type="text"
+                                    placeholder="이름 (영문 또는 한글)"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
                                     required
                                     className="quantum-input"
-                                    style={{ paddingRight: '70px' }}
                                 />
-                                <span style={{ position: 'absolute', right: '40px', top: '50%', transform: 'translateY(-50%)', fontSize: '0.75rem', color: 'var(--color-text-muted)', pointerEvents: 'none', background: 'rgba(20,20,30,0.8)', padding: '2px 6px', borderRadius: '4px' }}>양력 기준</span>
+                                <div style={{ display: 'flex', gap: '10px' }}>
+                                    <div style={{ flex: 1, position: 'relative' }}>
+                                        <input
+                                            type="date"
+                                            placeholder="생년월일 (양력)"
+                                            value={birthDate}
+                                            onChange={(e) => setBirthDate(e.target.value)}
+                                            required
+                                            className="quantum-input"
+                                            style={{ paddingRight: '70px' }}
+                                        />
+                                        <span style={{ position: 'absolute', right: '40px', top: '50%', transform: 'translateY(-50%)', fontSize: '0.75rem', color: 'var(--color-text-muted)', pointerEvents: 'none', background: 'rgba(20,20,30,0.8)', padding: '2px 6px', borderRadius: '4px' }}>양력 기준</span>
+                                    </div>
+                                    <input
+                                        type="time"
+                                        placeholder="태어난 시간"
+                                        value={birthTime}
+                                        onChange={(e) => setBirthTime(e.target.value)}
+                                        className="quantum-input"
+                                        style={{ flex: 1 }}
+                                    />
+                                </div>
+                                <input
+                                    type="text"
+                                    placeholder="출생 지역 (예: 서울특별시 강남구)"
+                                    value={birthPlace}
+                                    onChange={(e) => setBirthPlace(e.target.value)}
+                                    required
+                                    className="quantum-input"
+                                />
+                                <input
+                                    type="text"
+                                    placeholder="현재 거주 지역 (동기화 기준 위치)"
+                                    value={currentAddress}
+                                    onChange={(e) => setCurrentAddress(e.target.value)}
+                                    required
+                                    className="quantum-input"
+                                />
                             </div>
-                            <input
-                                type="time"
-                                placeholder="태어난 시간"
-                                value={birthTime}
-                                onChange={(e) => setBirthTime(e.target.value)}
-                                className="quantum-input"
-                                style={{ flex: 1 }}
-                            />
-                        </div>
-                        <input
-                            type="text"
-                            placeholder="출생 지역 (예: 서울특별시 강남구)"
-                            value={birthPlace}
-                            onChange={(e) => setBirthPlace(e.target.value)}
-                            required
-                            className="quantum-input"
-                        />
-                        <input
-                            type="text"
-                            placeholder="현재 거주 지역 (동기화 기준 위치)"
-                            value={currentAddress}
-                            onChange={(e) => setCurrentAddress(e.target.value)}
-                            required
-                            className="quantum-input"
-                        />
-                    </div>
 
-                    <button type="submit" className="primary-btn" style={{
-                        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
-                        width: '100%', padding: '20px', fontSize: '1.2rem', fontWeight: 'bold', letterSpacing: '1px',
-                        marginBottom: '20px',
-                        background: isB2BMode ? 'linear-gradient(135deg, #10b981, #047857)' : 'linear-gradient(135deg, var(--color-gold-light), var(--color-gold-main))',
-                        color: isB2BMode ? '#FFF' : '#111',
-                        border: 'none', borderRadius: '40px',
-                        boxShadow: isB2BMode ? '0 10px 25px rgba(16, 185, 129, 0.4)' : '0 10px 25px rgba(218, 165, 32, 0.3)',
-                        transition: 'transform 0.3s, box-shadow 0.3s'
-                    }}
-                        onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = isB2BMode ? '0 15px 30px rgba(16, 185, 129, 0.5)' : '0 15px 30px rgba(218, 165, 32, 0.4)'; }}
-                        onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = isB2BMode ? '0 10px 25px rgba(16, 185, 129, 0.4)' : '0 10px 25px rgba(218, 165, 32, 0.3)'; }}
-                    >
-                        <Sparkles size={22} />
-                        {isB2BMode ? '고객 파동 스캔 세션 시작' : '나의 파동으로 에너지 필드 접속하기'}
-                    </button>
+                            <button type="button" onClick={handleNextStep} className="primary-btn" style={{
+                                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
+                                width: '100%', padding: '20px', fontSize: '1.2rem', fontWeight: 'bold', letterSpacing: '1px',
+                                marginBottom: '20px',
+                                background: isB2BMode ? 'linear-gradient(135deg, #10b981, #047857)' : 'linear-gradient(135deg, var(--color-gold-light), var(--color-gold-main))',
+                                color: isB2BMode ? '#FFF' : '#111',
+                                border: 'none', borderRadius: '40px',
+                                boxShadow: isB2BMode ? '0 10px 25px rgba(16, 185, 129, 0.4)' : '0 10px 25px rgba(218, 165, 32, 0.3)',
+                                transition: 'transform 0.3s, box-shadow 0.3s'
+                            }}
+                                onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = isB2BMode ? '0 15px 30px rgba(16, 185, 129, 0.5)' : '0 15px 30px rgba(218, 165, 32, 0.4)'; }}
+                                onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = isB2BMode ? '0 10px 25px rgba(16, 185, 129, 0.4)' : '0 10px 25px rgba(218, 165, 32, 0.3)'; }}
+                            >
+                                다음 단계 <Activity size={20} />
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginBottom: '35px', textAlign: 'left' }}>
+                                <h3 style={{ color: 'var(--color-gold-light)', fontSize: '1.1rem', marginBottom: '5px' }}>자가 진단 (Pre-Scan Survey)</h3>
+
+                                <div>
+                                    <label style={{ display: 'block', color: 'var(--color-text-secondary)', marginBottom: '8px', fontSize: '0.9rem' }}>최근 수면의 질은 어떠셨나요? (1: 최악 ~ 5: 꿀잠)</label>
+                                    <input type="range" min="1" max="5" value={sleepQuality} onChange={(e) => setSleepQuality(parseInt(e.target.value))} style={{ width: '100%', accentColor: 'var(--color-gold-main)' }} />
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', color: 'var(--color-text-muted)' }}><span>매우 나쁨</span><span>보통</span><span>매우 좋음</span></div>
+                                </div>
+
+                                <div>
+                                    <label style={{ display: 'block', color: 'var(--color-text-secondary)', marginBottom: '8px', fontSize: '0.9rem' }}>현재 스트레스/불안 정도 (1: 평온 ~ 5: 극심함)</label>
+                                    <input type="range" min="1" max="5" value={stressLevel} onChange={(e) => setStressLevel(parseInt(e.target.value))} style={{ width: '100%', accentColor: 'var(--color-gold-main)' }} />
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', color: 'var(--color-text-muted)' }}><span>낮음</span><span>보통</span><span>높음</span></div>
+                                </div>
+
+                                <div>
+                                    <label style={{ display: 'block', color: 'var(--color-text-secondary)', marginBottom: '8px', fontSize: '0.9rem' }}>최근 육체적 피로도/활력 (1: 방전 ~ 5: 활기참)</label>
+                                    <input type="range" min="1" max="5" value={vitality} onChange={(e) => setVitality(parseInt(e.target.value))} style={{ width: '100%', accentColor: 'var(--color-gold-main)' }} />
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', color: 'var(--color-text-muted)' }}><span>완전 방전</span><span>보통</span><span>에너지 넘침</span></div>
+                                </div>
+
+                                <div>
+                                    <label style={{ display: 'block', color: 'var(--color-text-secondary)', marginBottom: '8px', fontSize: '0.9rem' }}>현재 가장 신경 쓰이는 멘탈 상태 (선택)</label>
+                                    <select
+                                        value={mentalState}
+                                        onChange={(e) => setMentalState(e.target.value as any)}
+                                        className="quantum-input"
+                                        style={{ padding: '12px 15px' }}
+                                    >
+                                        <option value="평온함">평온함 (특별한 문제 없음)</option>
+                                        <option value="우울">우울감 / 무기력</option>
+                                        <option value="불안">불안 / 초초함</option>
+                                        <option value="공황장애">공황장애 / 두근거림</option>
+                                        <option value="강박증">강박증 / 복잡한 생각</option>
+                                        <option value="중독증">중독증 / 습관적 갈망</option>
+                                        <option value="기타">기타 스트레스</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <button type="submit" className="primary-btn" style={{
+                                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
+                                width: '100%', padding: '20px', fontSize: '1.2rem', fontWeight: 'bold', letterSpacing: '1px',
+                                marginBottom: '20px',
+                                background: isB2BMode ? 'linear-gradient(135deg, #10b981, #047857)' : 'linear-gradient(135deg, var(--color-gold-light), var(--color-gold-main))',
+                                color: isB2BMode ? '#FFF' : '#111',
+                                border: 'none', borderRadius: '40px',
+                                boxShadow: isB2BMode ? '0 10px 25px rgba(16, 185, 129, 0.4)' : '0 10px 25px rgba(218, 165, 32, 0.3)',
+                                transition: 'transform 0.3s, box-shadow 0.3s'
+                            }}
+                                onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = isB2BMode ? '0 15px 30px rgba(16, 185, 129, 0.5)' : '0 15px 30px rgba(218, 165, 32, 0.4)'; }}
+                                onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = isB2BMode ? '0 10px 25px rgba(16, 185, 129, 0.4)' : '0 10px 25px rgba(218, 165, 32, 0.3)'; }}
+                            >
+                                <Sparkles size={22} />
+                                {isB2BMode ? '고객 파동 분석 시작' : '나의 파동으로 에너지 스캔 시작하기'}
+                            </button>
+
+                            <button type="button" onClick={() => setStep(1)} style={{
+                                width: '100%', padding: '10px', background: 'none', border: '1px solid rgba(255,255,255,0.1)', color: 'var(--color-text-muted)', borderRadius: '12px', cursor: 'pointer', marginBottom: '10px'
+                            }}>
+                                이전 화면으로 돌아가기
+                            </button>
+                        </>
+                    )}
 
                     <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', textAlign: 'center', lineHeight: 1.6, padding: '15px 20px', background: 'rgba(0,0,0,0.2)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
                         <strong style={{ color: 'var(--color-text-secondary)', display: 'block', marginBottom: '8px' }}>[ 프라이버시 보호 서약 ]</strong>

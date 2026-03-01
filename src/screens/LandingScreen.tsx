@@ -97,7 +97,7 @@ export default function LandingScreen() {
 
             {/* Developer Theme Control Panel (Temporary) */}
             <div style={{
-                position: 'fixed', bottom: '80px', right: '20px', zIndex: 999999, display: 'flex', gap: '10px',
+                position: 'fixed', bottom: '80px', left: '20px', zIndex: 999999, display: 'flex', gap: '10px',
                 background: 'rgba(255,255,255,0.95)', padding: '15px', borderRadius: '15px',
                 boxShadow: '0 10px 40px rgba(0,0,0,0.15)', border: '2px solid var(--color-gold-main)',
                 flexDirection: 'column'

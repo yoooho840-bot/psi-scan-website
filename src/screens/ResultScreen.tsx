@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Filter, Activity, Cpu, Hexagon, Sparkles } from 'lucide-react';
 import useAutoFullscreen from '../hooks/useAutoFullscreen';
+import { AnalysisEngine } from '../services/AnalysisEngine';
 
 const AccurateAnalysisScreen: React.FC = () => {
     const navigate = useNavigate();
@@ -23,9 +24,50 @@ const AccurateAnalysisScreen: React.FC = () => {
             { title: "송과체 생체리듬 왜곡", desc: '"불규칙한 파동 흡수로 인해 멜라토닌 분비 축이 무너져 만성적 탈진 파장이 관측됩니다."' }
         ];
 
-        // Pick a pseudo-random result based on current time to make each scan feel unique
-        const selected = potentialResults[Date.now() % potentialResults.length];
-        setScanResult(selected);
+        // Real deterministic logic
+        const rawSurvey = localStorage.getItem('pre_scan_survey');
+        const surveyData = rawSurvey ? JSON.parse(rawSurvey) : null;
+
+        const rawBirth = localStorage.getItem('user_birth_data');
+        const birthData = rawBirth ? JSON.parse(rawBirth) : null;
+
+        let selectedResult = potentialResults[0]; // fallback
+
+        if (surveyData && birthData) {
+            const vsaScore = parseFloat(localStorage.getItem('last_vsa_score') || '50');
+            const calculated = AnalysisEngine.calculateResults({
+                birthDate: birthData.birthDate || '1990-01-01',
+                birthTime: birthData.birthTime || '12:00',
+                survey: surveyData,
+                vsaScore,
+                factCount: 2048
+            });
+
+            // Generate a dynamic description based on the engine's output
+            // Ensure types match
+            const chakrasRecord = calculated.chakras as Record<string, number>;
+            const lowestChakraName = Object.entries(chakrasRecord).sort((a, b) => a[1] - b[1])[0][0];
+
+            if (calculated.stressIndex > 80) {
+                selectedResult = { title: "전두엽 하이퍼-베타파", desc: '"만성적인 교감신경 항진으로 인해 뇌파가 과부하 상태이며, 심층 수면 회복이 차단되어 있습니다."' };
+            } else if (lowestChakraName === 'root' || lowestChakraName === 'sacral') {
+                selectedResult = { title: "하위 파동(Root/Sacral) 연쇄 붕괴", desc: '"과거의 억압된 상처나 만성 피로가 생명 에너지(Prana)의 흐름을 막아 척추 신경계를 타고 왜곡된 파장을 올리고 있습니다."' };
+            } else if (lowestChakraName === 'heart' || surveyData.mentalState === '우울') {
+                selectedResult = { title: "심장-뇌 공명성 불일치", desc: '"감정 뉴런과 뇌파의 박동 리듬이 어긋나, 신체가 무의식적 불안 상태와 우울 파장을 유지하고 있습니다."' };
+            } else if (calculated.overallEnergy < 40) {
+                selectedResult = { title: "송과체 생체리듬 왜곡", desc: '"불규칙한 파동 흡수로 인해 만성적 탈진 파장이 관측되며 생체 에너지가 바닥을 보입니다."' };
+            } else {
+                selectedResult = { title: "미주신경 톤 저하", desc: '"장기간의 스트레스 노출로 자율신경계 브레이크 능력이 약화되어, 보이지 않는 감정 에너지 누수가 지속 중입니다."' };
+            }
+
+            // Save the exact final results for the deep reports and chatbot to use!
+            localStorage.setItem('final_scan_results', JSON.stringify(calculated));
+        } else {
+            // fallback if testing directly
+            selectedResult = potentialResults[Date.now() % potentialResults.length];
+        }
+
+        setScanResult(selectedResult);
 
         // Phase 0: Triage & Noise Filtering (Cross Validation)
         const logSequence = [

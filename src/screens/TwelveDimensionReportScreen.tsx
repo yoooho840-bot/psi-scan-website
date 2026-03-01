@@ -69,9 +69,14 @@ const TwelveDimensionReportScreen: React.FC = () => {
             {/* Top Interactive Aura Visualizer */}
             <div style={{ marginBottom: '40px' }}>
                 <HumanAuraFigure
-                    primaryColor="#ff453a"
+                    primaryColor={localStorage.getItem('final_scan_results') ? JSON.parse(localStorage.getItem('final_scan_results')!).auraColor : "#ff453a"}
                     secondaryColor="#ff9f0a"
-                    energyLevel="low"
+                    energyLevel={(() => {
+                        const raw = localStorage.getItem('final_scan_results');
+                        if (!raw) return 'low';
+                        const eg = JSON.parse(raw).overallEnergy;
+                        return eg > 70 ? 'high' : eg > 40 ? 'medium' : 'low';
+                    })()}
                     isScanning={false}
                 />
             </div>
