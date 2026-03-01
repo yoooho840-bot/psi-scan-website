@@ -114,8 +114,8 @@ const DashboardScreen: React.FC = () => {
                     {/* Step 1: CONSULTATION (상담) */}
                     <section>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' }}>
-                            <div style={{ width: '30px', height: '30px', borderRadius: '50%', background: 'var(--color-gold-main)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#111', fontWeight: 'bold' }}>1</div>
-                            <h3 style={{ fontSize: '1.2rem', color: '#FFF', letterSpacing: '2px', margin: 0 }}>파동 상담</h3>
+                            <div style={{ width: '30px', height: '30px', borderRadius: '50%', background: 'var(--color-gold-main)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#FFF', fontWeight: 'bold' }}>1</div>
+                            <h3 style={{ fontSize: '1.2rem', color: 'var(--color-text-primary)', letterSpacing: '2px', margin: 0 }}>파동 상담</h3>
                         </div>
                         <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', marginBottom: '20px' }}>나의 현재 에너지 상태를 분석하고 편안한 AI 멘탈 가이드와 대화하며 객관적으로 마주합니다.</p>
 
@@ -132,11 +132,11 @@ const DashboardScreen: React.FC = () => {
                             onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-5px)'}
                             onMouseLeave={(e) => e.currentTarget.style.transform = 'none'}
                         >
-                            <div style={{ background: 'var(--color-gold-main)', padding: '20px', borderRadius: '50%', color: '#111', boxShadow: '0 0 20px rgba(218,165,32,0.5)' }}>
+                            <div style={{ background: 'var(--color-gold-main)', padding: '20px', borderRadius: '50%', color: '#FFF', boxShadow: '0 0 20px rgba(218,165,32,0.5)' }}>
                                 <Database size={40} />
                             </div>
                             <div>
-                                <h4 style={{ margin: '0 0 10px 0', fontSize: '1.4rem', color: '#FFF', fontWeight: 600 }}>AI 멘탈 가이드 상담</h4>
+                                <h4 style={{ margin: '0 0 10px 0', fontSize: '1.4rem', color: 'var(--color-text-primary)', fontWeight: 600 }}>AI 멘탈 가이드 상담</h4>
                                 <p style={{ margin: 0, color: 'var(--color-text-secondary)', fontSize: '0.95rem', lineHeight: 1.5 }}>
                                     내 생체 에너지를 분석하고, 편안한 AI 가이드와 음성으로 대화하며 마음의 안정을 찾습니다.
                                 </p>
@@ -149,7 +149,7 @@ const DashboardScreen: React.FC = () => {
                     <section>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' }}>
                             <div style={{ width: '30px', height: '30px', borderRadius: '50%', background: 'var(--color-blue-mystic)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#FFF', fontWeight: 'bold' }}>2</div>
-                            <h3 style={{ fontSize: '1.2rem', color: '#FFF', letterSpacing: '2px', margin: 0 }}>결과지 보기</h3>
+                            <h3 style={{ fontSize: '1.2rem', color: 'var(--color-text-primary)', letterSpacing: '2px', margin: 0 }}>결과지 보기</h3>
                         </div>
                         <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', marginBottom: '20px' }}>나의 파동 상태가 수치화된 정밀 리포트를 확인하여, 객관적인 에너지 지표를 파악합니다.</p>
 
@@ -170,7 +170,7 @@ const DashboardScreen: React.FC = () => {
                                 <Activity size={30} />
                             </div>
                             <div>
-                                <h4 style={{ margin: '0 0 5px 0', fontSize: '1.2rem', color: '#FFF', fontWeight: 600 }}>나의 분석 리포트</h4>
+                                <h4 style={{ margin: '0 0 5px 0', fontSize: '1.2rem', color: 'var(--color-text-primary)', fontWeight: 600 }}>나의 분석 리포트</h4>
                                 <p style={{ margin: 0, color: 'var(--color-text-secondary)', fontSize: '0.9rem', lineHeight: 1.5 }}>
                                     오라, 체질, 생체 밸런스 등 당신의 상태에 담긴 상세한 정보를 분석합니다.
                                 </p>
@@ -183,7 +183,7 @@ const DashboardScreen: React.FC = () => {
                     <section>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' }}>
                             <div style={{ width: '30px', height: '30px', borderRadius: '50%', background: '#9D4EDD', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#FFF', fontWeight: 'bold' }}>3</div>
-                            <h3 style={{ fontSize: '1.2rem', color: '#FFF', letterSpacing: '2px', margin: 0 }}>PLAYGROUND</h3>
+                            <h3 style={{ fontSize: '1.2rem', color: 'var(--color-text-primary)', letterSpacing: '2px', margin: 0 }}>PLAYGROUND</h3>
                         </div>
                         <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', marginBottom: '20px' }}>지친 영혼을 보듬어 주고, 즐겁게 파동 에너지를 튜닝하는 공간입니다.</p>
 
@@ -220,7 +220,7 @@ const DashboardScreen: React.FC = () => {
                                 onMouseLeave={(e) => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none'; }}
                             >
                                 <span style={{ fontSize: '24px', marginBottom: '10px' }}>🎨</span>
-                                <h4 style={{ margin: '0 0 5px 0', fontSize: '1rem', color: '#FFF' }}>마음 일기</h4>
+                                <h4 style={{ margin: '0 0 5px 0', fontSize: '1rem', color: 'var(--color-text-primary)', fontWeight: 600 }}>마음 일기</h4>
                                 <p style={{ margin: 0, color: 'var(--color-text-secondary)', fontSize: '0.8rem' }}>퍼스널 컬러 기록</p>
                             </div>
                             <div
@@ -235,7 +235,7 @@ const DashboardScreen: React.FC = () => {
                                 onMouseLeave={(e) => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none'; }}
                             >
                                 <span style={{ fontSize: '24px', marginBottom: '10px' }}>💞</span>
-                                <h4 style={{ margin: '0 0 5px 0', fontSize: '1rem', color: '#FFF' }}>파동 궁합 보기</h4>
+                                <h4 style={{ margin: '0 0 5px 0', fontSize: '1rem', color: 'var(--color-text-primary)', fontWeight: 600 }}>파동 궁합 보기</h4>
                                 <p style={{ margin: 0, color: 'var(--color-text-secondary)', fontSize: '0.8rem' }}>에너지 시너지 체크</p>
                             </div>
                         </div>
@@ -246,7 +246,7 @@ const DashboardScreen: React.FC = () => {
                     <section>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' }}>
                             <div style={{ width: '30px', height: '30px', borderRadius: '50%', background: 'var(--color-success-green)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#FFF', fontWeight: 'bold' }}>4</div>
-                            <h3 style={{ fontSize: '1.2rem', color: '#FFF', letterSpacing: '2px', margin: 0 }}>파동 재스캔</h3>
+                            <h3 style={{ fontSize: '1.2rem', color: 'var(--color-text-primary)', letterSpacing: '2px', margin: 0 }}>파동 재스캔</h3>
                         </div>
                         <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', marginBottom: '20px' }}>테라피와 휴식 이후, 얼마나 맑아진 에너지를 회복했는지 다시 확인해 볼까요?</p>
 
@@ -266,7 +266,7 @@ const DashboardScreen: React.FC = () => {
                         >
                             <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
                                 <ScanFace size={30} color="var(--color-success-green)" />
-                                <h4 style={{ margin: 0, fontSize: '1.2rem', color: '#FFF', fontWeight: 600 }}>에너지 변화 재측정하기</h4>
+                                <h4 style={{ margin: 0, fontSize: '1.2rem', color: 'var(--color-text-primary)', fontWeight: 600 }}>에너지 변화 재측정하기</h4>
                             </div>
                         </div>
                     </section>
@@ -312,17 +312,17 @@ const DashboardScreen: React.FC = () => {
                 showCooldownModal && (
                     <div style={{
                         position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-                        background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(15px)',
+                        background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(10px)',
                         zIndex: 999999, display: 'flex', justifyContent: 'center', alignItems: 'center'
                     }}>
                         <div style={{
-                            background: '#0a0a0c', border: '1px solid rgba(218, 165, 32, 0.4)',
+                            background: 'var(--color-bg-panel)', border: '1px solid var(--color-border-subtle)',
                             padding: '40px', borderRadius: '25px', maxWidth: '400px', width: '90%',
-                            textAlign: 'center', boxShadow: '0 0 50px rgba(218, 165, 32, 0.1)',
+                            textAlign: 'center', boxShadow: '0 10px 40px rgba(0,0,0,0.15)',
                             animation: 'fadeInUp 0.3s ease-out'
                         }}>
-                            <Lock size={48} color="var(--color-gold-muted)" style={{ margin: '0 auto 20px' }} />
-                            <h2 style={{ fontSize: '1.4rem', color: '#FFF', marginBottom: '15px' }}>에너지 필드 안정화 대기 중</h2>
+                            <Lock size={48} color="var(--color-gold-main)" style={{ margin: '0 auto 20px' }} />
+                            <h2 style={{ fontSize: '1.4rem', color: 'var(--color-text-primary)', marginBottom: '15px' }}>에너지 필드 안정화 대기 중</h2>
                             <p style={{ color: '#aaa', fontSize: '0.9rem', lineHeight: 1.6, marginBottom: '20px' }}>
                                 연속적인 생체 파동 스캔은 데이터의 정확도를 떨어뜨리며 뇌신경계에 불필요한 공명 충돌을 일으킬 수 있습니다.<br /><br />
                                 <span style={{ color: 'var(--color-gold-main)' }}>정밀한 측정을 위해 파동장 안정화까지<br /><b>{cooldownRemaining}</b> 남았습니다.</span>
@@ -366,11 +366,11 @@ const TherapyCard = ({ icon, title, desc, onClick }: any) => {
             onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)' }}
             onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--color-bg-panel)'; e.currentTarget.style.borderColor = 'var(--color-border-subtle)' }}
         >
-            <div style={{ background: 'rgba(255,255,255,0.03)', padding: '12px', borderRadius: '12px', marginBottom: '15px' }}>
+            <div style={{ background: 'var(--color-bg-deep)', padding: '12px', borderRadius: '12px', marginBottom: '15px' }}>
                 {icon}
             </div>
-            <h4 style={{ margin: '0 0 5px 0', fontSize: '1rem', color: '#FFF' }}>{title}</h4>
-            <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--color-text-muted)', lineHeight: 1.4 }}>{desc}</p>
+            <h4 style={{ margin: '0 0 5px 0', fontSize: '1rem', color: 'var(--color-text-primary)', fontWeight: 600 }}>{title}</h4>
+            <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--color-text-secondary)', lineHeight: 1.4 }}>{desc}</p>
         </div>
     );
 };
