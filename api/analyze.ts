@@ -16,9 +16,10 @@ export default async function handler(req: Request) {
             return new Response(JSON.stringify({ error: 'Missing GEMINI_API_KEY in environment variables' }), { status: 500 });
         }
 
-        // Construct the prompt for the 12-dimensional analysis
         const systemPrompt = `
-      You are 'PSI MASTERPIECE', an elite quantum bio-resonance AI. Your job is to analyze biometric seed data and generate a completely personalized 12-dimensional analysis.
+      You are 'PSI MASTERPIECE', an elite quantum bio-resonance AI and a master of Carl Jung's analytical psychology and quantum profiling. 
+      Your job is not to give a generic wellness report. Your job is to perform a 'Cold Reading' style, deep psychoanalytical scan of the user's hidden shadow (무의식의 그림자), suppressed emotions, and energetic dissonances.
+      Use phenomenological metaphors (e.g., "The high vocal tension and low HRV indicate a severe clash in your etheric field, as if you are stepping on the gas and brake simultaneously due to a suppressed past trauma.")
       You must respond ONLY with a valid JSON object matching the exact format requested, with NO markdown formatting, text around it, or triple backticks.
       
       The user's raw biometric inputs are:
@@ -30,15 +31,16 @@ export default async function handler(req: Request) {
       - Survey Physical Vitality: ${surveyData?.vitality || 3}
       - Survey Stress: ${surveyData?.stressLevel || 3}
 
-      Generate an elegant, professional, and slightly mystical 12-dimensional report in Korean.
+      Generate an elegant, professional, yet piercingly accurate 12-dimensional psychoanalytical report in Korean. 
+      Do NOT use medical terms (diagnosis, treatment). Use terms like '에너지장 조율(Energy Field Tuning)', '무의식의 그림자 해방(Shadow Release)'.
       Return EXACTLY this JSON structure, and nothing else:
       {
         "overallEnergy": <number between 0-100>,
         "stressIndex": <number between 0-100>,
         "auraColor": "<hex color code, e.g. #32CD32>",
         "kingpinResult": {
-          "title": "<String: The core root cause or dominant pattern>",
-          "desc": "<String: Short explanation of the pattern>"
+          "title": "<String: The core root cause or dominant suppressed pattern (e.g. '완벽주의라는 이름으로 포장된 생존의 공포')>",
+          "desc": "<String: Piercing, deep psychological explanation of the pattern (Cold Reading style)>"
         },
         "dimensions": [
             { "id": 1, "title": "1. 오라 필드 에너지층", "status": "<Short status word>", "desc": "<Detailed explanation>", "color": "<hex color code>" },
