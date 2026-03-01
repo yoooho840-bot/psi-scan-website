@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Activity, Eye, Hexagon, Zap, Target, Combine, Clock } from 'lucide-react';
+import { ArrowLeft, Activity, Eye, Hexagon, Zap, Target, Combine, Clock, HeartPulse } from 'lucide-react';
 import { tarotDeck, type TarotCard } from '../data/tarotData';
 import useAutoFullscreen from '../hooks/useAutoFullscreen';
 
-type ReadingMode = 'daily' | 'timeline' | 'crossroads' | 'celtic' | null;
+type ReadingMode = 'daily' | 'timeline' | 'crossroads' | 'celtic' | 'biomarker' | null;
 
 const TarotStationScreen: React.FC = () => {
     const navigate = useNavigate();
@@ -80,6 +80,7 @@ const TarotStationScreen: React.FC = () => {
                     if (readingMode === 'timeline') count = 3;
                     if (readingMode === 'crossroads') count = 5;
                     if (readingMode === 'celtic') count = 10;
+                    if (readingMode === 'biomarker') count = 4;
 
                     const shuffled = [...tarotDeck].sort(() => 0.5 - Math.random());
                     const selected = shuffled.slice(0, count);
@@ -218,6 +219,12 @@ const TarotStationScreen: React.FC = () => {
                                 <h3 style={{ color: '#ef4444', fontSize: '1.3rem', marginBottom: '10px' }}>4. 심연 해부: 켈틱 크로스 (10장) <span style={{ fontSize: '0.7rem', background: '#ef4444', color: '#fff', padding: '3px 6px', borderRadius: '4px', verticalAlign: 'middle', marginLeft: '5px' }}>VVIP</span></h3>
                                 <p style={{ color: '#fca5a5', fontSize: '0.95rem', lineHeight: 1.5 }}>가장 치명적이고 방대한 타로의 끝판왕. 당신의 자아, 억압된 투사체, 방해물, 무의식의 밑바닥까지 모조리 까발립니다.</p>
                             </div>
+
+                            <div className="mode-btn" onClick={() => handleSelectMode('biomarker')} style={{ border: '2px solid #10b981', background: 'rgba(16, 185, 129, 0.05)', gridColumn: '1 / -1' }}>
+                                <HeartPulse size={30} color="#10b981" style={{ marginBottom: '15px' }} className="pulse-anim" />
+                                <h3 style={{ color: '#10b981', fontSize: '1.3rem', marginBottom: '10px' }}>5. 생체 마커 섀도우 미러 (4장) <span style={{ fontSize: '0.7rem', background: '#10b981', color: '#fff', padding: '3px 6px', borderRadius: '4px', verticalAlign: 'middle', marginLeft: '5px' }}>PSI 독점진단</span></h3>
+                                <p style={{ color: '#6ee7b7', fontSize: '0.95rem', lineHeight: 1.5 }}>전통 타로를 파괴하는 오직 PSI만의 배열. 점술과 미신이 아닙니다. 심박 변이도와 성대 진동수를 기반으로 당신의 [육체-이성-감정-영혼] 4개 파동장의 어느 부분이 '결어긋남(Decoherence)'을 겪고 병들고 있는지 추적합니다.</p>
+                            </div>
                         </div>
                     </div>
                 )}
@@ -226,7 +233,7 @@ const TarotStationScreen: React.FC = () => {
                 {readingMode && drawnCards.length === 0 && (
                     <div className="glass-card" style={{ width: '100%', maxWidth: '600px', padding: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center', animation: 'fadeIn 0.5s' }}>
                         <h2 style={{ fontSize: '1.5rem', color: '#FFF', marginBottom: '20px' }}>
-                            {readingMode === 'daily' ? '오늘의 영점 조율 (1-Card)' : readingMode === 'timeline' ? '시간의 파동 궤적 (3-Card)' : readingMode === 'crossroads' ? '양자택일 갈림길 (5-Card)' : '켈틱 크로스 해부 (10-Card)'} 시작
+                            {readingMode === 'daily' ? '오늘의 영점 조율 (1-Card)' : readingMode === 'timeline' ? '시간의 파동 궤적 (3-Card)' : readingMode === 'crossroads' ? '양자택일 갈림길 (5-Card)' : readingMode === 'biomarker' ? '생체 마커 섀도우 미러 (4-Card)' : '켈틱 크로스 해부 (10-Card)'} 시작
                         </h2>
 
                         {readingMode === 'crossroads' && (
@@ -292,6 +299,15 @@ const TarotStationScreen: React.FC = () => {
                                     <div style={{ width: '2px', height: '300px', background: 'rgba(192, 132, 252, 0.3)', margin: '0 20px' }}></div>
                                     {renderCard(drawnCards[3], 3, '[B] 선택지 속성', crossroadsOptions.b)}
                                     {renderCard(drawnCards[4], 4, '[B]를 택한 미래의 파동', crossroadsOptions.b)}
+                                </>
+                            )}
+
+                            {readingMode === 'biomarker' && (
+                                <>
+                                    {renderCard(drawnCards[0], 0, '[1] 물리적 신경계 붕괴점', '심박 변이도(HRV) 스트레스 발현')}
+                                    {renderCard(drawnCards[1], 1, '[2] 이성적 인지 왜곡점', '성대 진동수 불규칙성 기반')}
+                                    {renderCard(drawnCards[2], 2, '[3] 억압된 감정 전이체', '무의식 그림자 투사')}
+                                    {renderCard(drawnCards[3], 3, '[4] 영적 주파수 단절점', '본연의 목적성과 유리된 상태')}
                                 </>
                             )}
 

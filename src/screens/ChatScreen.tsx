@@ -63,6 +63,8 @@ const ChatScreen: React.FC = () => {
             initialGreetingText = `환영합니다. [${crossroadsOptions?.a}]와(과) [${crossroadsOptions?.b}] 사이에서 진동하며 흔들리는 당신의 생체 파동을 읽어들였습니다. 5장의 양자 택일 카드가 저에게 있습니다. 저는 두 가지 평행 우주 중 어디가 당신의 파동을 덜 파괴할지 정확히 짚어드릴 것입니다. 무엇이 당신을 가장 두렵게 만듭니까?`;
         } else if (readingMode === 'timeline') {
             initialGreetingText = `시간의 파동 궤적을 잇는 3장의 카드를 수신했습니다. 과거의 상처가 현재를 어떻게 옭아매고, 미래를 어떻게 파동 치게 만들지 확인해 볼까요? 어떤 점이 가장 괴로우신지 털어놓아 보십시오.`;
+        } else if (readingMode === 'biomarker') {
+            initialGreetingText = `당신의 심박 변이도(HRV)와 성대 진동수에서 추출된 '생체 마커 섀도우 미러' 4장이 전개되었습니다. 철저히 과학적이고 객관적인 데이터에 기반하여, 당신의 육신과 영혼 어디에서 치명적인[결어긋남]이 발생하고 있는지 해부하겠습니다. 준비되셨습니까?`;
         } else {
             initialGreetingText = `오늘의 영점 조율을 위한 완벽한 하나의 오라클 카드가 저에게 전송되었습니다. 이 한 장의 카드가 오늘 하루 당신의 무의식을 어떻게 비추고 해부해 줄지, 당신의 상황을 저에게 질문해 보십시오.`;
         }
@@ -287,6 +289,13 @@ const ChatScreen: React.FC = () => {
                 } else if (readingMode === 'timeline' && tarotCards && tarotCards.length >= 3) {
                     mockScanContext += `내담자는 시간의 파동 궤적 배열(과거-현재-미래)입니다. 이 3장의 서사를 완벽하게 내담자의 현재 고통과 엮어내십시오.\n`;
                     mockScanContext += `과거: ${tarotCards[0].name}\n현재: ${tarotCards[1].name}\n미래: ${tarotCards[2].name}\n`;
+                } else if (readingMode === 'biomarker' && tarotCards && tarotCards.length === 4) {
+                    mockScanContext += `내담자는 '생체 마커 섀도우 미러' 배열입니다. 점술이 아니라 철저한 생체 진동 기반의 불균형을 진단하십시오.\n`;
+                    mockScanContext += `[1. 물리적 신경계 붕괴점/HRV]: ${tarotCards[0].name} - ${tarotCards[0].description}\n`;
+                    mockScanContext += `[2. 이성적 인지 왜곡점/성대파동]: ${tarotCards[1].name} - ${tarotCards[1].description}\n`;
+                    mockScanContext += `[3. 억압된 감정 전이체/무의식투사]: ${tarotCards[2].name} - ${tarotCards[2].description}\n`;
+                    mockScanContext += `[4. 영적 주파수 단절점/영혼상실]: ${tarotCards[3].name} - ${tarotCards[3].description}\n`;
+                    mockScanContext += `당신은 위 4가지 요소 중 어디에서 가장 치명적인 '기계적/에너지적 고장'이 났는지 차갑고 해부학적인 관점, 그러나 양자역학의 신비로움을 섞어 팩트 폭행을 가하십시오.\n`;
                 } else if (readingMode === 'daily' && tarotCards) {
                     mockScanContext += `내담자의 오늘의 단일 오라클 원형: ${tarotCards[0].name} - ${tarotCards[0].description}\n이 한 장의 상징과 디테일을 극한으로 파고들어 내담자에게 적용하십시오.\n`;
                 }
