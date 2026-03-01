@@ -596,7 +596,7 @@ const ChatScreen: React.FC = () => {
                             상담 시간이 모두 종료되었습니다.
                         </div>
                     ) : (
-                        <div className="glass-card" style={{ margin: '0 15px 20px', padding: '15px', display: 'flex', alignItems: 'center', gap: '10px', borderRadius: '30px', border: isListening ? '1px solid var(--color-gold-main)' : '1px solid rgba(255,255,255,0.1)' }}>
+                        <div className="glass-card" style={{ position: 'relative', zIndex: 50, margin: '0 15px 20px', padding: '15px', display: 'flex', alignItems: 'center', gap: '10px', borderRadius: '30px', border: isListening ? '1px solid var(--color-gold-main)' : '1px solid rgba(255,255,255,0.1)' }}>
                             <button onClick={toggleListening} type="button" style={{
                                 background: isListening ? 'var(--color-gold-main)' : 'none',
                                 border: 'none',
@@ -617,7 +617,10 @@ const ChatScreen: React.FC = () => {
                                     onChange={(e) => setInput(e.target.value)}
                                     style={{
                                         width: '100%', background: 'transparent', border: 'none',
-                                        color: '#FFF', fontSize: '1rem', outline: 'none', fontFamily: 'var(--font-main)'
+                                        color: '#FFF', fontSize: '1rem', outline: 'none', fontFamily: 'var(--font-main)',
+                                        pointerEvents: 'auto',
+                                        WebkitUserSelect: 'text',
+                                        userSelect: 'text'
                                     }}
                                 />
                             </form>
