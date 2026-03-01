@@ -415,7 +415,6 @@ body {
 .desktop-content {
   flex: 1;
   position: relative;
-  z-index: 5;
   height: 100vh;
   overflow-y: auto;
   overflow-x: hidden;

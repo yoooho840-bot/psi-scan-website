@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { Eye, Activity, HeartPulse, Shield, Sparkles, Volume2, Award, BrainCircuit, Network, Wind, Compass, X } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -649,7 +650,7 @@ export default function LandingScreen() {
             `}</style>
 
             {/* Authentication Modal */}
-            {showAuthModal && (
+            {showAuthModal && createPortal(
                 <div style={{
                     position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
                     background: 'rgba(5, 5, 10, 0.8)', backdropFilter: 'blur(20px)',
@@ -744,7 +745,8 @@ export default function LandingScreen() {
                             </div>
                         </>
                     </motion.div>
-                </div>
+                </div>,
+                document.body
             )}
         </div>
     );
