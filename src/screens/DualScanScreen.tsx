@@ -85,16 +85,25 @@ const DualScanScreen = () => {
             {/* Styles injected */}
             <style>{`
                 .quantum-input {
-                    width: 100%; padding: 18px 25px; background: rgba(20, 20, 30, 0.6);
-                    border: 1px solid var(--color-border-subtle); border-radius: 16px;
-                    color: #FFF; font-size: 1.05rem; outline: none; box-shadow: inset 0 2px 10px rgba(0,0,0,0.2);
-                    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); backdrop-filter: blur(10px);
+                    background: rgba(255, 255, 255, 0.9);
+                    border: 1px solid rgba(184, 134, 11, 0.3);
+                    color: #111111;
+                    padding: 15px 20px;
+                    border-radius: 12px;
+                    font-size: 1rem;
+                    width: 100%;
+                    outline: none;
+                    transition: all 0.3s;
+                    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
                 }
                 .quantum-input:focus {
-                    border-color: #38bdf8; background: rgba(30, 30, 45, 0.8);
-                    box-shadow: inset 0 2px 10px rgba(0,0,0,0.2), 0 0 15px rgba(56, 189, 248, 0.2);
+                    background: #ffffff;
+                    border-color: var(--color-gold-main);
+                    box-shadow: 0 0 15px rgba(218, 165, 32, 0.2), inset 0 2px 4px rgba(0,0,0,0.05);
                 }
-                .quantum-input::placeholder { color: var(--color-text-muted); font-weight: 400; }
+                .quantum-input::placeholder {
+                    color: #888888;
+                }
                 ::-webkit-calendar-picker-indicator { filter: invert(0.8) sepia(1) hue-rotate(200deg) saturate(3); cursor: pointer; }
                 @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
                 @keyframes zoomIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }

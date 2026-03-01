@@ -114,25 +114,23 @@ const OnboardingScreen: React.FC = () => {
             <style>{`
                 .quantum-input {
                     width: 100%;
-                    padding: 18px 25px;
-                    background: rgba(20, 20, 30, 0.6);
-                    border: 1px solid var(--color-border-subtle);
-                    border-radius: 16px;
-                    color: var(--color-text-primary);
-                    font-size: 1.05rem;
-                    font-family: var(--font-main);
+                    background: rgba(255, 255, 255, 0.9);
+                    border: 1px solid rgba(184, 134, 11, 0.3);
+                    color: #111111;
+                    padding: 15px 20px;
+                    border-radius: 12px;
+                    font-size: 1rem;
                     outline: none;
-                    box-shadow: inset 0 2px 10px rgba(0,0,0,0.2);
-                    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-                    backdrop-filter: blur(10px);
+                    transition: all 0.3s;
+                    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
                 }
                 .quantum-input:focus {
+                    background: #ffffff;
                     border-color: var(--color-gold-main);
-                    background: rgba(30, 30, 45, 0.8);
-                    box-shadow: inset 0 2px 10px rgba(0,0,0,0.2), 0 0 15px rgba(218, 165, 32, 0.2);
+                    box-shadow: 0 0 15px rgba(218, 165, 32, 0.2), inset 0 2px 4px rgba(0,0,0,0.05);
                 }
                 .quantum-input::placeholder {
-                    color: var(--color-text-muted);
+                    color: #888888;
                     font-weight: 400;
                 }
                 /* Hide native date/time picker indicators slightly or color them */
