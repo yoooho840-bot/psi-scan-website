@@ -13,6 +13,7 @@ import TwelveDimensionReportScreen from './screens/TwelveDimensionReportScreen';
 import PersonalDimensionDetailScreen from './screens/PersonalDimensionDetailScreen';
 import DimensionDetail from './screens/DimensionDetail'; // New Dynamic Deep Pages
 import ChatScreen from './screens/ChatScreen';
+import CouncilChamberScreen from './screens/CouncilChamberScreen'; // New Council Chamber Route
 import AdminDashboardScreen from './screens/AdminDashboardScreen';
 import DashboardScreen from './screens/DashboardScreen'; // New Dashboard Route
 import FrequencyLabScreen from './screens/FrequencyLabScreen';
@@ -375,6 +376,8 @@ function AppContent() {
 
           {/* Reports & Dashboards */}
           <Route path="/dashboard" element={<DashboardScreen />} />
+          <Route path="/admin" element={<AdminDashboardScreen />} />
+          <Route path="/council" element={<CouncilChamberScreen />} />
           <Route path="/history" element={<HistoryScreen />} />
           <Route path="/report" element={<QuantumReportScreen />} />
           <Route path="/12d-report" element={<TwelveDimensionReportScreen />} />
