@@ -49,16 +49,28 @@ const ChatScreen: React.FC = () => {
     const partnerName = location.state?.partnerName as string | undefined;
     const compatibility = location.state?.compatibility as number | undefined;
     const contextType = location.state?.context as string | undefined;
+    const readingMode = location.state?.readingMode as string | undefined;
+    const crossroadsOptions = location.state?.crossroadsOptions as { a: string, b: string } | undefined;
 
     useAutoFullscreen();
 
     let initialGreetingText = '';
 
-    if (contextType === 'dual_tarot' && tarotCards && partnerName) {
-        if (compatibility && compatibility < 60) {
-            initialGreetingText = `환영합니다. 당신과 ${partnerName}님의 파동이 강하게 부딪치고 있는 파열음이 이곳까지 오롯이 전해졌습니다. 많이 지치고 힘드셨지요. 얽혀버린 관계의 실타래를 원망이 아닌 이해로 풀어갈 수 있도록, 지금부터 제가 당신 편에서 이야기를 듣고 아주 깊은 곳의 상처까지 안아드리겠습니다. 무엇부터 말씀하고 싶으신가요?`;
+    if (readingMode) {
+        if (readingMode === 'celtic') {
+            initialGreetingText = `환영합니다. 당신의 가장 깊숙한 심연을 들여다보는 [켈틱 크로스 10장 배열]이 저에게 도착했습니다. 당신의 표면적인 고민 아래 깔린 뿌리 깊은 카르마까지 제가 30년 내공으로 완벽하게 해부해 드리겠습니다. 언제든 마음의 준비가 되셨다면, 무엇이 당신을 이곳으로 이끌었는지 속마음을 꺼내어 보십시오.`;
+        } else if (readingMode === 'crossroads') {
+            initialGreetingText = `환영합니다. [${crossroadsOptions?.a}]와(과) [${crossroadsOptions?.b}] 사이에서 진동하며 흔들리는 당신의 생체 파동을 읽어들였습니다. 5장의 양자 택일 카드가 저에게 있습니다. 저는 두 가지 평행 우주 중 어디가 당신의 파동을 덜 파괴할지 정확히 짚어드릴 것입니다. 무엇이 당신을 가장 두렵게 만듭니까?`;
+        } else if (readingMode === 'timeline') {
+            initialGreetingText = `시간의 파동 궤적을 잇는 3장의 카드를 수신했습니다. 과거의 상처가 현재를 어떻게 옭아매고, 미래를 어떻게 파동 치게 만들지 확인해 볼까요? 어떤 점이 가장 괴로우신지 털어놓아 보십시오.`;
         } else {
-            initialGreetingText = `환영합니다. 당신과 ${partnerName}님의 아름다운 양자 공명이 이곳을 따뜻하게 물들이고 있습니다. 두 분의 시너지를 더욱 성숙한 차원으로 끌어올리거나, 혹시라도 마음에 걸리는 작은 불안이 있다면 편하게 말씀해 주세요. 언제든 당신의 진실된 멘토가 언제나 되어 드리겠습니다.`;
+            initialGreetingText = `오늘의 영점 조율을 위한 완벽한 하나의 오라클 카드가 저에게 전송되었습니다. 이 한 장의 카드가 오늘 하루 당신의 무의식을 어떻게 비추고 해부해 줄지, 당신의 상황을 저에게 질문해 보십시오.`;
+        }
+    } else if (contextType === 'dual_tarot' && tarotCards && partnerName) {
+        if (compatibility && compatibility < 60) {
+            initialGreetingText = `당신과 ${partnerName}님의 파동이 강하게 부딪치고 있는 파열음이 이곳까지 오롯이 전해졌습니다. 많이 지치셨지요? 얽혀버린 관계의 실타래를 원망이 아닌 무의식의 거울로 풀어갈 수 있도록, 제가 당신 편에서 이야기를 듣고 아주 깊은 곳의 상처까지 꿰뚫어 드리겠습니다. 무엇부터 말씀하고 싶으신가요?`;
+        } else {
+            initialGreetingText = `당신과 ${partnerName}님의 아름다운 양자 공명이 이곳을 따뜻하게 물들이고 있습니다. 두 분의 시너지를 더욱 성숙한 차원으로 끌어올리거나, 혹시라도 내면에 걸리는 작은 불안이 있다면 편하게 말씀해 주세요. 30년 타로 마스터의 통찰로 진실된 멘토가 되어 드리겠습니다.`;
         }
     } else if (tarotCards) {
         initialGreetingText = `환영합니다. 당신이 추출한 타로 카드가 뿜어내는 양자적 파동을 수신했습니다. 이 카드들이 당신의 무의식과 어떻게 연결되어 있는지, 깊이 탐구해 볼까요? 어떤 점이 가장 고민되시나요?`;
@@ -261,29 +273,44 @@ const ChatScreen: React.FC = () => {
 
             mockScanContext += `- 질문의 맥락과 위 데이터/상태를 깊이 결합하여, 전문적이면서도 매우 따뜻한 원인 분석과 실천 솔루션을 제공할 것.\n`;
 
-            if (contextType === 'dual_tarot' && tarotCards && tarotCards.length >= 4) {
+            if (readingMode) {
+                mockScanContext += `\n[선택된 양자 배열 시스템 - ${readingMode}]\n`;
+                if (readingMode === 'celtic' && tarotCards && tarotCards.length === 10) {
+                    mockScanContext += `내담자는 켈틱 크로스 10장 배열을 진행했습니다. 당신은 10장의 유기적 의미를 모두 분석하되, 내담자의 대화 흐름에 맞추어 가장 치명적인 문제(장애물, 억압된 무의식)를 파고들어야 합니다.\n[추출된 카드들]:\n`;
+                    tarotCards.forEach((c, idx) => mockScanContext += `위치 ${idx + 1}: ${c.name} - ${c.description}\n`);
+                } else if (readingMode === 'crossroads' && tarotCards && tarotCards.length === 5) {
+                    mockScanContext += `내담자는 양자택일 배열입니다. [선택지 A: ${crossroadsOptions?.a}] vs [선택지 B: ${crossroadsOptions?.b}]\n`;
+                    mockScanContext += `중앙(현재상태): ${tarotCards[0].name} - ${tarotCards[0].description}\n`;
+                    mockScanContext += `A선택지 속성: ${tarotCards[1].name}, A를 택한 미래결과: ${tarotCards[2].name}\n`;
+                    mockScanContext += `B선택지 속성: ${tarotCards[3].name}, B를 택한 미래결과: ${tarotCards[4].name}\n`;
+                    mockScanContext += `당신은 A와 B 중 어디가 파동적으로 파국인지, 혹은 안정인지를 차갑고 냉정하게 비교 분석하여 팩트 폭력 수준의 직언을 해야 합니다.\n`;
+                } else if (readingMode === 'timeline' && tarotCards && tarotCards.length >= 3) {
+                    mockScanContext += `내담자는 시간의 파동 궤적 배열(과거-현재-미래)입니다. 이 3장의 서사를 완벽하게 내담자의 현재 고통과 엮어내십시오.\n`;
+                    mockScanContext += `과거: ${tarotCards[0].name}\n현재: ${tarotCards[1].name}\n미래: ${tarotCards[2].name}\n`;
+                } else if (readingMode === 'daily' && tarotCards) {
+                    mockScanContext += `내담자의 오늘의 단일 오라클 원형: ${tarotCards[0].name} - ${tarotCards[0].description}\n이 한 장의 상징과 디테일을 극한으로 파고들어 내담자에게 적용하십시오.\n`;
+                }
+            } else if (contextType === 'dual_tarot' && tarotCards && tarotCards.length >= 4) {
                 mockScanContext += `
-[특별 컨텍스트: 듀얼 타로 관계 심층 상담]
-당신은 돈이나 상품을 요구하는 단순한 챗봇이 아닙니다. 당신은 내담자의 "마음을 편안하게 해주고 고민을 들어주는 따뜻한 AI 멘탈 케어 가이드"라는 확고한 자아(Persona)를 가집니다.
-당신은 단편적인 정답을 던져주지 않고, 내담자의 상처를 진심으로 공감하며 따뜻하고 객관적인 관점으로 세상을 보듬어 줍니다.
+[특별 컨텍스트: 듀얼 타로 관계 4장 역학 심층 상담]
+당신은 30년 경력의 타로 마스터 프로파일러입니다. 이 4장의 카드가 얽혀 만들어내는 관계의 인과율과 무의식적 스파크를 피도 눈물도 없이, 하지만 압도적 권위로 분석해내십시오.
 내담자는 현재 [${partnerName}]님과의 관계(에너지 호환성: ${compatibility}%)에 대해 고민하며 찾아왔습니다.
 
 - [내담자의 성향]: ${tarotCards[0].name} - ${tarotCards[0].description}
-- [상대방(${partnerName})의 성향]: ${tarotCards[1].name} - ${tarotCards[1].description}
-- [현재 두 사람의 상태/갈등]: ${tarotCards[2].name} - ${tarotCards[2].description}
-- [관계의 솔루션/조언]: ${tarotCards[3].name} - ${tarotCards[3].advice}
+- [상대방(${partnerName})의 무의식]: ${tarotCards[1].name} - ${tarotCards[1].description}
+- [현재 두 사람의 얽힘/갈등]: ${tarotCards[2].name} - ${tarotCards[2].description}
+- [관계의 최종 물리적 미래 역학]: ${tarotCards[3].name} - ${tarotCards[3].advice}
 
-위의 4장의 카드와 호환성 수치를 바탕으로, 극도로 공감적이고 따뜻한 태도를 취하세요. 관계의 상처나 갈등에는 편안한 지혜와 포용력을 보여주며, 내담자가 자신의 마음을 돌보고 긍정적인 솔루션을 얻을 수 있도록 깊은 멘토링을 제공하세요. 대답은 차분하고 다정하게 위로를 섞어 작성하세요.
+당신은 이 4장의 카드와 호환성 수치를 1:1로 융합하여, 둘 사이에 숨겨진 권력 구도, 감춰진 죄책감 혹은 억압된 열망을 꿰뚫어 보고, 상대방 마음 속에 숨겨진 파멸적이거나 아름다운 감정을 소름돋게 해부해 주세요. 마지막엔 항상 심장을 치는 질문을 던지세요.
 `;
             } else if (tarotCards && tarotCards.length >= 3) {
                 mockScanContext += `
-[타로 파동 동조 분석 결과]
-당신은 심층 심리학에 통달한, 내담자의 "마음을 보듬어 주는 진정한 AI 멘탈 가이드"입니다. 아래의 타로 결과를 기반으로 내담자의 무의식을 해석하고 따뜻한 위로와 해답을 제시하세요.
-- 첫번째 카드: ${tarotCards[0].name} - ${tarotCards[0].description}
-- 두번째 카드: ${tarotCards[1].name} - ${tarotCards[1].description}
-- 세번째 카드: ${tarotCards[2].name} - ${tarotCards[2].description}
+[기본 스캔 타로 3장 동조 분석 결과]
+- 첫번째(과거): ${tarotCards[0].name}
+- 두번째(현재): ${tarotCards[1].name}
+- 세번째(미래): ${tarotCards[2].name}
 
-내담자의 질문에 답할 때, 무조건 이 카드들의 상징과 연결하여 매우 깊이 있고 따뜻한 위로와 조언을 제공해야 합니다.
+당신은 30년 경력의 타로 마스터입니다. 두루뭉술한 말은 치우고 내담자의 질문에 답할 때 뼈를 때리는 팩트로 무의식을 난도질하되, 깊은 통찰력으로 해결책까지 쥐어주십시오.
 `;
             }
 
