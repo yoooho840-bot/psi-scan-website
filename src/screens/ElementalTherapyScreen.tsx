@@ -380,7 +380,7 @@ const ElementalTherapyScreen: React.FC = () => {
 
                                 const logs = [
                                     `[1] 원소 테라피 엔진 가동: 생체 데이터 맵핑 시작`,
-                                    `[2] 성대 주파수(Voice Freq) ${vFreq.toFixed(1)}Hz 확인`,
+                                    `[2] 성대 파동(Voice Freq) ${vFreq.toFixed(1)}Hz 확인`,
                                     `[3] HRV 스트레스 지표 (Level ${strLvl}) 연동 완료`,
                                     `[4] 맞춤형 호흡 프로토콜 [${prescription.breathType}] 배정 중...`,
                                     `[5] ${prescription.targetFrequency1}Hz / ${prescription.targetFrequency2}Hz 공명 파동 합성`,

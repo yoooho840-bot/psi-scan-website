@@ -122,13 +122,20 @@ const ChatScreen: React.FC = () => {
     }
 
     const renderMarkdownHighlight = (text: string) => {
-        // Simple regex to find **bold text**
-        const parts = text.split(/(\*\*.*?\*\*)/g);
-        return parts.map((part, i) => {
-            if (part.startsWith('**') && part.endsWith('**')) {
-                return <span key={i} style={{ color: 'var(--color-gold-main)', fontWeight: 'bold' }}>{part.slice(2, -2)}</span>;
-            }
-            return <span key={i}>{part}</span>;
+        const sentences = text.split(/(?<=[.:!])\s+/);
+        return sentences.map((sentence, idx) => {
+            if (!sentence.trim()) return null;
+            const parts = sentence.split(/(\*\*.*?\*\*)/g);
+            return (
+                <p key={idx} style={{ margin: '0 0 10px 0', wordBreak: 'keep-all' }}>
+                    {parts.map((part, i) => {
+                        if (part.startsWith('**') && part.endsWith('**')) {
+                            return <span key={i} style={{ color: 'var(--color-gold-main)', fontWeight: 'bold' }}>{part.slice(2, -2)}</span>;
+                        }
+                        return <span key={i}>{part}</span>;
+                    })}
+                </p>
+            );
         });
     };
 
@@ -336,7 +343,7 @@ const ChatScreen: React.FC = () => {
                     mockScanContext += `[1. 물리적 신경계 붕괴점/HRV]: ${tarotCards[0].name} - ${tarotCards[0].description}\n`;
                     mockScanContext += `[2. 이성적 인지 왜곡점/성대파동]: ${tarotCards[1].name} - ${tarotCards[1].description}\n`;
                     mockScanContext += `[3. 억압된 감정 전이체/무의식투사]: ${tarotCards[2].name} - ${tarotCards[2].description}\n`;
-                    mockScanContext += `[4. 영적 주파수 단절점/영혼상실]: ${tarotCards[3].name} - ${tarotCards[3].description}\n`;
+                    mockScanContext += `[4. 영적 파동 단절점/영혼상실]: ${tarotCards[3].name} - ${tarotCards[3].description}\n`;
                     mockScanContext += `당신은 위 4가지 요소 중 어디가 기계적/에너지적으로 박살이 났는지 해부학적 관점으로만 진단하고, 팩트 폭행을 가하십시오.\n`;
                 } else if (readingMode === 'daily' && tarotCards) {
                     mockScanContext += `내담자의 오늘의 단일 오라클 원형: ${tarotCards[0].name} - ${tarotCards[0].description}\n이 한 장의 상징과 디테일을 극한으로 파고들어 내담자에게 적용하십시오.\n`;

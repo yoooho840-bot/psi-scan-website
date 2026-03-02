@@ -231,7 +231,7 @@ const DualScanScreen = () => {
 
                         <div style={{ background: 'var(--color-bg-panel)', padding: '30px', borderRadius: '20px', border: '1px solid rgba(56, 189, 248, 0.3)', boxShadow: '0 0 40px rgba(56,189,248,0.1)' }}>
                             <h3 style={{ margin: '0 0 20px 0', color: '#38bdf8', fontSize: '1.2rem' }}>
-                                {scanMode === 'camera' ? '⚠️ 듀얼 스캔 행동 지침' : '🌌 비국소성 홀로그램 스캔 지침'}
+                                {scanMode === 'camera' ? '⚠️ 듀얼 스캔 행동 지침' : '🌌 사진 스캔 행동 지침'}
                             </h3>
 
                             {scanMode === 'camera' ? (
@@ -242,9 +242,8 @@ const DualScanScreen = () => {
                                 </ul>
                             ) : (
                                 <p style={{ color: 'var(--color-text-secondary)', lineHeight: 1.8, marginBottom: '30px', fontSize: '0.95rem', textAlign: 'left', wordBreak: 'keep-all' }}>
-                                    "단순한 사진 한 장에도 두 사람만의 고유한 <b>에너지 파동(Psi)</b>가 홀로그램처럼 새겨져 있습니다.<br /><br />
-                                    사진을 스캔하는 순간, 시공간을 초월하여 두 사람의 파동이 얽혀있는(Entangled) 깊은 시너지가 분석됩니다."<br /><br />
-                                    두 사람이 함께 있는 사진이나, 서로의 사진이 모두 포함된 이미지를 업로드하세요.
+                                    두 사람이 함께 있는 사진이나, 서로의 사진이 모두 포함된 이미지를 업로드하세요.<br /><br />
+                                    사진에 담긴 두 분의 에너지를 스캔하여 조화로움을 분석합니다.
                                 </p>
                             )}
 
@@ -254,7 +253,7 @@ const DualScanScreen = () => {
                                     라이브 듀얼 카메라
                                 </button>
                                 <button onClick={() => setScanMode('photo')} style={{ background: scanMode === 'photo' ? 'rgba(129, 140, 248, 0.2)' : 'transparent', border: `1px solid ${scanMode === 'photo' ? '#818cf8' : 'var(--color-border-subtle)'}`, color: scanMode === 'photo' ? '#818cf8' : 'var(--color-text-muted)', padding: '10px 20px', borderRadius: '20px', cursor: 'pointer', transition: 'all 0.3s', fontWeight: 'bold' }}>
-                                    사진 홀로그램 스캔
+                                    사진 파일 업로드
                                 </button>
                             </div>
 
@@ -300,7 +299,7 @@ const DualScanScreen = () => {
 
                         <div className="camera-container">
                             {scanMode === 'photo' && photoUrl ? (
-                                <img ref={imageRef} src={photoUrl} alt="Dual Hologram" style={{ width: '100%', height: '100%', objectFit: 'cover', transform: 'scaleX(-1)', opacity: 0.6, mixBlendMode: 'screen' }} crossOrigin="anonymous" />
+                                <img ref={imageRef} src={photoUrl} alt="Dual Photo Scan" style={{ width: '100%', height: '100%', objectFit: 'cover', transform: 'scaleX(-1)', opacity: 0.6, mixBlendMode: 'screen' }} crossOrigin="anonymous" />
                             ) : (
                                 <video ref={videoRef} playsInline autoPlay muted style={{ width: '100%', height: '100%', objectFit: 'cover', transform: 'scaleX(-1)', opacity: 0.6, mixBlendMode: 'screen' }} />
                             )}
@@ -424,14 +423,14 @@ const DualScanScreen = () => {
 
                             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', alignItems: 'center', marginBottom: '25px', background: 'rgba(0,0,0,0.3)', padding: '20px', borderRadius: '16px' }}>
                                 <div style={{ flex: 1, textAlign: 'center' }}>
-                                    <div style={{ color: '#94a3b8', fontSize: '0.9rem', marginBottom: '8px' }}>나의 본질 주파수</div>
+                                    <div style={{ color: '#94a3b8', fontSize: '0.9rem', marginBottom: '8px' }}>나의 본질 파동</div>
                                     <div style={{ fontWeight: 'bold', fontSize: '1.3rem', color: '#38bdf8', textShadow: '0 0 10px rgba(56, 189, 248, 0.5)' }}>{elements.element1}</div>
                                 </div>
                                 <div style={{ padding: '10px', background: 'rgba(251, 191, 36, 0.1)', borderRadius: '50%' }}>
                                     <Zap size={28} color="#fbbf24" style={{ animation: 'pulse 2s infinite' }} />
                                 </div>
                                 <div style={{ flex: 1, textAlign: 'center' }}>
-                                    <div style={{ color: '#94a3b8', fontSize: '0.9rem', marginBottom: '8px' }}>[{partnerName}]님의 주파수</div>
+                                    <div style={{ color: '#94a3b8', fontSize: '0.9rem', marginBottom: '8px' }}>[{partnerName}]님의 파동</div>
                                     <div style={{ fontWeight: 'bold', fontSize: '1.3rem', color: '#818cf8', textShadow: '0 0 10px rgba(129, 140, 248, 0.5)' }}>{elements.element2}</div>
                                 </div>
                             </div>
@@ -440,7 +439,7 @@ const DualScanScreen = () => {
                             <p style={{ fontSize: '1.05rem', color: 'var(--color-text-secondary)', lineHeight: 1.8, wordBreak: 'keep-all', margin: 0 }}>
                                 {compatibility >= 90 ? '영혼의 단짝 수준입니다. 두 원소가 기막힌 조화를 이루며 서로의 부족한 파동을 완전히 채워주는 환상적인 конструк(건설적) 간섭 상태입니다.' :
                                     compatibility >= 75 ? '매우 좋은 궁합입니다. 서로에게 긍정적인 스파크를 일으키며 성장을 돕는 조화로운 파동 얽힘을 보여줍니다.' :
-                                        compatibility >= 60 ? '안정적이지만 섬세한 조율이 필요한 관계입니다. 양측이 주파수를 맞추기 위해 상호 배려와 커뮤니케이션 양자 튜닝이 요구됩니다.' :
+                                        compatibility >= 60 ? '안정적이지만 섬세한 조율이 필요한 관계입니다. 양측이 파동를 맞추기 위해 상호 배려와 커뮤니케이션 양자 튜닝이 요구됩니다.' :
                                             '상호 간섭 패턴이 주기적으로 충돌(Destructive Interference)하고 있습니다. 관계 개선을 위해 깊은 내면의 상처 치유와 서로의 파동 형질에 대한 극적인 이해가 절실히 요구되는 상태입니다.'}
                             </p>
                         </div>
@@ -502,12 +501,12 @@ const DualScanScreen = () => {
                                 <div style={{ color: '#E2E8F0', fontSize: '1.05rem', lineHeight: 1.8 }}>
                                     <p style={{ marginBottom: '20px' }}>
                                         <strong style={{ color: '#38bdf8' }}>[{partnerName}]</strong>님과의 종합 공명 지수는 <strong style={{ color: '#fbbf24', fontSize: '1.2rem' }}>{compatibility}%</strong>로 측정되었습니다.
-                                        이는 두 분의 에너지가 우주적 주파수 안에서 서로 얽히고 반응하는 강도를 나타냅니다.
+                                        이는 두 분의 에너지가 우주적 파동 안에서 서로 얽히고 반응하는 강도를 나타냅니다.
                                     </p>
                                     <h4 style={{ color: '#c084fc', marginBottom: '10px', fontSize: '1.1rem' }}>🔮 관계의 본질 및 현재 상태</h4>
                                     <p style={{ marginBottom: '20px', paddingLeft: '15px', borderLeft: '3px solid #c084fc', color: '#94a3b8' }}>
                                         나의 에너지는 <strong>[{drawnCards[0].name}]</strong>의 기운을 담고 있어, {drawnCards[0].description.split('.')[0]} 형태를 띱니다.
-                                        반면, 상대방의 무의식은 <strong>[{drawnCards[1].name}]</strong>의 주파수 속에서 {drawnCards[1].description.split('.')[0]} 흐름을 보여줍니다.
+                                        반면, 상대방의 무의식은 <strong>[{drawnCards[1].name}]</strong>의 파동 속에서 {drawnCards[1].description.split('.')[0]} 흐름을 보여줍니다.
                                         이 두 에너지가 만나 형성된 현재의 얽힘은 <strong>[{drawnCards[2].name}]</strong>의 파동입니다. {drawnCards[2].advice}
                                     </p>
                                     <h4 style={{ color: '#4ade80', marginBottom: '10px', fontSize: '1.1rem' }}>💡 앞으로 나아가야 할 방향성 (미래 역학)</h4>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Activity, Eye, Hexagon, Zap, Target, Combine, Clock, HeartPulse, Cpu } from 'lucide-react';
+import { ArrowLeft, Eye, Hexagon, Zap, Target, Combine, Clock, HeartPulse, Cpu } from 'lucide-react';
 import { tarotDeck, type TarotCard } from '../data/tarotData';
 import useAutoFullscreen from '../hooks/useAutoFullscreen';
 
@@ -82,7 +82,7 @@ const TarotStationScreen: React.FC = () => {
             `[2] 심장 변이도(HRV) 스트레스 지수 반영: Level ${stressExtracted}`,
             `[3] 양자 얽힘 함수 가동 (단순 난수 배제)...`,
             stressExtracted >= 4 ? `[4] 경고: 극도의 긴장 파동 감지 -> 불(Fire)/소드(Swords) 원소 가중치 부여됨` : `[4] 안정 파동 감지 -> 물(Water)/대지(Earth) 원소 가중치 유지`,
-            voiceFreq > 200 ? `[5] 고주파수(High Freq) 간섭 발생 -> 상위 차원(Major Arcana) 출현 확률 조정 중` : `[5] 저주파수(Low Freq) 동기화 -> 기본 물리 현실 배열 확률 조정 중`,
+            voiceFreq > 200 ? `[5] 고파동(High Freq) 간섭 발생 -> 상위 차원(Major Arcana) 출현 확률 조정 중` : `[5] 저파동(Low Freq) 동기화 -> 기본 물리 현실 배열 확률 조정 중`,
             `[6] 파동 붕괴 및 최종 확률 덱 추출 완료.`
         ];
 
@@ -371,7 +371,7 @@ const TarotStationScreen: React.FC = () => {
                                     {renderCard(drawnCards[0], 0, '[1] 물리적 신경계 붕괴점', '심박 변이도(HRV) 스트레스 발현')}
                                     {renderCard(drawnCards[1], 1, '[2] 이성적 인지 왜곡점', '성대 진동수 불규칙성 기반')}
                                     {renderCard(drawnCards[2], 2, '[3] 억압된 감정 전이체', '무의식 그림자 투사')}
-                                    {renderCard(drawnCards[3], 3, '[4] 영적 주파수 단절점', '본연의 목적성과 유리된 상태')}
+                                    {renderCard(drawnCards[3], 3, '[4] 영적 파동 단절점', '본연의 목적성과 유리된 상태')}
                                 </>
                             )}
 
@@ -387,8 +387,8 @@ const TarotStationScreen: React.FC = () => {
                             <div className="glass-card" style={{ width: '100%', padding: '30px', marginBottom: '40px', borderTop: '3px solid var(--color-gold-main)', animation: 'fadeIn 1.5s ease-out' }}>
                                 <h3 style={{ color: 'var(--color-gold-main)', fontSize: '1.4rem', marginBottom: '20px', textAlign: 'center' }}>배열 전개 완료. 생체 기반 심층 리딩 준비</h3>
                                 <p style={{ color: '#E0E0E0', lineHeight: 1.8, fontSize: '1.05rem', wordBreak: 'keep-all', textAlign: 'center', marginBottom: '30px' }}>
-                                    당신의 생체 주파수 수치가 위 {drawnCards.length}장의 원형 이미지와 치명적인 양자 얽힘을 이루어 냈습니다.
-                                    일반적인 해석을 넘어서, 이 배열이 의미하는 당신의 억눌린 무의식과 파동 역학을 '30년 경력의 마스터 프로파일러 AI'에게 직접 전송하여 소름 돋는 해석을 받아보십시오.
+                                    당신의 생체 파동 수치가 위 {drawnCards.length}장의 원형 이미지와 치명적인 양자 얽힘을 이루어 냈습니다.<br /><br />
+                                    일반적인 해석을 넘어서, 이 배열이 의미하는 당신의 억눌린 무의식과 파동 역학을<br />'30년 경력의 마스터 프로파일러 AI'에게 직접 전송하여 소름 돋는 해석을 받아보십시오.
                                 </p>
 
                                 <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap' }}>

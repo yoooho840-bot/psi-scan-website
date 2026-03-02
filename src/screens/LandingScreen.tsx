@@ -19,7 +19,7 @@ const Section = ({ title, subtitle, children }: any) => (
 export default function LandingScreen() {
     const navigate = useNavigate();
     const [isHovered, setIsHovered] = useState(false);
-    const [heroTheme, setHeroTheme] = useState(1);
+    const [heroTheme] = useState(7);
     const [showAuthModal, setShowAuthModal] = useState(false);
 
     useEffect(() => {
@@ -78,54 +78,6 @@ export default function LandingScreen() {
             position: 'relative', overflowX: 'hidden',
             fontFamily: 'var(--font-main)'
         }}>
-
-            {/* Top Navigation Login */}
-            <div style={{ position: 'absolute', top: '30px', right: '40px', zIndex: 100 }}>
-                <button
-                    onClick={() => setShowAuthModal(true)}
-                    style={{
-                        background: 'rgba(20, 20, 30, 0.6)', color: 'var(--color-gold-main)',
-                        border: '1px solid var(--color-border-gold)', padding: '10px 20px',
-                        borderRadius: '20px', fontSize: '0.9rem', fontWeight: 600,
-                        backdropFilter: 'blur(10px)', cursor: 'pointer', transition: 'all 0.3s'
-                    }}
-                    onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--color-gold-main)'; e.currentTarget.style.color = '#111'; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(20, 20, 30, 0.6)'; e.currentTarget.style.color = 'var(--color-gold-main)'; }}
-                >
-                    에너지 포털 입장 (로그인)
-                </button>
-            </div>
-
-            {/* Developer Theme Control Panel (Temporary) */}
-            <motion.div
-                drag
-                dragMomentum={false}
-                style={{
-                    position: 'fixed', bottom: '80px', left: '20px', zIndex: 999999, display: 'flex', gap: '10px',
-                    background: 'rgba(255,255,255,0.95)', padding: '15px', borderRadius: '15px',
-                    boxShadow: '0 10px 40px rgba(0,0,0,0.15)', border: '2px solid var(--color-gold-main)',
-                    flexDirection: 'column',
-                    cursor: 'grab' // Indicate it can be dragged
-                }}
-            >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontSize: '0.8rem', color: 'var(--color-gold-main)', fontWeight: 'bold', marginBottom: '5px' }}>✨ 히어로 섹션 라이브 테스터 (드래그 가능)</span>
-                </div>
-                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', maxWidth: '300px' }}>
-                    <button onClick={() => setHeroTheme(1)} style={{ padding: '8px 12px', background: heroTheme === 1 ? 'var(--color-gold-main)' : 'transparent', color: heroTheme === 1 ? '#FFF' : 'var(--color-text-primary)', border: '1px solid var(--color-gold-main)', borderRadius: '8px', cursor: 'pointer', fontSize: '0.85rem', transition: 'all 0.3s' }}>1. 에너지 필드 블렌딩</button>
-                    <button onClick={() => setHeroTheme(2)} style={{ padding: '8px 12px', background: heroTheme === 2 ? 'var(--color-gold-main)' : 'transparent', color: heroTheme === 2 ? '#FFF' : 'var(--color-text-primary)', border: '1px solid var(--color-gold-main)', borderRadius: '8px', cursor: 'pointer', fontSize: '0.85rem', transition: 'all 0.3s' }}>2. 에너지 필드</button>
-                    <button onClick={() => setHeroTheme(3)} style={{ padding: '8px 12px', background: heroTheme === 3 ? 'var(--color-gold-main)' : 'transparent', color: heroTheme === 3 ? '#FFF' : 'var(--color-text-primary)', border: '1px solid var(--color-gold-main)', borderRadius: '8px', cursor: 'pointer', fontSize: '0.85rem', transition: 'all 0.3s' }}>3. 글래스 & 리플</button>
-                    <button onClick={() => setHeroTheme(4)} style={{ padding: '8px 12px', background: heroTheme === 4 ? 'var(--color-gold-main)' : 'transparent', color: heroTheme === 4 ? '#FFF' : 'var(--color-text-primary)', border: '1px solid var(--color-gold-main)', borderRadius: '8px', cursor: 'pointer', fontSize: '0.85rem', transition: 'all 0.3s' }}>4. 디지털 뉴런</button>
-                    <button onClick={() => setHeroTheme(5)} style={{ padding: '8px 12px', background: heroTheme === 5 ? 'var(--color-gold-main)' : 'transparent', color: heroTheme === 5 ? '#FFF' : 'var(--color-text-primary)', border: '1px solid var(--color-gold-main)', borderRadius: '8px', cursor: 'pointer', fontSize: '0.85rem', transition: 'all 0.3s' }}>5. 황금빛 입자</button>
-                    <button onClick={() => setHeroTheme(6)} style={{ padding: '8px 12px', background: heroTheme === 6 ? 'var(--color-gold-main)' : 'transparent', color: heroTheme === 6 ? '#FFF' : 'var(--color-text-primary)', border: '1px solid var(--color-gold-main)', borderRadius: '8px', cursor: 'pointer', fontSize: '0.85rem', transition: 'all 0.3s' }}>6. 파동 장막</button>
-                    <button onClick={() => setHeroTheme(7)} style={{ padding: '8px 12px', background: heroTheme === 7 ? 'var(--color-gold-main)' : 'transparent', color: heroTheme === 7 ? '#FFF' : 'var(--color-text-primary)', border: '1px solid var(--color-gold-main)', borderRadius: '8px', cursor: 'pointer', fontSize: '0.85rem', transition: 'all 0.3s' }}>7. 초공간 웜홀</button>
-                    <button onClick={() => setHeroTheme(8)} style={{ padding: '8px 12px', background: heroTheme === 8 ? 'var(--color-gold-main)' : 'transparent', color: heroTheme === 8 ? '#FFF' : 'var(--color-text-primary)', border: '1px solid var(--color-gold-main)', borderRadius: '8px', cursor: 'pointer', fontSize: '0.85rem', transition: 'all 0.3s' }}>8. 신비의 구체</button>
-                    <button onClick={() => setHeroTheme(9)} style={{ padding: '8px 12px', background: heroTheme === 9 ? 'var(--color-gold-main)' : 'transparent', color: heroTheme === 9 ? '#FFF' : 'var(--color-text-primary)', border: '1px solid var(--color-gold-main)', borderRadius: '8px', cursor: 'pointer', fontSize: '0.85rem', transition: 'all 0.3s' }}>9. 옵시디언 블랙</button>
-                    <button onClick={() => setHeroTheme(10)} style={{ padding: '8px 12px', background: heroTheme === 10 ? 'var(--color-gold-main)' : 'transparent', color: heroTheme === 10 ? '#FFF' : 'var(--color-text-primary)', border: '1px solid var(--color-gold-main)', borderRadius: '8px', cursor: 'pointer', fontSize: '0.85rem', transition: 'all 0.3s' }}>10. 다크 오닉스</button>
-                    <button onClick={() => setHeroTheme(11)} style={{ padding: '8px 12px', background: heroTheme === 11 ? 'var(--color-gold-main)' : 'transparent', color: heroTheme === 11 ? '#FFF' : 'var(--color-text-primary)', border: '1px solid var(--color-gold-main)', borderRadius: '8px', cursor: 'pointer', fontSize: '0.85rem', transition: 'all 0.3s' }}>11. 코스믹 블루</button>
-                    <button onClick={() => setHeroTheme(12)} style={{ padding: '8px 12px', background: heroTheme === 12 ? 'var(--color-gold-main)' : 'transparent', color: heroTheme === 12 ? '#FFF' : 'var(--color-text-primary)', border: '1px solid var(--color-gold-main)', borderRadius: '8px', cursor: 'pointer', fontSize: '0.85rem', transition: 'all 0.3s' }}>12. 스페이스 나이트</button>
-                </div>
-            </motion.div>
 
             {/* Core Visual Elements - Dynamic Background Themes */}
             {heroTheme === 1 && (
@@ -393,22 +345,22 @@ export default function LandingScreen() {
                             <div style={{ background: 'var(--color-blue-mystic)', padding: '12px', borderRadius: '50%', color: '#FFF' }}><Wind size={28} /></div>
                             <h3 style={{ fontSize: '1.8rem', color: '#FFF', margin: 0 }}>Healing Zone</h3>
                         </div>
-                        <p style={{ color: 'var(--color-text-secondary)', fontSize: '1.1rem', marginBottom: '30px' }}>지친 영혼을 보듬어 주는 파동 테라피. 당신에게 부족한 파동을 채워 온전한 평온을 선사합니다.</p>
+                        <p style={{ color: 'var(--color-text-secondary)', fontSize: '1.1rem', marginBottom: '30px' }}>지친 마음을 달래주는 힐링 공간. 내게 꼭 필요한 기운을 채워 편안함을 드립니다.</p>
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
                             <div className="glass-card" style={{ padding: '25px', textAlign: 'center' }}>
                                 <Volume2 color="var(--color-blue-mystic)" size={32} style={{ margin: '0 auto 15px' }} />
                                 <h4 style={{ color: '#FFF', marginBottom: '10px' }}>사운드 힐링 (싱잉볼)</h4>
-                                <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', margin: 0 }}>뇌신경 완화 체감 파동</p>
+                                <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', margin: 0 }}>머리가 맑아지는 소리 테라피</p>
                             </div>
                             <div className="glass-card" style={{ padding: '25px', textAlign: 'center' }}>
                                 <Sparkles color="#ff6600" size={32} style={{ margin: '0 auto 15px' }} />
                                 <h4 style={{ color: '#FFF', marginBottom: '10px' }}>불멍 명상</h4>
-                                <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', margin: 0 }}>시각적 알파파 공명</p>
+                                <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', margin: 0 }}>마음이 차분해지는 따뜻한 불빛</p>
                             </div>
                             <div className="glass-card" style={{ padding: '25px', textAlign: 'center' }}>
                                 <Activity color="#00d2ff" size={32} style={{ margin: '0 auto 15px' }} />
                                 <h4 style={{ color: '#FFF', marginBottom: '10px' }}>물멍 명상</h4>
-                                <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', margin: 0 }}>델타파 평온 동기화</p>
+                                <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', margin: 0 }}>깊은 휴식을 주는 잔잔한 물결</p>
                             </div>
                         </div>
                     </div>
@@ -419,22 +371,22 @@ export default function LandingScreen() {
                             <div style={{ background: '#ec4899', padding: '12px', borderRadius: '50%', color: '#FFF' }}><HeartPulse size={28} /></div>
                             <h3 style={{ fontSize: '1.8rem', color: '#FFF', margin: 0 }}>Fun & Play Zone</h3>
                         </div>
-                        <p style={{ color: 'var(--color-text-secondary)', fontSize: '1.1rem', marginBottom: '30px' }}>나의 파동으로 즐기는 에너지 필드 교감. 나와 타인의 에너지를 직관적으로 확인해 보세요.</p>
+                        <p style={{ color: 'var(--color-text-secondary)', fontSize: '1.1rem', marginBottom: '30px' }}>나의 진짜 파동으로 즐기는 재미있는 테스트. 나와 주변 사람들의 기운을 쉽게 확인해 보세요.</p>
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
                             <div className="glass-card" style={{ padding: '25px', textAlign: 'center' }}>
                                 <BrainCircuit color="#ec4899" size={32} style={{ margin: '0 auto 15px' }} />
                                 <h4 style={{ color: '#FFF', marginBottom: '10px' }}>파동 타로</h4>
-                                <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', margin: 0 }}>무의식 파동 공명 드로우</p>
+                                <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', margin: 0 }}>내 진짜 속마음을 보여주는 타로</p>
                             </div>
                             <div className="glass-card" style={{ padding: '25px', textAlign: 'center' }}>
                                 <Compass color="#ec4899" size={32} style={{ margin: '0 auto 15px' }} />
                                 <h4 style={{ color: '#FFF', marginBottom: '10px' }}>마음 일기</h4>
-                                <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', margin: 0 }}>매일의 감정 파동 시각화</p>
+                                <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', margin: 0 }}>오늘 하루 내 마음의 색깔 기록</p>
                             </div>
                             <div className="glass-card" style={{ padding: '25px', textAlign: 'center' }}>
                                 <Network color="#ec4899" size={32} style={{ margin: '0 auto 15px' }} />
                                 <h4 style={{ color: '#FFF', marginBottom: '10px' }}>파동 궁합 보기</h4>
-                                <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', margin: 0 }}>친구, 연인과의 에너지 시너지</p>
+                                <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', margin: 0 }}>나와 잘 맞는 기운 어울림 확인</p>
                             </div>
                         </div>
                     </div>
@@ -496,18 +448,18 @@ export default function LandingScreen() {
                     display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '25px',
                     maxWidth: '1200px', margin: '0 auto', zIndex: 10, position: 'relative'
                 }}>
-                    <DimensionCard icon={<Sparkles size={28} />} text="오라 필드 에너지층" desc="신체 외곽을 감싸는 전자기장(Aura) 맵핑" color="var(--color-gold-main)" />
-                    <DimensionCard icon={<Activity size={28} />} text="7개 핵심 차크라 진동" desc="신체 주요 7개 차크라의 에너지 흐름 분석" color="var(--color-gold-main)" />
-                    <DimensionCard icon={<BrainCircuit size={28} />} text="칼 융 무의식 원형" desc="무의식에 억압된 그림자(Shadow) 에너지 도출" color="var(--color-gold-main)" />
-                    <DimensionCard icon={<Network size={28} />} text="그로프 주산기 무의식 파동" desc="투쟁과 생존 등 초기 생애 트라우마 패턴 각인" color="var(--color-gold-main)" />
-                    <DimensionCard icon={<HeartPulse size={28} />} text="소마틱스 (신체 억압 감정)" desc="신체에 억눌린 무의식적 긴장과 에너지 블록 상태" color="var(--color-gold-main)" />
-                    <DimensionCard icon={<Shield size={28} />} text="환경 독소 및 파동 스트레스" desc="안정적인 생체 흐름을 저해하는 스트레스 파장 분석" color="var(--color-gold-main)" />
-                    <DimensionCard icon={<Eye size={28} />} text="에너지 공명 매칭 가이드" desc="불균형한 파동을 조화롭게 이끄는 밸런싱 파동" color="var(--color-gold-main)" />
-                    <DimensionCard icon={<Sparkles size={28} />} text="에너지 필드 매칭 타로카드" desc="오늘 당신의 무의식 파동과 가장 강하게 공명하는 타로 원형 분석" color="var(--color-gold-main)" />
-                    <DimensionCard icon={<Compass size={28} />} text="에너지 채널 및 파동 균형" desc="전신 에너지 순환 상태 및 생체 에너지 흐름 분석" color="var(--color-gold-main)" />
-                    <DimensionCard icon={<Activity size={28} />} text="생명력 에너지 공명" desc="활력의 기반이 되는 미세 에너지 파동 밸런스 분석" color="var(--color-gold-main)" />
-                    <DimensionCard icon={<Network size={28} />} text="바이오리듬 및 수면 파동" desc="신체 파동 최저/최상 구간 예측 및 리듬 회복" color="var(--color-gold-main)" />
-                    <DimensionCard icon={<Sparkles size={28} />} text="상위 자아 동조율" desc="다차원적 의식 확장 및 영적 수신율 분석" color="var(--color-gold-main)" />
+                    <DimensionCard icon={<Sparkles size={28} />} text="나의 쉴드 (보호막)" desc="나를 외부로부터 지켜주는 투명한 에너지막 스캔" color="var(--color-gold-main)" />
+                    <DimensionCard icon={<Activity size={28} />} text="기본 활력 에너지" desc="몸과 마음을 움직이는 중심 원동력 점검" color="var(--color-gold-main)" />
+                    <DimensionCard icon={<BrainCircuit size={28} />} text="마음 깊은 곳의 파동" desc="알게 모르게 나를 지배하는 깊은 속마음 읽기" color="var(--color-gold-main)" />
+                    <DimensionCard icon={<HeartPulse size={28} />} text="몸과 마음의 연결고리" desc="풀리지 않은 마음의 상처가 만든 몸의 뭉친 긴장 스캔" color="var(--color-gold-main)" />
+                    <DimensionCard icon={<Network size={28} />} text="주변 환경과의 어울림" desc="내가 머무는 공간과 사람들이 나와 잘 맞는지 분석" color="var(--color-gold-main)" />
+                    <DimensionCard icon={<Shield size={28} />} text="나쁜 환경 피로도" desc="복잡한 정보와 미디어로 인한 뇌파 피로도 체크" color="var(--color-gold-main)" />
+                    <DimensionCard icon={<Eye size={28} />} text="맑은 자연의 흙기운" desc="지구가 주는 자연의 회복 기운과 나의 연결 상태 점검" color="var(--color-gold-main)" />
+                    <DimensionCard icon={<Sparkles size={28} />} text="새로운 시작의 운" desc="내가 원하던 목표가 현실로 시원하게 이어질 저력" color="var(--color-gold-main)" />
+                    <DimensionCard icon={<Compass size={28} />} text="온몸의 기운 흐름" desc="내 몸 구석구석을 따뜻하게 도는 생명 에너지 통로 확인" color="var(--color-gold-main)" />
+                    <DimensionCard icon={<Activity size={28} />} text="마음 깊은 곳 배터리" desc="나를 움직이게 하는 체력과 에너지의 남은 기본 용량" color="var(--color-gold-main)" />
+                    <DimensionCard icon={<Network size={28} />} text="머리와 마음의 뜻" desc="이성적인 머리의 판단과 감정적인 심장의 반응이 화합하는 정도" color="var(--color-gold-main)" />
+                    <DimensionCard icon={<Sparkles size={28} />} text="직감과 아이디어" desc="스치듯 지나가는 놀라운 직관과 통찰력을 잡아채는 힘" color="var(--color-gold-main)" />
                 </div>
             </Section>
 

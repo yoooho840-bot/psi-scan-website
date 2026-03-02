@@ -63,18 +63,18 @@ const TwelveDimensionReportScreen: React.FC = () => {
             const seedsStr = localStorage.getItem('psi_bio_seeds');
             const seeds = seedsStr ? JSON.parse(seedsStr) : { heartRateVariance: 0.5, vocalTension: 0.5, energyLevel: 0.5 };
             dimsToSet = [
-                { id: 1, title: '1. 오라 필드 에너지층', icon: <Sparkles size={24} color="#0a84ff" />, status: seeds.energyLevel > 0.6 ? '확장' : '불균형', desc: seeds.energyLevel > 0.6 ? '오라장이 뚜렷 발산.' : '에너지 간섭 취약.', color: seeds.energyLevel > 0.6 ? '#32CD32' : '#0a84ff' },
-                { id: 2, title: '2. 7개 핵심 차크라 진동', icon: <Activity size={24} color="#ff453a" />, status: seeds.vocalTension > 0.7 ? '긴장/과활성' : '안정', desc: seeds.vocalTension > 0.7 ? '긴장 관찰됨.' : '안정적.', color: seeds.vocalTension > 0.7 ? '#ff453a' : '#32CD32' },
-                { id: 3, title: '3. 칼 융 무의식 원형', icon: <BrainCircuit size={24} color="#DAA520" />, status: seeds.heartRateVariance > 0.7 ? '그림자 패턴' : '통합 진행', desc: seeds.heartRateVariance > 0.7 ? '그림자 감지.' : '안정 통합.', color: seeds.heartRateVariance > 0.7 ? '#ff453a' : '#DAA520' },
-                { id: 4, title: '4. 소마틱스 (신체 억압 감정)', icon: <Heart size={24} color="#D2691E" />, status: seeds.vocalTension > 0.6 ? '수축' : '순환', desc: seeds.vocalTension > 0.6 ? '억압됨.' : '순환 중.', color: seeds.vocalTension > 0.6 ? '#D2691E' : '#bf5af2' },
-                { id: 5, title: '5. 양자 파동 동조율', icon: <Network size={24} color="#00CED1" />, status: seeds.energyLevel < 0.3 ? '간섭 심화' : '공명', desc: seeds.energyLevel < 0.3 ? '간섭 심함.' : '동조 완료.', color: seeds.energyLevel < 0.3 ? '#888888' : '#00CED1' },
-                { id: 6, title: '6. 환경 독소 및 파동 알러지', icon: <Shield size={24} color="#FF6B6B" />, status: '과부하', desc: '에너지 흐름 교란.', color: '#FF6B6B' },
-                { id: 7, title: '7. 자연 파동 공명', icon: <Eye size={24} color="#bf5af2" />, status: '동조 필요', desc: '자연 주파수 동조 요망.', color: '#bf5af2' },
-                { id: 8, title: '8. 에너지 필드 매칭 타로카드', icon: <Sparkles size={24} color="#32CD32" />, status: '공명', desc: '창조적 주파수.', color: '#32CD32' },
-                { id: 9, title: '9. 경락 및 장부 주파수 불균형', icon: <Compass size={24} color="#DAA520" />, status: '저하', desc: '순환 저하.', color: '#DAA520' },
-                { id: 10, title: '10. 생명력 에너지 공명', icon: <Activity size={24} color="#0a84ff" />, status: seeds.energyLevel < 0.4 ? '결핍' : '정상', desc: seeds.energyLevel < 0.4 ? '활력 저하.' : '안정 궤도.', color: seeds.energyLevel < 0.4 ? '#FF6B6B' : '#0a84ff' },
-                { id: 11, title: '11. 자율신경계 코히런스', icon: <Network size={24} color="#32CD32" />, status: seeds.heartRateVariance > 0.8 ? '극세동' : '황금비', desc: seeds.heartRateVariance > 0.8 ? '극한 패턴.' : '밸런스 달성.', color: seeds.heartRateVariance > 0.8 ? '#ff453a' : '#32CD32' },
-                { id: 12, title: '12. 상위 자아 동조율', icon: <Sparkles size={24} color="#111111" />, status: '각성 임박', desc: '직관력 상승.', color: '#111111' }
+                { id: 1, title: '1. 나의 쉴드 (보호막)', icon: <Sparkles size={24} color="#0a84ff" />, status: seeds.energyLevel > 0.6 ? '단단함' : '방어막 약화', desc: seeds.energyLevel > 0.6 ? '외부 로부터의 튼튼한 보호막 형성.' : '외부 감정/기운이 스며들기 쉬운 상태.', color: seeds.energyLevel > 0.6 ? '#32CD32' : '#0a84ff' },
+                { id: 2, title: '2. 기본 활력 에너지', icon: <Activity size={24} color="#ff453a" />, status: seeds.vocalTension > 0.7 ? '위로 쏠림' : '안정', desc: seeds.vocalTension > 0.7 ? '생각이 많고 몸이 무거움.' : '활력의 균형.', color: seeds.vocalTension > 0.7 ? '#ff453a' : '#32CD32' },
+                { id: 3, title: '3. 마음 깊은 곳의 파동', icon: <BrainCircuit size={24} color="#DAA520" />, status: seeds.heartRateVariance > 0.7 ? '감정 충돌' : '고요함', desc: seeds.heartRateVariance > 0.7 ? '덮어둔 과거 감정의 욱함.' : '내면의 일치.', color: seeds.heartRateVariance > 0.7 ? '#ff453a' : '#DAA520' },
+                { id: 4, title: '4. 몸과 마음의 연결고리', icon: <Heart size={24} color="#D2691E" />, status: seeds.vocalTension > 0.6 ? '긴장 뭉침' : '유연함', desc: seeds.vocalTension > 0.6 ? '마음의 상처가 몸의 굳음으로.' : '자유로운 신체 흐름.', color: seeds.vocalTension > 0.6 ? '#D2691E' : '#bf5af2' },
+                { id: 5, title: '5. 주변 환경과의 어울림', icon: <Network size={24} color="#00CED1" />, status: seeds.energyLevel < 0.3 ? '엇박자' : '조화', desc: seeds.energyLevel < 0.3 ? '주변 환경과 마찰, 기가 빨림.' : '환경과 편안한 공명.', color: seeds.energyLevel < 0.3 ? '#888888' : '#00CED1' },
+                { id: 6, title: '6. 나쁜 환경 피로도', icon: <Shield size={24} color="#FF6B6B" />, status: '디지털 피로', desc: '전자기기/미디어를 통한 뇌파 탁해짐.', color: '#FF6B6B' },
+                { id: 7, title: '7. 맑은 자연의 흙기운', icon: <Eye size={24} color="#bf5af2" />, status: '연결 끊김', desc: '흙/자연 기운 결핍으로 인한 헛헛함.', color: '#bf5af2' },
+                { id: 8, title: '8. 새로운 시작의 운', icon: <Sparkles size={24} color="#32CD32" />, status: '시작의 적기', desc: '막힌 곳이 뚫리고 좋은 운이 임박함.', color: '#32CD32' },
+                { id: 9, title: '9. 온몸의 기운 흐름', icon: <Compass size={24} color="#DAA520" />, status: '체증 (막힘)', desc: '피로감/수면 불량 등 에너지 톨게이트 막힘.', color: '#DAA520' },
+                { id: 10, title: '10. 마음 깊은 곳 배터리', icon: <Activity size={24} color="#0a84ff" />, status: seeds.energyLevel < 0.4 ? '단절 필요' : '보통', desc: seeds.energyLevel < 0.4 ? '완전한 멍때리기 휴식이 필요함.' : '일상 유지가능.', color: seeds.energyLevel < 0.4 ? '#FF6B6B' : '#0a84ff' },
+                { id: 11, title: '11. 머리와 마음의 뜻', icon: <Network size={24} color="#32CD32" />, status: seeds.heartRateVariance > 0.8 ? '심한 갈등' : '일치', desc: seeds.heartRateVariance > 0.8 ? '이성과 감정의 팽팽한 대립.' : '명쾌한 하나의 선택.', color: seeds.heartRateVariance > 0.8 ? '#ff453a' : '#32CD32' },
+                { id: 12, title: '12. 직감과 아이디어', icon: <Sparkles size={24} color="#111111" />, status: '안테나 열림', desc: '우연한 힌트와 행운이 쏟아지는 시기.', color: '#111111' }
             ];
         }
 
@@ -99,10 +99,10 @@ const TwelveDimensionReportScreen: React.FC = () => {
 
             <div style={{ textAlign: 'center', marginBottom: '30px', padding: '0 20px' }}>
                 <h1 style={{ fontSize: '1.6rem', color: 'var(--color-gold-main)', marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
-                    <BrainCircuit size={28} /> 12D 하이브리드 세부 분석
+                    <BrainCircuit size={28} /> 12가지 요소 상세 분석
                 </h1>
                 <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', lineHeight: '1.5' }}>
-                    당신의 생체 파동을 9개의 다차원적 렌즈로 투영한 딥다이브 결과입니다. 프리미엄 멤버십 해제 완료.
+                    당신의 에너지를 12가지 방향에서 깊이 있게 들여다본 결과입니다.
                 </p>
             </div>
 
@@ -185,7 +185,7 @@ const TwelveDimensionReportScreen: React.FC = () => {
                             position: 'relative',
                             zIndex: 1
                         }}>
-                            심층 리포트 열람 <ArrowRight size={14} />
+                            자세히 보기 <ArrowRight size={14} />
                         </div>
                     </div>
                 ))}

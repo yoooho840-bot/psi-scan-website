@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ScanFace, Home, Fingerprint, ShieldAlert, Waves, Image as ImageIcon } from 'lucide-react';
+import { ScanFace, Home, Fingerprint, ShieldAlert, Waves } from 'lucide-react';
 import { BioScannerService } from '../services/BioScannerService';
 
 declare global {
@@ -35,16 +35,17 @@ const TelemetryRow = ({ label, value, status }: { label: string, value: string |
 const ScanScreen = () => {
     const navigate = useNavigate();
     const [scanStarted, setScanStarted] = useState(false);
-    const [scanMode, setScanMode] = useState<'camera' | 'photo'>('camera');
-    const [photoUrl, setPhotoUrl] = useState<string | null>(null);
+
     const [progress, setProgress] = useState(0);
     const progressRef = useRef(0);
     const [scanPhase, setScanPhase] = useState(0); // 0: Idle, 1: VSA/Thermal, 2: FACS/rPPG
     const [statusText, setStatusText] = useState("INITIALIZING SECURE LINK...");
     const [isCameraReady, setIsCameraReady] = useState(false);
-
+    const isFaceDetectedRef = useRef(false);
+    const isFaceSteadyRef = useRef(false);
+    const prevNosePositionRef = useRef<{ x: number, y: number } | null>(null);
+    const steadyFramesCountRef = useRef(0);
     const videoRef = useRef<HTMLVideoElement>(null);
-    const imageRef = useRef<HTMLImageElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const matrixCanvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -80,6 +81,29 @@ const ScanScreen = () => {
         const progressIncrement = 0.4;
 
         const interval = setInterval(() => {
+            const currentProgress = progressRef.current;
+
+            if (!isFaceDetectedRef.current) {
+                if (currentProgress > 0) setStatusText('⚠️ 대상(얼굴)이 감지되지 않았습니다. 렌즈 중앙을 응시해 주십시오.');
+                return; // 얼굴 감지 안되면 일시 정지
+            }
+
+            if (currentProgress === 0 && !isFaceSteadyRef.current) {
+                setStatusText('⏳ 십자선 중앙에 얼굴을 맞추고 정지 상태를 유지하십시오...');
+                return; // 0%에서 아직 고정되지 않았으면 시작 대기
+            }
+
+            // 스캔이 어느정도(2% 이상) 진행된 상태에서 움직이면 얄짤없이 스캔 취소 (장난 방지)
+            if (!isFaceSteadyRef.current && currentProgress > 2 && currentProgress < 100) {
+                setScanStarted(false);
+                setScanError('⚠️ 측정 불가 (초점 흔들림 감지): 정밀 파동 동기화를 위해 스캔 중에는 고개를 돌리거나 장난치지 마시고 렌즈를 똑바로 응시해 주십시오.');
+                setProgress(0);
+                progressRef.current = 0;
+                setScanPhase(0);
+                clearInterval(interval);
+                return;
+            }
+
             setProgress(prev => {
                 const next = prev + progressIncrement;
                 progressRef.current = next; // Update ref for faceMesh.onResults
@@ -89,7 +113,7 @@ const ScanScreen = () => {
         }, tickRate);
 
         return () => clearInterval(interval);
-    }, [scanStarted]);
+    }, [scanStarted, progress]);
 
     useEffect(() => {
         if (!scanStarted) return;
@@ -193,26 +217,55 @@ const ScanScreen = () => {
             canvasCtx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
 
             if (results.multiFaceLandmarks && results.multiFaceLandmarks.length > 0) {
+                isFaceDetectedRef.current = true;
                 if (!isCameraReady) setIsCameraReady(true);
 
-                const p = progressRef.current; // Use ref for current progress
-                for (const landmarks of results.multiFaceLandmarks) {
-                    if (p <= 33) {
-                        window.drawConnectors(canvasCtx, landmarks, window.FACEMESH_TESSELATION, { color: 'rgba(239, 68, 68, 0.8)', lineWidth: 1.0 });
-                        // Add glowing joints
-                        canvasCtx.fillStyle = 'rgba(239, 68, 68, 1)';
-                        for (let i = 0; i < landmarks.length; i += 10) {
-                            canvasCtx.fillRect(landmarks[i].x * canvasRef.current.width, landmarks[i].y * canvasRef.current.height, 2, 2);
-                        }
-                    } else if (p <= 66) {
-                        window.drawConnectors(canvasCtx, landmarks, window.FACEMESH_TESSELATION, { color: 'rgba(34, 197, 94, 0.4)', lineWidth: 0.5 });
-                        window.drawConnectors(canvasCtx, landmarks, window.FACEMESH_LIPS, { color: 'rgba(34, 197, 94, 1)', lineWidth: 2 });
+                const landmarks = results.multiFaceLandmarks[0]; // 첫 번째 사람 얼굴
+
+                // --- 흔들림(Motion) 감지 로직 ---
+                const noseTip = landmarks[1]; // 코 끝 랜드마크
+                if (prevNosePositionRef.current) {
+                    const dx = noseTip.x - prevNosePositionRef.current.x;
+                    const dy = noseTip.y - prevNosePositionRef.current.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    // 화면 크기 비율 대비 0.1 (10%) 이상 꽤 크게 움직여야만 '장난/'으로 판정하도록 대폭 완화
+                    if (distance > 0.1) {
+                        steadyFramesCountRef.current = 0; // 흔들렸으니 카운터 초기화
+                        isFaceSteadyRef.current = false;
                     } else {
-                        window.drawConnectors(canvasCtx, landmarks, window.FACEMESH_TESSELATION, { color: 'rgba(59, 130, 246, 0.4)', lineWidth: 0.5 });
-                        window.drawConnectors(canvasCtx, landmarks, window.FACEMESH_RIGHT_EYE, { color: 'rgba(59, 130, 246, 1)', lineWidth: 2.5 });
-                        window.drawConnectors(canvasCtx, landmarks, window.FACEMESH_LEFT_EYE, { color: 'rgba(59, 130, 246, 1)', lineWidth: 2.5 });
+                        steadyFramesCountRef.current += 1;
+                        // 10프레임 (약 0.5초) 정도 유지되면 '정밀 고정 상태'로 다시 인정
+                        if (steadyFramesCountRef.current > 10) {
+                            isFaceSteadyRef.current = true;
+                        }
                     }
                 }
+                prevNosePositionRef.current = { x: noseTip.x, y: noseTip.y };
+                // -----------------------------
+
+                const p = progressRef.current; // Use ref for current progress
+                for (const marks of results.multiFaceLandmarks) {
+                    if (p <= 33) {
+                        window.drawConnectors(canvasCtx, marks, window.FACEMESH_TESSELATION, { color: 'rgba(239, 68, 68, 0.8)', lineWidth: 1.0 });
+                        // Add glowing joints
+                        canvasCtx.fillStyle = 'rgba(239, 68, 68, 1)';
+                        for (let i = 0; i < marks.length; i += 10) {
+                            canvasCtx.fillRect(marks[i].x * canvasRef.current.width, marks[i].y * canvasRef.current.height, 2, 2);
+                        }
+                    } else if (p <= 66) {
+                        window.drawConnectors(canvasCtx, marks, window.FACEMESH_TESSELATION, { color: 'rgba(34, 197, 94, 0.4)', lineWidth: 0.5 });
+                        window.drawConnectors(canvasCtx, marks, window.FACEMESH_LIPS, { color: 'rgba(34, 197, 94, 1)', lineWidth: 2 });
+                    } else {
+                        window.drawConnectors(canvasCtx, marks, window.FACEMESH_TESSELATION, { color: 'rgba(59, 130, 246, 0.4)', lineWidth: 0.5 });
+                        window.drawConnectors(canvasCtx, marks, window.FACEMESH_RIGHT_EYE, { color: 'rgba(59, 130, 246, 1)', lineWidth: 2.5 });
+                        window.drawConnectors(canvasCtx, marks, window.FACEMESH_LEFT_EYE, { color: 'rgba(59, 130, 246, 1)', lineWidth: 2.5 });
+                    }
+                }
+            } else {
+                isFaceDetectedRef.current = false;
+                isFaceSteadyRef.current = false;
+                steadyFramesCountRef.current = 0;
             }
             canvasCtx.restore();
         });
@@ -233,7 +286,7 @@ const ScanScreen = () => {
                 setVsaScore((prev) => prev + (Math.min((rawScore / (5 * 255)) * 100, 100) - prev) * 0.1);
             }
 
-            if (videoRef.current && scanMode === 'camera') {
+            if (videoRef.current) {
                 scannerServiceRef.current.analyzeVideoFrame(videoRef.current);
             }
 
@@ -242,32 +295,6 @@ const ScanScreen = () => {
 
         const initSensors = async () => {
             try {
-                if (scanMode === 'photo' && imageRef.current) {
-                    // Simulate audio for UI
-                    const simulateAudio = () => {
-                        let rawScore = 0;
-                        const bars = [];
-                        for (let i = 0; i < 16; i++) {
-                            const val = Math.random() * 255;
-                            bars.push(val);
-                            if (i > 2 && i < 8) rawScore += val;
-                        }
-                        setAudioFrequencies(bars);
-                        setVsaScore((prev) => prev + (Math.min((rawScore / (5 * 255)) * 100, 100) - prev) * 0.1);
-                        animationFrameIdRef.current = requestAnimationFrame(simulateAudio);
-                    };
-                    simulateAudio();
-
-                    // Send image repeatedly to FaceMesh to match progress animation
-                    camera = { stop: () => clearInterval(simInterval) };
-                    const simInterval = setInterval(async () => {
-                        if (imageRef.current) await faceMesh.send({ image: imageRef.current });
-                    }, 150);
-
-                    setIsCameraReady(true);
-                    return;
-                }
-
                 // Request BOTH Video and Audio using BioScannerService
                 const service = new BioScannerService();
                 scannerServiceRef.current = service;
@@ -290,7 +317,7 @@ const ScanScreen = () => {
             } catch (err) {
                 console.error("Sensor Init Error:", err);
                 setStatusText("카메라 및 마이크 접근 권한이 거부되었습니다.");
-                setScanError("카메라 또는 마이크 접근이 브라우저에 의해 차단되었습니다. 브라우저 주소창의 권한 아이콘을 클릭하여 허용으로 변경 후 새로고침 해주세요.");
+                setScanError("카메라 또는 마이크 접근이 브라우저에 의해 차단되었습니다. 브라우저 주소창의 권한 아이콘을 클릭하여 권한을 허용한 뒤, 새로고침 해주세요.");
                 setScanStarted(false);
             }
         };
@@ -428,16 +455,23 @@ const ScanScreen = () => {
                     }}>
                         {scanStarted ? (
                             <>
-                                <div className="reticle-ring r1"></div>
-                                <div className="reticle-ring r2"></div>
-                                <div className="reticle-ring r3"></div>
+                                <div className="reticle-ring r1" style={{ opacity: 0.8 }}></div>
+                                <div className="reticle-ring r2" style={{ opacity: 0.5 }}></div>
+                                <div className="reticle-ring r3" style={{ opacity: 0.3 }}></div>
                                 {scanPhase > 0 && <div className="scanning-line"></div>}
 
-                                {scanMode === 'photo' && photoUrl ? (
-                                    <img ref={imageRef} src={photoUrl} alt="Hologram" style={{ width: '100%', height: '100%', objectFit: 'cover', transform: 'scaleX(-1)', opacity: 0.6, mixBlendMode: 'screen' }} crossOrigin="anonymous" />
-                                ) : (
-                                    <video ref={videoRef} style={{ width: '100%', height: '100%', objectFit: 'cover', transform: 'scaleX(-1)', opacity: 0.6, mixBlendMode: 'screen' }} playsInline muted autoPlay />
-                                )}
+                                {/* 명확한 중앙 십자선 (Crosshair) */}
+                                <div style={{
+                                    position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
+                                    width: '120px', height: '120px', zIndex: 35, pointerEvents: 'none',
+                                    display: 'flex', justifyContent: 'center', alignItems: 'center'
+                                }}>
+                                    <div style={{ position: 'absolute', width: '100%', height: '2px', background: 'rgba(218, 165, 32, 0.8)', boxShadow: '0 0 10px var(--color-gold-main)' }}></div>
+                                    <div style={{ position: 'absolute', height: '100%', width: '2px', background: 'rgba(218, 165, 32, 0.8)', boxShadow: '0 0 10px var(--color-gold-main)' }}></div>
+                                    <div style={{ position: 'absolute', width: '40px', height: '40px', border: '2px solid rgba(218, 165, 32, 1)', borderRadius: '50%', boxShadow: '0 0 15px rgba(218, 165, 32, 0.8)' }}></div>
+                                </div>
+
+                                <video ref={videoRef} style={{ width: '100%', height: '100%', objectFit: 'cover', transform: 'scaleX(-1)', opacity: 0.6, mixBlendMode: 'screen' }} playsInline muted autoPlay />
                                 <canvas ref={canvasRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 10, transform: 'scaleX(-1)' }} width={800} height={800} />
 
                                 {!isCameraReady && (
@@ -445,6 +479,17 @@ const ScanScreen = () => {
                                         <div style={{ textAlign: 'center' }}>
                                             <Fingerprint size={56} color="rgba(218, 165, 32, 0.5)" style={{ animation: 'pulse 2s infinite', margin: '0 auto 15px' }} />
                                             <p style={{ color: 'var(--color-gold-main)', letterSpacing: '4px', fontSize: '1rem', fontFamily: '"Noto Sans KR", sans-serif', fontWeight: 'bold' }}>렌즈 영점 조절 중...</p>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Centered Warning / Prep Overlay */}
+                                {(statusText.includes('⚠️') || statusText.includes('⏳')) && progress < 100 && (
+                                    <div style={{ position: 'absolute', inset: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 40, background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(5px)' }}>
+                                        <div style={{ textAlign: 'center', padding: '25px 40px', background: 'rgba(20,20,30,0.95)', borderRadius: '20px', border: statusText.includes('⚠️') ? '2px solid #EF4444' : '2px solid var(--color-gold-main)', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
+                                            <p style={{ color: statusText.includes('⚠️') ? '#EF4444' : 'var(--color-gold-main)', fontSize: '1.2rem', fontWeight: 'bold', margin: 0, fontFamily: '"Noto Sans KR", sans-serif', letterSpacing: '1px' }}>
+                                                {statusText}
+                                            </p>
                                         </div>
                                     </div>
                                 )}
@@ -479,56 +524,12 @@ const ScanScreen = () => {
                             </>
                         ) : (
                             <div style={{ textAlign: 'center', zIndex: 10, padding: '50px', background: 'rgba(255,255,255,0.8)', borderRadius: '50%', width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', border: '2px solid rgba(218,165,32,0.4)', boxShadow: '0 0 50px rgba(0,0,0,0.1)' }}>
-                                <div style={{
-                                    fontSize: '80px', color: 'var(--color-gold-main)',
-                                    marginBottom: '30px', opacity: 0.9,
-                                    filter: 'drop-shadow(0 0 15px rgba(218, 165, 32, 0.7))',
-                                    fontFamily: 'serif', lineHeight: 1
-                                }}>
-                                    Ψ
-                                </div>
-                                <h1 style={{ color: 'var(--color-text-primary)', fontSize: '1.8rem', letterSpacing: '4px', margin: '0 0 15px 0', fontFamily: '"Noto Sans KR", sans-serif', textShadow: '0 0 20px rgba(255,255,255,0.3)', fontWeight: 'bold' }}>Psi(프사이) 에너지 필드 스캔</h1>
-
-                                <p style={{ color: 'var(--color-text-muted)', fontSize: '1rem', marginBottom: '30px', maxWidth: '400px', lineHeight: 1.8, fontFamily: '"Noto Sans KR", sans-serif', wordBreak: 'keep-all' }}>
-                                    {scanMode === 'camera'
-                                        ? "중앙 십자선 안에 얼굴을 위치시키면 다중 스펙트럼 분석이 시작됩니다."
-                                        : "사진 속에는 당신 고유의 에너지장(Psi)이 홀로그램처럼 고스란히 담겨있습니다. 시공간을 넘어 깊은 내면 파동를 스캔합니다."
-                                    }
-                                </p>
-
-                                {/* Mode Toggle */}
-                                <div style={{ display: 'flex', gap: '15px', marginBottom: '30px' }}>
-                                    <button onClick={() => setScanMode('camera')} style={{ background: scanMode === 'camera' ? 'rgba(218, 165, 32, 0.2)' : 'transparent', border: `1px solid ${scanMode === 'camera' ? 'var(--color-gold-main)' : 'var(--color-border-subtle)'}`, color: scanMode === 'camera' ? 'var(--color-gold-main)' : 'var(--color-text-muted)', padding: '10px 20px', borderRadius: '20px', cursor: 'pointer', transition: 'all 0.3s', fontWeight: 'bold' }}>
-                                        라이브 망막 스캔
-                                    </button>
-                                    <button onClick={() => setScanMode('photo')} style={{ background: scanMode === 'photo' ? 'rgba(59, 130, 246, 0.2)' : 'transparent', border: `1px solid ${scanMode === 'photo' ? 'var(--color-blue-mystic)' : 'var(--color-border-subtle)'}`, color: scanMode === 'photo' ? 'var(--color-blue-mystic)' : 'var(--color-text-muted)', padding: '10px 20px', borderRadius: '20px', cursor: 'pointer', transition: 'all 0.3s', fontWeight: 'bold' }}>
-                                        사진 홀로그램 스캔
-                                    </button>
-                                </div>
-
-                                {scanMode === 'photo' && !photoUrl && (
-                                    <div style={{ marginBottom: '30px', width: '100%', maxWidth: '300px' }}>
-                                        <input type="file" id="photo-upload" accept="image/*" onChange={(e) => {
-                                            if (e.target.files && e.target.files[0]) {
-                                                setPhotoUrl(URL.createObjectURL(e.target.files[0]));
-                                                // Optional: Set a dummy photo File state if needed for backend upload later
-                                            }
-                                        }} style={{ display: 'none' }} />
-                                        <label htmlFor="photo-upload" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', width: '100%', padding: '15px', background: 'rgba(255,255,255,0.05)', border: '2px dashed var(--color-blue-mystic)', borderRadius: '15px', color: 'var(--color-blue-mystic)', cursor: 'pointer', transition: 'all 0.3s', fontWeight: 'bold' }}>
-                                            <ImageIcon size={20} /> 대상 사진 파일 업로드
-                                        </label>
-                                    </div>
-                                )}
-                                {scanMode === 'photo' && photoUrl && (
-                                    <div style={{ marginBottom: '30px', color: 'var(--color-success-green)', fontSize: '0.9rem', fontWeight: 'bold' }}>✅ 파동 추출용 데이터가 장전되었습니다</div>
-                                )}
-
-                                <button onClick={() => setScanStarted(true)} disabled={scanMode === 'photo' && !photoUrl} className="primary-btn" style={{
-                                    background: scanMode === 'photo' && !photoUrl ? 'rgba(100,100,100,0.5)' : 'linear-gradient(135deg,rgba(218, 165, 32, 0.2), rgba(184, 139, 74, 0.4))', color: '#FFF',
-                                    padding: '24px 50px', border: scanMode === 'photo' && !photoUrl ? 'none' : '2px solid var(--color-gold-main)', borderRadius: '40px',
+                                <button onClick={() => setScanStarted(true)} className="primary-btn" style={{
+                                    background: 'linear-gradient(135deg,rgba(218, 165, 32, 0.2), rgba(184, 139, 74, 0.4))', color: '#FFF',
+                                    padding: '24px 50px', border: '2px solid var(--color-gold-main)', borderRadius: '40px',
                                     fontWeight: 'bold', fontSize: '1.2rem', letterSpacing: '2px', fontFamily: '"Noto Sans KR", sans-serif',
-                                    boxShadow: scanMode === 'photo' && !photoUrl ? 'none' : 'var(--glow-gold-intense)', display: 'flex', alignItems: 'center', gap: '12px',
-                                    cursor: scanMode === 'photo' && !photoUrl ? 'not-allowed' : 'pointer'
+                                    boxShadow: 'var(--glow-gold-intense)', display: 'flex', alignItems: 'center', gap: '12px',
+                                    cursor: 'pointer'
                                 }}>
                                     <ScanFace size={24} /> Psi 스캔 시작
                                 </button>
@@ -567,17 +568,6 @@ const ScanScreen = () => {
                         </p>
                     </div>
 
-                    {scanError && (
-                        <div style={{ marginTop: '5px', padding: '15px', background: 'rgba(239, 68, 68, 0.1)', border: '1px solid #EF4444', borderRadius: '10px', textAlign: 'center' }}>
-                            <p style={{ color: '#EF4444', fontSize: '0.9rem', marginBottom: '15px', lineHeight: 1.5, wordBreak: 'keep-all' }}>
-                                {scanError}
-                            </p>
-                            <button onClick={() => window.location.reload()} style={{ padding: '10px 20px', background: '#EF4444', color: '#FFF', border: 'none', borderRadius: '20px', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 'bold' }}>
-                                페이지 새로고침
-                            </button>
-                        </div>
-                    )}
-
                     {/* True VSA Processing Visualizer */}
                     <div style={{ background: 'rgba(58, 114, 184, 0.08)', border: '1px solid rgba(58, 114, 184, 0.3)', padding: '25px', borderRadius: '12px' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -605,7 +595,35 @@ const ScanScreen = () => {
             <style>{`
                 @keyframes pulse { 0%, 100% { opacity: 1; filter: drop-shadow(0 0 5px rgba(255,255,255,0.5)); } 50% { opacity: 0.4; filter: none; } }
             `}</style>
-        </div>
+
+            {/* Critical Error Modal Overlay */}
+            {
+                scanError && (
+                    <div style={{
+                        position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 99999,
+                        background: 'rgba(10, 5, 5, 0.95)', backdropFilter: 'blur(15px)',
+                        display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
+                        fontFamily: '"Noto Sans KR", sans-serif'
+                    }}>
+                        <ShieldAlert size={80} color="#EF4444" style={{ marginBottom: '30px', animation: 'pulse 1.5s infinite' }} />
+                        <h2 style={{ color: '#EF4444', fontSize: '2.5rem', marginBottom: '20px', fontWeight: 'bold', letterSpacing: '4px' }}>
+                            SCAN FAILED
+                        </h2>
+                        <p style={{ color: '#FFF', fontSize: '1.3rem', textAlign: 'center', maxWidth: '600px', lineHeight: 1.8, marginBottom: '50px', wordBreak: 'keep-all', padding: '0 20px' }}>
+                            {scanError}
+                        </p>
+                        <button onClick={() => window.location.reload()} style={{
+                            background: 'transparent', border: '2px solid #EF4444', color: '#EF4444',
+                            padding: '15px 50px', borderRadius: '40px', fontSize: '1.2rem', fontWeight: 'bold', cursor: 'pointer',
+                            transition: 'all 0.3s'
+                        }} onMouseOver={(e) => { e.currentTarget.style.background = '#EF4444'; e.currentTarget.style.color = '#FFF'; }}
+                            onMouseOut={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#EF4444'; }}>
+                            닫기 및 다시 시도하기
+                        </button>
+                    </div>
+                )
+            }
+        </div >
     );
 };
 

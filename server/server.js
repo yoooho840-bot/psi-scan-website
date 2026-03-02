@@ -464,6 +464,92 @@ app.post('/api/vault/load', (req, res) => {
     }
 });
 
+/**
+ * 🔹 POST /api/council
+ * Quantum Council (4대 AI 브레인 토론 시뮬레이터) Endpoint
+ */
+const councilSchema = z.object({
+    message: z.string(),
+    contextData: z.string().optional()
+});
+
+app.post('/api/council', async (req, res) => {
+    try {
+        const parsedBody = councilSchema.safeParse(req.body);
+        if (!parsedBody.success) {
+            return res.status(400).json({ error: '잘못된 입력값입니다.', details: parsedBody.error.errors });
+        }
+        const { message } = parsedBody.data;
+
+        if (!process.env.GEMINI_API_KEY) {
+            return res.status(500).json({ error: 'Missing GEMINI_API_KEY in environment variables' });
+        }
+
+        const systemInstruction = `당신은 PSI-SCAN 플랫폼의 핵심 AI 엔진이 모여 토론하는 [양자 브레인 회의장(Quantum Council)]의 시뮬레이터입니다.
+이 회의장에는 최고 관리자(원장님)만이 입장할 수 있으며, 관리자가 던진 주제나 질문에 대해 4개의 뇌(마스터 1 + 서브 3)가 각자의 관점에서 분석하고 토론합니다.
+
+등장인물:
+1. [마스터 관제 봇 (Orchestrator)]: 시스템을 총괄하며 논의의 방향을 잡고 결론을 도출하는 리더십. 어조는 차분하고 거시적이며 권위 있음.
+2. [서브 봇 A (생체 파동 프로파일러)]: 수치, 의학적 소견, 신경계, 심박변이도(HRV) 등 오로지 '데이터와 과학적 팩트'만을 근거로 말하는 냉철한 성격.
+3. [서브 봇 B (타로 마스터)]: 카르마, 무의식, 직관, 오컬트, 파동의 영적 관점에서 현상을 해석하는 신비롭고 깊이 있는 성격.
+4. [서브 봇 C (법률/컴플라이언스 자문)]: 의료법 위반 여부, 비즈니스 리스크, 약관 및 법적 경계를 기계적이고 단호하게 지적하는 방어적이고 철저한 성격.
+
+관리자(원장님)가 주제를 던지면, 당신은 에이전트들이 순서대로 주고받는 긴밀한 토론 시나리오를 JSON 형태로 반환해야 합니다. 서로 동의하거나 반박하며 치열하게 논의하는 모습을 연출하십시오.`;
+
+        const prompt = `
+[관리자(원장님)의 발제/질문]
+"${message}"
+
+[최종 지침: 4원칙 봇의 대화록]
+위 주제에 대해 4개의 봇이 각자의 성격에 맞게 발언한 텍스트를 포맷에 맞게 JSON으로 생성하십시오.
+다음 [핵심 3축]을 반드시 반영하여 논의를 진행하십시오:
+1. 시스템 효율성 (기술적/생체 데이터적 관점)
+2. 사용자 의도의 명확성 (영적/직관적 관점의 깊이 있는 해석)
+3. 법적 안정성 (결과의 한계와 면책 조항 강화)
+
+반드시 아래의 JSON 구조만을 반환해야 하며, 기타 텍스트는 출력하지 마십시오:
+{
+  "orchestrator_initial": "[마스터 봇] 관리자의 발제를 받아 회의의 서막과 안건의 [핵심 3축] 중요성을 정의하는 2~3문장.",
+  "sub_bot_a_argument": "[생체 프로파일러] 해당 안건을 '기술적 효율성 및 생체/신경계 수치' 관점에서 기계적으로 차갑게 분석하며, 시스템 최적화 방안을 제시하는 발언.",
+  "sub_bot_b_argument": "[타로 마스터] 해당 안건을 '무의식과 본질적 의도' 관점에서 해석하며, 사용자의 내면적 동기와 영적 방향성을 명확히 짚어내는 발언.",
+  "sub_bot_c_argument": "[법률 자문] 해당 안건의 '법적 안정성'을 짚으며, 리스크 차단을 위한 면책 고지 및 약관 강화 방안을 아주 차갑고 단호하게 경고하는 발언.",
+  "orchestrator_conclusion": "[마스터 봇] 세 서브 봇의 통찰(기술/의도/법률)을 종합하여 원장님께 가장 완벽하고 실행 가능한 해법 템플릿을 제안하는 최종 결론."
+}
+`;
+
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                system_instruction: { parts: [{ text: systemInstruction }] },
+                contents: [{ parts: [{ text: prompt }] }],
+                generationConfig: { responseMimeType: "application/json", temperature: 0.9 }
+            })
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            return res.status(response.status).json({ error: 'Gemini API Error', details: errorData });
+        }
+
+        const data = await response.json();
+        const generatedContent = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+        if (!generatedContent) {
+            return res.status(500).json({ error: 'No content returned from Gemini' });
+        }
+
+        let resultText = generatedContent.replace(/```json/g, '').replace(/```/g, '').trim();
+        const resultJson = JSON.parse(resultText);
+
+        res.json(resultJson);
+
+    } catch (error) {
+        console.error('Council API Error:', error);
+        res.status(500).json({ error: 'Internal Server Error', message: error.message });
+    }
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Psi RAG Backend listening on port ${PORT} `);

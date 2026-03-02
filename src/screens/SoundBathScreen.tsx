@@ -297,7 +297,7 @@ const SoundBathScreen: React.FC = () => {
             `[1] 성대 진동수 스캔 프로파일 로드 (${voiceFreq.toFixed(1)}Hz)`,
             `[2] 교감/부교감 신경계(HRV) 스트레스 마커: Level ${stressExtracted}`,
             `[3] 신경계 텐션 억제 싱잉볼(Singing Bowl) 배음 구조 추출 중...`,
-            stressExtracted >= 4 ? `[4] 극강의 스트레스 감지 -> 강제 그라운딩(Grounding 174Hz) 주파수 강제 할당` : `[4] 뇌파 안정화 확인 -> 치유 및 확장(Healing/Clarity) 주파수 할당`,
+            stressExtracted >= 4 ? `[4] 극강의 스트레스 감지 -> 강제 그라운딩(Grounding 174Hz) 파동 강제 할당` : `[4] 뇌파 안정화 확인 -> 치유 및 확장(Healing/Clarity) 파동 할당`,
             `[5] 바이노럴 비트(Binaural Beat) 위상차(Phase-shift) 동기화 중`,
             `[6] 맞춤형 퀀텀 사운드 배스 설계 완료.`
         ];
@@ -356,7 +356,7 @@ const SoundBathScreen: React.FC = () => {
                         사운드 배스 (싱잉볼)
                     </h1>
                     <p style={{ color: '#aaa', fontSize: '1.2rem', lineHeight: 1.6, marginBottom: '40px', wordBreak: 'keep-all', fontWeight: 300 }}>
-                        측정된 생체 파동 데이터를 기반으로, 당신의 신경계를 가장 빠르고 강력하게 이완시키는 특수 싱잉볼 주파수가 매칭됩니다.<br /><br />
+                        측정된 생체 파동 데이터를 기반으로, 당신의 신경계를 가장 빠르고 강력하게 이완시키는 특수 싱잉볼 파동가 매칭됩니다.<br /><br />
                         <b>* 이어폰 착용을 강력히 권장합니다. 양쪽 귀의 진동수 차이(Binaural Beats)를 통해 뇌파를 강제로 테타파(명상 상태)로 전환합니다.</b>
                     </p>
 

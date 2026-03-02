@@ -71,7 +71,7 @@ for (let i = 0; i < rawData.length; i++) {
         resonanceFrequency: "${freq}",
         quantumState: "Vector Resonance (벡터 공명)",
         description: "${card.name}의 파동은 ${element} 원소의 양자적 진동을 유도합니다. 세부적인 무의식적 해석과 상호작용은 AI 오라클(챗봇) 상담을 통해 더 깊이 탐구할 수 있습니다.",
-        advice: "이 파동의 결을 따라 자신의 주파수를 부드럽게 동조시키십시오.",
+        advice: "이 파동의 결을 따라 자신의 파동를 부드럽게 동조시키십시오.",
         imgFileName: "${card.img}"
     },\n`;
     }

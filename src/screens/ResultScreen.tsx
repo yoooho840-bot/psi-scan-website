@@ -97,14 +97,14 @@ const AccurateAnalysisScreen: React.FC = () => {
 
         // Phase 0: Triage & Noise Filtering (Cross Validation)
         const logSequence = [
-            "12,042 Raw Frequencies Extracted...",
-            "Cross-Checking with HeartMath Normative DB...",
-            `Physical Stress Noise Detected (${Math.floor(Math.random() * 4000 + 4000)} Hz bands)`,
-            "Applying Triage Filter: Discarding Fatigue Data...",
-            `FACS Neutral Baseline Deviation Found: ${(Math.random() * 0.3).toFixed(2)}ms Micro-tremor`,
-            "Targeting Subconscious Emotional Blocks...",
-            "Validating Autonomic Nervous System Imbalance...",
-            "ROOT CAUSE ISOLATED."
+            "[STEP 1] 물리 데이터 변환: rPPG 안면 미세혈류를 광자(Photon)로 렌더링 중...",
+            "         -> 혈류 RGB 변화율(%) = 심장 파동(Aura Heart)으로 동기화",
+            "[STEP 2] 신경 긴장도 병합: FACS 안면 근육 떨림 값을 파동(Hz) 치환 중...",
+            "         -> 근육 떨림 거리(px) = 교감 신경(에테르 체) 긴장도로 변환",
+            "[STEP 3] 오디오 파장 추출: 성대 저주파(VSA)를 제5차크라 진동으로 맵핑...",
+            "         -> 목소리의 파열음(Volume) = 카르마 블록 지수로 치환",
+            "[양자 융합] 수집된 3대 생체 물리 데이터를 다차원 오라(Aura) 맵으로 컴파일...",
+            "✅ 물리 데이터(Physical) -> 에너지 파동(Psi) 구조로 100% 번역 및 퀀텀 점프 완료."
         ];
 
         let logIndex = 0;
@@ -167,9 +167,15 @@ const AccurateAnalysisScreen: React.FC = () => {
 
                     {analysisPhase === 1 && (
                         <>
-                            <Cpu size={48} color="#2563EB" style={{ marginBottom: '20px', animation: 'spin 4s linear infinite' }} />
-                            <h3 style={{ color: '#2563EB', fontSize: '1.2rem', letterSpacing: '1px' }}>단일 근본 원인 도출</h3>
-                            <p style={{ color: 'var(--color-text-muted)', fontSize: '0.8rem', marginTop: '10px' }}>도미노 트리거 역추적 구조화...</p>
+                            <div style={{ display: 'flex', gap: '30px', alignItems: 'center', marginBottom: '20px' }}>
+                                <Cpu size={32} color="#EF4444" style={{ animation: 'pulse 1s infinite' }} />
+                                <div style={{ height: '2px', width: '50px', background: 'linear-gradient(90deg, #EF4444, #9370DB)', border: 'none', position: 'relative' }}>
+                                    <div style={{ position: 'absolute', top: '-4px', left: '0', animation: 'slideRight 1s infinite', color: '#FFF' }}>&gt;</div>
+                                </div>
+                                <Sparkles size={32} color="#9370DB" style={{ animation: 'spin 4s linear infinite' }} />
+                            </div>
+                            <h3 style={{ color: '#9370DB', fontSize: '1.2rem', letterSpacing: '1px' }}>퀀텀 트랜스레이터 가동 (Quantum Translation)</h3>
+                            <p style={{ color: 'var(--color-text-muted)', fontSize: '0.8rem', marginTop: '10px' }}>"차가운 생체 신호를 살아있는 오라(Aura)로 번역하고 있습니다."</p>
                         </>
                     )}
 
@@ -249,7 +255,7 @@ const AccurateAnalysisScreen: React.FC = () => {
                                 AI 수석 분석가와 1:1 심층 상담 (해석)
                             </button>
                             <button
-                                onClick={() => navigate('/tarot')}
+                                onClick={() => navigate('/aura-profile')}
                                 style={{
                                     width: '100%',
                                     background: 'linear-gradient(135deg, #2D1A4A, #4B2780)', // Deep mystic purple
@@ -260,13 +266,13 @@ const AccurateAnalysisScreen: React.FC = () => {
                                     fontWeight: 'bold',
                                     fontSize: '1rem',
                                     cursor: 'pointer',
-                                    boxShadow: '0 8px 30px rgba(138, 43, 226, 0.2)',
+                                    boxShadow: '0 8px 30px rgba(138, 43, 226, 0.4)',
                                     display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
                                     animation: 'fadeInUp 0.6s ease-out 0.4s backwards'
                                 }}
                             >
                                 <Sparkles size={20} />
-                                에너지 필드 매칭 타로카드
+                                실시간 동적 오라(Aura) 프로필 확인
                             </button>
                             <button
                                 onClick={() => navigate('/elemental-therapy')}
@@ -289,6 +295,7 @@ const AccurateAnalysisScreen: React.FC = () => {
                 @keyframes spin { 100% { transform: rotate(360deg); } }
                 @keyframes fadeIn { from { opacity: 0; filter: blur(10px); } to { opacity: 1; filter: blur(0); } }
                 @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+                @keyframes slideRight { 0% { left: 0; opacity: 1; } 100% { left: 100%; opacity: 0; } }
             `}</style>
         </div>
     );

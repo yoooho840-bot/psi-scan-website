@@ -170,7 +170,7 @@ const WaveDiaryScreen = () => {
                         { color: '#f59e0b', label: '활력/기쁨 (균형적)' },
                         { color: '#10b981', label: '평안/안정 (이상적)' },
                         { color: '#3b82f6', label: '우울/침체 (에너지 감소)' },
-                        { color: '#a855f7', label: '영성/각성 (고주파수)' }
+                        { color: '#a855f7', label: '영성/각성 (고파동)' }
                     ].map(c => (
                         <div key={c.label} style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,0.03)', padding: '8px 12px', borderRadius: '20px', border: `1px solid ${c.color}30` }}>
                             <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: c.color, boxShadow: `0 0 10px ${c.color}` }} />

@@ -210,7 +210,7 @@ const ColorTherapyScreen: React.FC = () => {
             `[2] 심장 변이도(HRV) 스트레스 지수 반영: Level ${stressExtracted}`,
             `[3] 양자장 결어긋남(Decoherence) 보정 파동 계산 중...`,
             `[4] 타겟 차크라(${colorName}) 결핍 에너지 대역 스캔 완료`,
-            stressExtracted >= 4 ? `[5] 극도의 텐션 감지: 보정 주파수(Binaural Beat) 심도 조정됨` : `[5] 안정 텐션 감지: 기본 힐링 코드로 주파수 고정됨`,
+            stressExtracted >= 4 ? `[5] 극도의 텐션 감지: 보정 파동(Binaural Beat) 심도 조정됨` : `[5] 안정 텐션 감지: 기본 힐링 코드로 파동 고정됨`,
             `[6] 맞춤형 색채-사운드 솔루션 락인(Lock-in) 완료.`
         ];
 

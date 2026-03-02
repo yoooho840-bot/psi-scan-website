@@ -6,7 +6,7 @@ const AdminDashboardScreen: React.FC = () => {
     const navigate = useNavigate();
 
     const menuItems = [
-        { path: '/council', label: '마스터 관제 회의장', icon: <ShieldCheck size={20} />, desc: '3대 AI 브레인들의 심층 토론 및 의사결정 시뮬레이터' },
+        { path: '/council', label: '마스터 관제 회의장', icon: <ShieldCheck size={20} />, desc: '4대 AI 브레인들의 심층 토론 및 의사결정 시뮬레이터' },
         { path: '/dashboard', label: '마이페이지', icon: <LayoutGrid size={20} />, desc: '메인 대시보드' },
         { path: '/elemental-therapy', label: '명상 (불멍/물멍)', icon: <Flame size={20} />, desc: '자연 소리와 시각 명상' },
         { path: '/frequency-lab', label: '사운드 힐링 (파동)', icon: <Music size={20} />, desc: '마음을 편안하게 하는 파동 소리' },
